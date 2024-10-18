@@ -1,17 +1,15 @@
 import React from 'react'
-import { Card, Carousel } from "flowbite-react";
-import TopBar from '../UserComponents/TopBar';
-import Footer from '../UserComponents/Footer';
-import { Link } from 'react-router-dom';
+import TopBar from '../Components/UserComponents/TopBar.jsx'
+import { Card, Carousel } from 'flowbite-react'
+import { Link } from 'react-router-dom'
+import Footer from '../Components/UserComponents/Footer.jsx'
 
 
-function Home() {
-  return (
-    <div>
-      <div>
-         <TopBar />
-      </div>
-       <h1 className='text-center text-4xl m-4'>Offers and Rewards</h1>
+
+function CustomerDashboard() {
+  return <div>
+      <TopBar />
+      <h1 className='text-center text-4xl m-4'>Offers and Rewards</h1>
       <div className="h-60 shadow-lg m-5">
          <Carousel>
            <img src="/src/assets/petrol-image1.jpg" alt="display image" className='w-full h-auto'/>
@@ -81,10 +79,8 @@ function Home() {
         <img src="/src/assets/petrol-image5.png" alt="display image" className='w-full h-auto'/>
       </Carousel>
     </div>
-    
-     <Footer />
-    </div>
-  )
+    <Footer />
+  </div>
 }
 
-export default Home;
+export default CustomerDashboard

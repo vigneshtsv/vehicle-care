@@ -26,17 +26,17 @@ function Footer() {
             </a>
           </div>
         </section>
-
-        <div>
+        
+        <div className='flex flex-row justify-between gap-6 m-5'>
         {/* Footer Column 1 */}
         <span className='grid justify-items-start'>
           <h1><b>About Us</b></h1>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </span>
-
+        
         {/* Footer Column 2 */}
         <span className="grid justify-items-center">
-          <h1><b>Quick Links</b></h1>
+          <h1><b>Quick Links</b></h1>  
           <ul>
             <li><a href="/" >Home</a></li>
             <li><a href="/" >Login</a></li>
@@ -48,7 +48,7 @@ function Footer() {
         {/* Footer Column 3 */}
         <span className="grid justify-items-end">
           <h1><b>Contact Us</b></h1>
-          <p><FaHome />7/80 Eswaran Kovil Street,<br />Paramakudi - 623 707.</p>
+          <p><FaHome />7/82 Eswaran Kovil Street,<br />Paramakudi - 623 707.</p>
           <p><TfiEmail />vigneshts27@gmail.com</p>
           <p><FaMobile />+91 7373358187</p>
         </span>
@@ -63,4 +63,4 @@ function Footer() {
   </>
 }
 
-export default Footer
+export default Footer;

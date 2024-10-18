@@ -1,18 +1,22 @@
 import { Alert, Button, TextInput } from "flowbite-react";
 import React, { useEffect, useRef, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import getStorage from "redux-persist/lib/storage/getStorage";
+import { useLogout } from "./useLogout.jsx";
 
 
 const DashboardProfile = () => {
-  const { currentUser } = useSelector((state) => state.user);
-  const [imageFile, setImageFile] = useState(null);
-  const [imageFileUrl, setImageFileUrl] = useState(null);
-  const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
-  const [imageFileUploadError,setImageFileUploadError] = useState(null);
-  const filePickerRef = useRef();
+    const dispatch = useDispatch();
+    let logout = useLogout()
+    const { currentUser } = useSelector((state) => state.user);
+    const [imageFile, setImageFile] = useState(null);
+    const [imageFileUrl, setImageFileUrl] = useState(null);
+    const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
+    const [imageFileUploadError,setImageFileUploadError] = useState(null);
+    const filePickerRef = useRef();
   //console.log(currentUser.data.Email);
-  //console.log(currentUser.data.FirstName);
+  //console.log(`${currentUser.data.FirstName} ${currentUser.data.LastName}`);
   //console.log(currentUser.data.Role);
 
   const handleImageChange = (e) => {
@@ -30,7 +34,8 @@ const DashboardProfile = () => {
   },[imageFile])
   
 
-  //!firebase image uploadand storage part
+  //!firebase image upload and storage part
+
   const uploadImage = async() => {
     setImageFileUploadError(null);
     const storage = getStorage(app);
@@ -40,7 +45,7 @@ const DashboardProfile = () => {
     uploadTask.on(
         'state_changed',
         (snapshot) => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) + 100;
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             setImageFileUploadProgress(progress.toFixed(0));
         },
         (error) => {
@@ -100,7 +105,7 @@ const DashboardProfile = () => {
       </form>
       <div className="text-red-600 flex justify-between mt-5">
         <span className="cursor-pointer">Delete Account</span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span className="cursor-pointer" onClick={logout}>Logged Out</span>
       </div>
     </div>
   );

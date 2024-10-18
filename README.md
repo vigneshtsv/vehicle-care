@@ -1,35 +1,52 @@
 Components
-   adminComponents
-      adminTopBar.jsx
-      adminDashboard.jsx
-      OrderList.jsx
-      UpdateOrder.jsx
-      UserList.jsx
+      AdminComponents
+         AdminDashboard
+         AdminTopBarPage
+         DeliverDetails
+         OrderList
+         UserList
+      Layout
+         DashBoardProfile
+         Search
+         UseLogout
+      UserComponents
+         AdminProtectedRoutes
+         Footer
+         ForgotPassword
+         Home
+         PrivateRoute
+         TermsConditions
+         TopBar
+   UserControl
+      CustomerSigup
+      DeliveryBoySignup
+      LoginForm
+      PetrolStationSignup
+      ServiceManSignup
+      SignupNavigate
+   Utils
+      ApiRoutes
+      AppRoutes
 
-   UserComponents
-      ForgotPassword.jsx
-      Profile.jsx
-      updateProfile.jsx
-      Footer.jsx
-      Home.jsx
-      TopBar.jsx
 
-   Routes
-      ProductedRoutes.jsx   
-
-   Product
-      Product.jsx
-      ProductSearch.jsx
-      ProductDetails.jsx
-Layout
-   Search.jsx
+Admin
    
-UsersControl
-   CustomerSignup.jsx
-   DeliveryBoySignup.jsx
-   LoginForm.jsx
-   PetrolStationSignup.jsx
-   SignupNavigate.jsx
+Customer
+    
+DeliveryBoy
+    add
+    pickup/delivery/plan a trip
+    add
+    footer
+PetrolStation
+    topbar
+    add
+    this month/this week/today
+    footer
+ServiceMan
+    topbar
+    add
+    this month/this week/today
+    footer
 
-Utils
-   AppRoutes.jsx
+

@@ -31,7 +31,7 @@ function AdminTopBarPage() {
     <NavbarToggle />
     <NavbarCollapse>
       <Navbar.Link active={path ==='/'} as={'div'}>
-        <Link to='/'>Home</Link>
+        <Link to='/userlist'>Home</Link>
       </Navbar.Link>
       <Navbar.Link active={path ==='/userlist'} as={'div'}>
         <Link to='/userlist'>User List</Link>

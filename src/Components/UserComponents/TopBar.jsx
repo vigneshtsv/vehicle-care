@@ -4,12 +4,14 @@ import logoGIF from '../../assets/logoGIF.gif'
 import { Avatar, Button, Dropdown, DropdownDivider, DropdownItem, TextInput } from 'flowbite-react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
+import { useLogout } from '../Layout/useLogout.jsx';
 
 
 function TopBar() {
+  let logout = useLogout()
   const path =  useLocation().pathname;
   const {currentUser} = useSelector((state)=>state.user)
- console.log(currentUser);
+ 
  
   return <>
   <div className='flex w-full justify-around'>
@@ -28,7 +30,7 @@ function TopBar() {
       <ul className='flex gap-5'>
         <li className='font-extrabold py-8 text-blue-600 hover:text-sky-500'><a href="/"  active={path ==='/'} as={'div'}>HOME</a></li>
         <li className='font-extrabold py-8 text-blue-600 hover:text-sky-500'><a href="/footer"  active={path ==='/footer'} as={'div'}>ABOUT</a></li>
-        <li className='font-extrabold py-8 text-blue-600 hover:text-sky-500'><a href="/loginform"  active={path ==='/loginform'} as={'div'}>LOGIN</a></li>
+        <li className='font-extrabold py-8 text-blue-600 hover:text-sky-500'><a href="/loginform"  active={path ==='/'} as={'div'}>LOGIN</a></li>
         <li className='font-extrabold py-8 text-blue-600 hover:text-sky-500'><a href="/admintopbarpage"  active={path ==='/admintopbarpage'} as={'div'}>YOUR ORDER</a></li>
       </ul>
       <div className='gap-2 p-6'>
@@ -38,13 +40,14 @@ function TopBar() {
             <span>{currentUser.data.FirstName}</span>
           </Dropdown.Header>
           <Link to='/dashboardprofile'>
-            <DropdownItem> Profile </DropdownItem>
+            <DropdownItem> Profile</DropdownItem>
           </Link>
+          <DropdownItem>{currentUser.data.Role}</DropdownItem>
           <DropdownDivider />
-           <Dropdown.Item>Sigin Out</Dropdown.Item>
+           <Dropdown.Item onClick={logout}>Sigin Out</Dropdown.Item>
         </Dropdown>
       ) : (
-        <Link to='/loginform'>
+        <Link to='/'>
           <Button gradientDuoTone='purpleToPink' outline>
            Signin
           </Button>
@@ -54,7 +57,7 @@ function TopBar() {
     </div>
    
     {/* Topbar sticky */}
-    <div className='bg-gray-300 p-4 font-extrabold text-xl '>
+    <div className='bg-gray-100 p-4 font-extrabold text-xl '>
       <span><b>Door step petrol & service ( happy journey )</b></span>
     </div>
   </>

@@ -1,27 +1,29 @@
-import AdminDashboardPage from '../Components/adminCompponents/AdminDashboardPage.jsx';
 import AdminTopBarPage from '../Components/adminCompponents/AdminTopBarPage.jsx';
 import OrderList from '../Components/adminCompponents/OrderList.jsx';
 import UserList from '../Components/adminCompponents/UserList.jsx';
 import DashboardProfile from '../Components/Layout/DashboardProfile.jsx';
-import AdminProtectedRoute from '../Components/UserComponents/AdminProtectedRoute.jsx';
 import Footer from '../Components/UserComponents/Footer.jsx';
-import Home from '../Components/UserComponents/Home.jsx';
 import TopBar from '../Components/UserComponents/Home.jsx';
-import PrivateRoute from '../Components/UserComponents/PrivateRoute.jsx';
-import TermsConditions from '../Components/UserComponents/TermsConditions.jsx';
 import CustomerSignup from "../UsersControl/CustomerSignup.jsx";
 import DeliveryBoySignup from "../UsersControl/DeliveryBoySignup";
-import LoginForm from "../UsersControl/LoginForm";
-import PetrolStationSignup from "../UsersControl/PetrolStationSignup";
+import PetrolStationSignup from "../UsersControl/PetrolStationSignup.jsx";
 import ServiceManSignup from "../UsersControl/ServiceManSignup";
 import SignupNavigate from "../UsersControl/SignupNavigate";
-
+import ForgotPassword from '../Components/UserComponents/ForgotPassword.jsx';
+import TermsConditions from '../Components/Layout/TermsConditions.jsx';
+import AdminDashboardPage from '../Components/adminCompponents/AdminDashboardPage.jsx';
+import CustomerDashboard from '../Pages/CustomerDashboard.jsx';
+import DeliveryBoyDashboard from '../Pages/DeliveryBoyDashboard.jsx';
+import PetrolStationDashboard from '../Pages/PetrolStationDashboard.jsx';
+import ServiceManDashboard from '../Pages/ServiceManDashboard.jsx';
+import LoginForm from '../UsersControl/LoginForm.jsx';
 
 
 const AppRoutes = [
     {
         path: "/",
-        element: <PrivateRoute><Home /></PrivateRoute>
+        element: <LoginForm />
+        //<PrivateRoute><LoginForm /></PrivateRoute>
     },
     {
         path: "/signupnavigate",
@@ -44,10 +46,6 @@ const AppRoutes = [
         element: <ServiceManSignup />
     },
     {
-        path: "/loginform",
-        element: <LoginForm />
-    },
-    {
         path: "/footer",
         element: <Footer />
     },
@@ -60,12 +58,12 @@ const AppRoutes = [
         element: <TermsConditions />
     },
     {
-        path: '/admindashboardpage',
-        element: <AdminProtectedRoute><AdminDashboardPage /></AdminProtectedRoute>
+        path: '/admindasboardpage',
+        element: <AdminDashboardPage />
     },
     {
         path: '/admintopbarpage',
-        element: <AdminProtectedRoute><AdminTopBarPage /></AdminProtectedRoute>
+        element: <AdminTopBarPage />
     },
     {
         path: '/userlist',
@@ -78,8 +76,27 @@ const AppRoutes = [
     {
         path: 'dashboardprofile',
         element: <DashboardProfile />
-    }
+    },
+    {
+        path: 'forgotpassword',
+        element: <ForgotPassword />
+    },
+    {
+        path: 'customerdashboard',
+        element: <CustomerDashboard />
+    },
+    {
+        path: 'deliveryboydashboard',
+        element: <DeliveryBoyDashboard />
+    },
+    {
+        path: 'petrolstationdashboard',
+        element: <PetrolStationDashboard />
+    },
+    {
+        path: 'servicemandashboard',
+        element: <ServiceManDashboard />
+    },
 
-    
 ]
-export default AppRoutes
+export default AppRoutes;
