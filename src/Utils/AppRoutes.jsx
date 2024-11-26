@@ -17,13 +17,13 @@ import DeliveryBoyDashboard from '../Pages/DeliveryBoyDashboard.jsx';
 import PetrolStationDashboard from '../Pages/PetrolStationDashboard.jsx';
 import ServiceManDashboard from '../Pages/ServiceManDashboard.jsx';
 import LoginForm from '../UsersControl/LoginForm.jsx';
-
+import Maps from '../Components/Layout/Maps.jsx'
 
 const AppRoutes = [
     {
         path: "/",
         element: <LoginForm />
-        //<PrivateRoute><LoginForm /></PrivateRoute>
+        // <PrivateRoute><LoginForm /></PrivateRoute>
     },
     {
         path: "/signupnavigate",
@@ -74,28 +74,32 @@ const AppRoutes = [
         element: <OrderList />
     },
     {
-        path: 'dashboardprofile',
+        path: '/dashboardprofile',
         element: <DashboardProfile />
     },
     {
-        path: 'forgotpassword',
+        path: '/forgotpassword',
         element: <ForgotPassword />
     },
     {
-        path: 'customerdashboard',
+        path: '/customerdashboard',
         element: <CustomerDashboard />
     },
     {
-        path: 'deliveryboydashboard',
+        path: '/deliveryboydashboard',
         element: <DeliveryBoyDashboard />
     },
     {
-        path: 'petrolstationdashboard',
+        path: '/petrolstationdashboard',
         element: <PetrolStationDashboard />
     },
     {
-        path: 'servicemandashboard',
+        path: '/servicemandashboard',
         element: <ServiceManDashboard />
+    },
+    {
+        path: '/maps',
+        element: <Maps />
     },
 
 ]

@@ -9,6 +9,7 @@ import Footer from '../Components/UserComponents/Footer.jsx'
 function CustomerDashboard() {
   return <div>
       <TopBar />
+      <h1 className='text-center text-4xl m-4'>Customer Dashboard</h1>
       <h1 className='text-center text-4xl m-4'>Offers and Rewards</h1>
       <div className="h-60 shadow-lg m-5">
          <Carousel>

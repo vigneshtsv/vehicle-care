@@ -15,9 +15,8 @@ const DashboardProfile = () => {
     const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
     const [imageFileUploadError,setImageFileUploadError] = useState(null);
     const filePickerRef = useRef();
-  //console.log(currentUser.data.Email);
-  //console.log(`${currentUser.data.FirstName} ${currentUser.data.LastName}`);
-  //console.log(currentUser.data.Role);
+     console.log(currentUser.Role);
+   
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -88,7 +87,7 @@ const DashboardProfile = () => {
             )
           }
           <img
-            src={imageFileUrl || currentUser.data.ProfilePicture}
+            src={imageFileUrl || currentUser.ProfilePicture}
             alt="user"
             className={`rounded-full w-full h-full object-cover border-4 border-pink-400 ${imageFileUploadProgress &&  imageFileUploadProgress <100 && 'opacity-50'}`}
           />
@@ -98,14 +97,14 @@ const DashboardProfile = () => {
                 <span className="font-medium me-2">😍OOPS!</span>{imageFileUploadError}
             </Alert>
           )}
-        <TextInput type="text" defaultValue={currentUser.data.FirstName} />
-        <TextInput type="email" defaultValue={currentUser.data.Email} />
+        <TextInput type="text" defaultValue={currentUser.FirstName} />
+        <TextInput type="email" defaultValue={currentUser.Email} />
         <TextInput type="password" placeholder="********" />
         <Button type="submit" gradientMonochrome="info">Update</Button>
       </form>
       <div className="text-red-600 flex justify-between mt-5">
-        <span className="cursor-pointer">Delete Account</span>
-        <span className="cursor-pointer" onClick={logout}>Logged Out</span>
+        <span className="cursor-pointer"><Button>Delete Account</Button></span>
+        <span className="cursor-pointer" onClick={logout}><Button>Logged Out</Button></span>
       </div>
     </div>
   );

@@ -10,9 +10,8 @@ import { useLogout } from '../Layout/useLogout.jsx';
 function TopBar() {
   let logout = useLogout()
   const path =  useLocation().pathname;
-  const {currentUser} = useSelector((state)=>state.user)
- 
- 
+  const { currentUser } = useSelector((state)=>state.user)
+  
   return <>
   <div className='flex w-full justify-around'>
      <Link to='/' className='self-center'>
@@ -37,14 +36,14 @@ function TopBar() {
       {currentUser ? (
         <Dropdown arrowIcon={false} inline label={<Avatar alt='user' img={currentUser.ProfilePicture} rounded /> }>
           <Dropdown.Header>
-            <span>{currentUser.data.FirstName}</span>
+            <span>{currentUser.FirstName}</span>
           </Dropdown.Header>
           <Link to='/dashboardprofile'>
             <DropdownItem> Profile</DropdownItem>
           </Link>
-          <DropdownItem>{currentUser.data.Role}</DropdownItem>
+          <DropdownItem>{currentUser.Role}</DropdownItem>
           <DropdownDivider />
-           <Dropdown.Item onClick={logout}>Sigin Out</Dropdown.Item>
+           <Dropdown.Item onClick={logout}>logged Out</Dropdown.Item>
         </Dropdown>
       ) : (
         <Link to='/'>
@@ -58,7 +57,7 @@ function TopBar() {
    
     {/* Topbar sticky */}
     <div className='bg-gray-100 p-4 font-extrabold text-xl '>
-      <span><b>Door step petrol & service ( happy journey )</b></span>
+      <marquee><b>Door step petrol & service ( happy journey )</b></marquee>
     </div>
   </>
 }
