@@ -429,6 +429,9 @@ import React, { useState, useEffect } from 'react';
 import { Button,Card,Label,TextInput,Select,Modal,Alert,Table,Spinner } from 'flowbite-react';
 import {HiOutlineExclamationCircle,HiTrash,HiPencil,HiPlus} from 'react-icons/hi';
 import AdminTopBarPage from './AdminTopBarPage';
+import { useDispatch } from 'react-redux';
+
+
 
 const ROLES = ['Admin', 'Customer', 'PetrolStation', 'DeliveryBoy', 'ServiceMan'];
 
@@ -437,7 +440,7 @@ const initialFormData = {
   LastName: '',
   Email: '',
   PhoneNumber: '',
-  Role: ROLES[0],
+  Role: ROLES,
   Password: ''
 };
 
@@ -453,19 +456,17 @@ const UserList = () => {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  
   //console.log(currentUser.Email);
   
+  console.log(currentUser);
   
   // API base URL - should be in environment variable
   const API_BASE_URL = 'http://localhost:5000/api';
-  const ROLES = [
-    'Admin', 
-    'Customer', 
-    'DeliveryBoy', 
-    'PetrolStation', 
-    'ServiceMan'
-  ];
-
+  const ROLES = ['Admin', 'Customer', 'PetrolStation', 'DeliveryBoy', 'ServiceMan'];
+   
+   
+ 
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -477,14 +478,15 @@ const UserList = () => {
   //       : users.filter(user => user.Role === selectedRole)
   //   );
   // }, [selectedRole, users]);
+
   useEffect(() => {
     if (selectedRole === 'All') {
       setFilteredUsers(users);
     } else {
-      const filtered = users.filter(user => user.role === selectedRole);
-      setFilteredUsers(filtered);
-    }
+      setFilteredUsers(users.filter(user => user.Role === selectedRole));
+    }  
   }, [selectedRole, users]);
+  
   
   
 
@@ -493,17 +495,17 @@ const UserList = () => {
       setIsLoading(true);
       const response = await fetch(`${API_BASE_URL}/admin/getalluser`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
       });
-      
+       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
       setUsers(data);
-      //setFilteredUsers(data)
+      setFilteredUsers(data)
       setError(null);
     } catch (err) {
       setError('Failed to load users. Please try again later.');
@@ -522,7 +524,7 @@ const UserList = () => {
 
     setError(null);
     setIsLoading(true);
-
+    
     try {
       const endpoint = isEditing 
         ? `${API_BASE_URL}/admin/updateuser/${currentUser._id}`
@@ -532,7 +534,7 @@ const UserList = () => {
         method: isEditing ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         },
         body: JSON.stringify({
           ...currentUser,
@@ -568,7 +570,7 @@ const UserList = () => {
       const response = await fetch(`${API_BASE_URL}/admin/deleteuser/${userToDelete._id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       
@@ -628,10 +630,14 @@ const UserList = () => {
   return (
     <div>
       <AdminTopBarPage />
-      <Card className="max-w-4xl mx-auto">
+      <Card className="max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold text-gray-900">User Management</h2>
-        <Button onClick={() => {
+      <div class="border-2 border-red-500 p-4 rounded-lg text-lg font-semibold">
+        <h1 className="text-4xl font-bold text-gray-900 text-center">USER MANAGEMENT</h1>
+        </div>
+        <Button 
+        outline gradientDuoTone="cyanToBlue"
+        onClick={() => {
           resetForm();
           setIsFormModalOpen(true);
         }}>
@@ -659,6 +665,8 @@ const UserList = () => {
               {Role}
             </option>
           ))}
+          {console.log(ROLES)}
+          
         </Select>
       </div>
       
@@ -695,14 +703,14 @@ const UserList = () => {
                   <Table.Cell>
                     <div className="flex justify-end gap-2">
                       <Button
-                        color="info"
+                        outline gradientDuoTone="greenToBlue"
                         size="sm"
                         onClick={() => handleEditUser(user)}
                       >
                         <HiPencil className="h-4 w-4" />
                       </Button>
                       <Button
-                        color="failure"
+                        outline gradientDuoTone="pinkToOrange"
                         size="sm"
                         onClick={() => {
                           setUserToDelete(user);
@@ -826,9 +834,9 @@ const UserList = () => {
                   Role: e.target.value 
                 })}
               >
-                {ROLES.map(role => (
-                  <option key={role} value={role}>
-                    {role}
+                {ROLES.map(Role => (
+                  <option key={Role} value={Role}>
+                    {Role}
                   </option>
                 ))}
               </Select>

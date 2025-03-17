@@ -1,30 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { Fuel, X, Droplet, Bike, MapPin, Wrench, Option, ChevronDown, AlertCircle } from 'lucide-react';
-import { Button, Label, Select, Textarea } from 'flowbite-react';
+import { Button, Label, Select, Textarea, TextInput } from 'flowbite-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInSuccess } from '../../Redux/Slice/authSlice';
 import TopBar from '../UserComponents/TopBar';
 import Footer from '../UserComponents/Footer';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Simulated data
 const MOCK_STATIONS = [
   {
     Id: 1,
     Name: "VLS PetrolStation",
+    Location:"Madurai",
     latitude: 51.5174,
     longitude: -0.1378,
     PetrolPrice: 93.20,
-    DieselPrice: 82.30,
+    DiselPrice: 82.30,
     Distance: 2.5,
     Fuel: ["Petrol", "Diesel"]
   },
   {
     Id: 2,
     Name: "BP PetrolStation",
+    Location:"Madurai",
     latitude: 51.4974,
     longitude: -0.1178,
     PetrolPrice: 94.00,
-    DieselPrice: 84.00,
+    DiselPrice: 84.00,
     Distance: 3.2,
     Fuel: ["Petrol", "Diesel"]
   }
@@ -62,12 +66,32 @@ const Maps = () => {
   const [infoWindow, setInfoWindow] = useState(null);
   const [selectedProblem, setSelectedProblem] = useState('');
   const [otherDescription, setOtherDescription] = useState('');
-  const { currentUser } = useSelector((state) => state.user.currentUser);
-  const dispatch = useDispatch()
-  console.log(currentUser);
-  
-  
-  const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
+  const [quantityOrderPetrol, setQuantityOrderPetrol] = useState(0);
+  const { currentUser } = useSelector((state)=>state.user)
+  const [fuelOrder, setFuelOrder] = useState({
+    Petrol_Quantity: '',
+    Disel_Quantity: ''
+  });
+  const [petrolData,setPetrolData]= useState({
+    id:'',
+    Name:'',
+    Location:'',
+    PetrolPrice:'',
+    DiselPrice:"",
+    Distance:"",
+    Fuel: ["Petrol", "Diesel"]
+})
+const [ bikeServiceData,setBikeServiceData ] = useState({
+  Email:'',
+  Distance:2.4 || 4.3 || 3.2,
+  ServiceName:'',
+  Service_Type:'',
+  Problem_Type:'',
+  Description:'',
+  Status: 'Pending',
+})
+const dispatch = useDispatch()
+const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
 
   useEffect(() => {
     const loadGoogleMapsScript = () => {
@@ -116,7 +140,7 @@ const Maps = () => {
                   <h3 class="font-semibold">${station.Name}</h3>
                   <p>Distance: ${station.Distance} km</p>
                   <p>Petrol: ₹${station.PetrolPrice}</p>
-                  <p>Diesel: ₹${station.DieselPrice}</p>
+                  <p>Diesel: ₹${station.DiselPrice}</p>
                 </div>
               `
             });
@@ -216,21 +240,137 @@ const Maps = () => {
   const handleOrderPetrol = (station) => {
     setSelectedStation(station);
     setIsOpenPetrol(true);
+    console.log('handleOrderPetrol fuel from:', station.Name);
+    
   };
 
-  const handleBookBikeService = (service) => {
+  const handleBookBikeService = async(service) => {
     setSelectedStation(service);
     setIsOpenBike(true);
+    console.log('handleBookBikeService service from:', service.Name);
+    try {
+      const createdAt = new Date().toISOString();
+
+      const orderData = {
+        Email: currentUser?.Email || '',
+        ServiceName:service.Name || '',
+        Location:service.Location || '',
+        Service_Type:service.Service_Type || '',
+        Problem_Type:service.Problem_Type || '',
+        Description:'',
+        createdAt: createdAt,
+        Status: 'Pending',
+      }
+      const response = await axios.post(`http://localhost:5000/api/order/customerorder?email=${currentUser.Email}`, orderData)
+      if(response.status === 200) {
+        toast.success(`${currentUser.Email} your service Booked Confirmed`)
+        console.log(response);
+        setBikeServiceData(response.data.order)
+      }else {
+        toast.error("Something went wrong with your booking");
+      }
+      
+    } catch (error) {
+      console.error("Error petrolorder creating order:", error);
+    }
   };
 
-  const handleOrder = (fuelType) => {
-    alert(`Ordering ${fuelType} from ${selectedStation.Name}`);
-    setIsOpenPetrol(false);
-  };
-  const handleBook = () => {
-    alert(`Ordering bike service for ${selectedStation.Name}`)
-    setIsOpenBike(false);
+
+  const handlePetrolOrderSubmit = async(e) => {
+    e.preventDefault();
+    alert(`handlePetrolOrderSubmit Petrol for ${selectedStation.Name}`);
+    try {
+      const createdAt = new Date().toISOString();
+
+      const orderData = {
+         Email: currentUser?.Email || '',
+         StationName:selectedStation?.Name || '',
+         Location: selectedStation?.Location,
+         createdAt: createdAt,
+         Petrol_Price: fuelOrder.Petrol_Quantity * (selectedStation?.PetrolPrice || 0),
+         Petrol_Quantity:parseFloat(fuelOrder.Petrol_Quantity) || 0,
+         Status: 'Pending'
+     }
+     
+     
+     const totalAmount = (orderData.Petrol_Price * orderData.Petrol_Quantity) + 
+                     (orderData.Disel_Price * orderData.Disel_Quantity);
+                     orderData.TotalAmount = totalAmount;
+ 
+      const response = await axios.post(`http://localhost:5000/api/order/customerorder?email=${currentUser.Email}`, orderData)
+      
+      console.log(orderData,response); 
+      toast.success(`${currentUser.FirstName} your order Petrol ${orderData.Petrol_Quantity}Ltr Conformed`)  
+      // setIsOpenPetrol(false);         
+    } catch (error) {
+      console.error("Error petrolorder creating order:", error);
+    }
   }
+
+  const handleDieselOrderSubmit = async (e) => {
+    e.preventDefault();
+    alert(`handleDieselOrderSubmit Diesel for ${selectedStation.Name}`);
+
+    try {
+      const createdAt = new Date().toISOString();
+
+      const orderData = {
+        Email: currentUser?.Email || "",
+        StationName: selectedStation?.Name || "",
+        Location: selectedStation?.Location,
+        createdAt: createdAt,
+        Disel_Price:
+          fuelOrder.Disel_Quantity * (selectedStation?.DiselPrice || 0),
+        Disel_Quantity: parseFloat(fuelOrder.Disel_Quantity) || 0,
+        Status: "Pending",
+      };
+
+      const totalAmount =
+        orderData.Petrol_Price * orderData.Petrol_Quantity +
+        orderData.Disel_Price * orderData.Disel_Quantity;
+      orderData.TotalAmount = totalAmount;
+      const response = await axios.post(`http://localhost:5000/api/order/customerorder?email=${currentUser.Email}`, orderData)
+      
+      toast.success(`${currentUser.FirstName} your order Disel ${orderData.Disel_Quantity}Ltr Received`) 
+      console.log(orderData, response);
+    } catch (error) {
+      console.error("Error diselorder creating order:", error);
+    }
+  };
+  const handleBook = async() => {
+    alert(`handleBook bike service for ${selectedStation.Name}`)
+    try {
+      const updatedBookingData = {
+        ...bikeServiceData,
+        Email: currentUser?.Email,
+        Problem_Type: selectedProblem,
+        Service_Type: selectedProblem === 'others' ? otherDescription : problemDescriptions[selectedProblem],
+        createdAt: new Date().toISOString()
+      }
+
+    const response = await axios.post(`http://localhost:5000/api/order/customerorder?email=${currentUser.Email}`,
+      updatedBookingData
+    );
+
+    console.log('Service booking response:', response);
+    toast.success(`${currentUser.FirstName}, your bike service booking with ${selectedStation.Name} has been confirmed!`);
+
+    // setSelectedProblem('');
+    // setOtherDescription('');
+    setIsOpenBike(false);
+
+    } catch (error) {
+      console.error("Error booking bike service:", error);
+      toast.error("Failed to book bike service. Please try again.");
+    }
+  }
+  const handleQuantityChange = (e) => {
+    const { id, value } = e.target;
+    setFuelOrder(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
 
   const problemDescriptions = {
     tyreProblems: "Common tyre issues include punctures, low pressure, uneven wear, or damaged sidewalls. Regular inspection and maintenance can prevent most tyre-related problems.",
@@ -285,7 +425,7 @@ const Maps = () => {
                   Petrol: ₹{station.PetrolPrice}/liter
                 </p>
                 <p className="text-gray-600">
-                  Diesel: ₹{station.DieselPrice}/liter
+                  Diesel: ₹{station.DiselPrice}/liter
                 </p>
                 <button
                   onClick={() => handleOrderPetrol(station)}
@@ -336,9 +476,11 @@ const Maps = () => {
         </div>
       )}
     </div>
+    
       {/* Fuel Order popup Modal */}
       {isOpenPetrol && selectedStation && (
-        <div1 className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        
+           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg w-full max-w-md">
             <div className="flex justify-between items-center p-4 border-b">
               <h2 className="text-xl font-semibold">{selectedStation.Name}</h2>
@@ -349,9 +491,10 @@ const Maps = () => {
                 <X className="w-5 h-5" />
               </Button>
             </div>
-
+              
             <div className="p-4 space-y-6">
-              <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+            <form onSubmit={handlePetrolOrderSubmit}>
+            <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Fuel className="w-5 h-5 text-red-500" />
@@ -361,14 +504,16 @@ const Maps = () => {
                     ₹{selectedStation.PetrolPrice}/L
                   </span>
                 </div>
-                <button
-                  className="w-full py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-                  onClick={() => handleOrder("petrol")}
-                >
+                <TextInput id='Petrol_Quantity' type='number' placeholder='Enter your petrol_quantity for Liter' value={fuelOrder.Petrol_Quantity} min={1} onChange={handleQuantityChange}/>
+                <Button type='submit' className="w-full py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
                   Order Petrol
-                </button>
+                </Button>
               </div>
+            </form>
+              
+              
 
+              <form onSubmit={handleDieselOrderSubmit}>
               <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -376,16 +521,15 @@ const Maps = () => {
                     <span className="font-medium">Diesel</span>
                   </div>
                   <span className="text-green-600 font-semibold">
-                    ₹{selectedStation.DieselPrice}/L
+                    ₹{selectedStation.DiselPrice}/L
                   </span>
                 </div>
-                <button
-                  className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                  onClick={() => handleOrder("diesel")}
-                >
-                  Order Diesel
-                </button>
+                <TextInput id='Disel_Quantity' type='number' placeholder='Enter your Disel_Quantity for Liter' value={fuelOrder.Disel_Quantity} min={1} onChange={handleQuantityChange}/>
+                <Button type='submit' className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                  Order Disel
+                </Button>
               </div>
+              </form>
             </div>
 
             <div className="p-4 border-t flex justify-center">
@@ -397,7 +541,7 @@ const Maps = () => {
               </Button>
             </div>
           </div>
-        </div1>
+        </div>
       )}
 
       {/* bike service popup model */}

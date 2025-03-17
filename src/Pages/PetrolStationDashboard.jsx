@@ -1,82 +1,160 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TopBar from '../Components/UserComponents/TopBar'
 import Footer from '../Components/UserComponents/Footer'
-import { Card, Carousel } from "flowbite-react";
+import { Alert, Button, Card, Label } from "flowbite-react";
+import { CarouselOne } from '../Components/Layout/CarouselOne';
+import { Form } from 'react-router-dom';
+import { TextInput } from 'flowbite-react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 
 function PetrolStationDashboard() {
-  return <>
-  <TopBar />
-  <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-          <Carousel>
-            <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
-            <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="..." />
-            <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
-            <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
-            <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." />
-          </Carousel>
-     </div>
+  const {currentUser} = useSelector(state => state.user);
+  const [petrolData, setPetrolData] = useState([]);
+  const [ currentStation,setCurretStation ] = useState([]);
+  const [formData, setFormData] = useState({
+    StationName : `${currentUser.StationName}`,
+    Distance : '2.5', 
+    PetrolPrice : '',
+    DiselPrice : '',
+  });
+
+
+  const fetch = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/petrolstation/getpetroldata`
+      );
+      setPetrolData(response.data.petrolStation);
+      setCurretStation(currentUser.StationName === petrolData.StationName)
+      console.log(currentStation);
+      
+    } catch (error) {
+      console.error("PetrolStationData fetching Error:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetch();
+  }, []);
+
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+console.log(currentUser.StationName);
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  console.log(formData);
+  
+  try {
+    const userId = petrolData._id
+    if (currentUser.StationName) {
+      // Pass formData to the API endpoint for updating
+      const response = await axios.put(`http://localhost:5000/api/petrolstation/updatepetroldata/${userId}`);
      
-     <div className="p-6">
-      <h2 className="text-4xl font-bold mb-6 text-gray-800 justify-center">Dashboard</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {/* This month revenue */}
-        <Card href="#" className="max-w-sm">
-         <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-           TOTAL REVENUE
-         </h5>
-         <div className='flex flex-row justify-between'>
-          <div>10.10</div>
-          <div>RS.100</div>
-         </div>
-         <div className='flex flex-row justify-between'>
-          <span>Liters</span>
-          <span>Amount</span>
-         </div>
-       </Card>
-
-        {/* This week revenue */}
-        <Card href="#" className="max-w-sm">
-         <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-           THIS MONTH REVENUE
-         </h5>
-         <div className='flex flex-row justify-between'>
-          <div>10.10</div>
-          <div>RS.100</div>
-         </div>
-         <div className='flex flex-row justify-between'>
-          <span>Liters</span>
-          <span>Amount</span>
-         </div>
-       </Card>
-
-       {/* Today revenue */}
-       <Card href="#" className="max-w-sm">
-         <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-           TODAY REVENUE
-         </h5>
-         <div className='flex flex-row justify-between'>
-           <div>10.10</div>
-           <div>RS.100</div>
-         </div>
-         <div className='flex flex-row justify-between'>
-           <span>Liters</span>
-           <span>Amount</span>
-         </div>
-       </Card>
+      
+      console.log(response.data.message || "Update successful");
+      setFormData(response.data);
+    } else {
+      throw new Error("Station names do not match. Update not allowed.");
+    }
+  } catch (error) {
+    console.error("Error in registration/update:", error.message);
+  }
+  
+  console.log(formData.StationName);
+}
+  return (
+    <div>
+      <TopBar />
+      <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+        <CarouselOne />
       </div>
+
+      <div className="p-6">
+        <h2 className="text-4xl font-bold mb-6 text-gray-800 justify-center">
+          Dashboard
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* This month revenue */}
+          <Card href="#" className="max-w-sm">
+            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              TOTAL REVENUE
+            </h5>
+            <div className="flex flex-row justify-between">
+              <div>10.10</div>
+              <div>RS.100</div>
+            </div>
+            <div className="flex flex-row justify-between">
+              <span>Liters</span>
+              <span>Amount</span>
+            </div>
+          </Card>
+
+          {/* This week revenue */}
+          <Card href="#" className="max-w-sm">
+            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              THIS MONTH REVENUE
+            </h5>
+            <div className="flex flex-row justify-between">
+              <div>10.10</div>
+              <div>RS.100</div>
+            </div>
+            <div className="flex flex-row justify-between">
+              <span>Liters</span>
+              <span>Amount</span>
+            </div>
+          </Card>
+
+          {/* Today revenue */}
+          <Card href="#" className="max-w-sm">
+            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              TODAY REVENUE
+            </h5>
+            <div className="flex flex-row justify-between">
+              <div>10.10</div>
+              <div>RS.100</div>
+            </div>
+            <div className="flex flex-row justify-between">
+              <span>Liters</span>
+              <span>Amount</span>
+            </div>
+          </Card>
+        </div>
+      </div>
+
+       {/* Station Details Update */}
+      <Card className="max-w-6xl mx-auto">
+        <h2 className="text-2xl font-bold mb-4">Station Details Update Filled <span className='inline-block text-blue-600 font-bold animate-pulse-text'>Its Only PetrolStation Owner</span></h2>
+        <Form className="space-y-6" onSubmit={handleSubmit}>
+          <div>
+          <Label htmlFor="text">Station Name</Label> 
+          <TextInput type="text" name="StationName" value={formData.StationName} disabled onChange={handleChange}/>
+          </div>
+
+          <div>
+          <Label htmlFor="text">PetrolPrice</Label>
+          <TextInput type="num" name="PetrolPrice" value={formData.PetrolPrice} onChange={handleChange} required/>
+          </div>
+
+          <div>
+          <Label htmlFor="text">DiselPrice</Label>
+          <TextInput type="num" name="DiselPrice" value={formData.DiselPrice} onChange={handleChange} required/>
+          </div>
+
+          <Button type='submit' gradientDuoTone="purpleToPink" outline pill>
+            Submit
+          </Button>
+        </Form>
+      </Card>
+        <CarouselOne />
+      <Footer />
     </div>
-    <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-          <Carousel>
-            <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
-            <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="..." />
-            <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
-            <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
-            <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." />
-          </Carousel>
-     </div>
-    <Footer />
-  </>
+  );
 }
 
-export default PetrolStationDashboard
+export default PetrolStationDashboard;

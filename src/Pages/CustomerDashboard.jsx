@@ -88,29 +88,16 @@
 
 
 import React, { useState } from 'react';
-import { Button, Card, Carousel } from 'flowbite-react'
+import { Button, Card } from 'flowbite-react'
 import TopBar from '../Components/UserComponents/TopBar';
 import Footer from '../Components/UserComponents/Footer';
 import { useNavigate } from 'react-router-dom';
+import { CarouselOne } from '../Components/Layout/CarouselOne';
 
 
 const CustomerDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-
-  // First Carousel Images
-  const firstCarouselImages = [
-    "/api/placeholder/600/400",
-    "/api/placeholder/600/400",
-    "/api/placeholder/600/400"
-  ];
-
-  // Second Carousel Images
-  const secondCarouselImages = [
-    "/api/placeholder/600/400",
-    "/api/placeholder/600/400",
-    "/api/placeholder/600/400"
-  ];
 
   const handleClickMe = () => {
     navigate('/mappage')
@@ -121,17 +108,11 @@ const CustomerDashboard = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 space-y-8">
+    <div>
       {/* First Carousel Division */}
       <TopBar />
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-       <Carousel>
-         <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
-         <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="..." />
-         <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
-         <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
-         <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." />
-       </Carousel>
+       <CarouselOne />
      </div>
 
       {/* Card Division */}
@@ -207,24 +188,6 @@ const CustomerDashboard = () => {
         </Card>
       </div>
 
-      {/* Second Carousel Division */}
-      <div className="w-full h-96 relative overflow-hidden">
-        <div className="flex transition-transform duration-500 ease-in-out">
-          {secondCarouselImages.map((image, index) => (
-            <img 
-              key={index} 
-              src={image} 
-              alt={`Carousel ${index + 1}`} 
-              className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-500"
-              style={{ 
-                opacity: index === 0 ? 1 : 0,
-                zIndex: index === 0 ? 10 : 0
-              }}
-            />
-          ))}
-        </div>
-      </div>
-
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -248,6 +211,8 @@ const CustomerDashboard = () => {
           </div>
         </div>
       )}
+      <CarouselOne />
+      <br />
       <Footer />
     </div>
   );

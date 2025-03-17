@@ -68,47 +68,42 @@
 //!calude.ai react code with deliveryboydashboard
 
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Carousel } from "flowbite-react";
 import TopBar from '../Components/UserComponents/TopBar';
 import Footer from '../Components/UserComponents/Footer';
 import { Bell, CheckCircle, Map, Truck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { CarouselOne } from '../Components/Layout/CarouselOne';
+import { toast } from 'react-toastify';
 
 const DeliveryBoyDashboard = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigate= useNavigate()
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      stationName: "Shell Station Downtown",
-      customer: "Vignesh TSV",
-      address: "123 Main Street",
-      status: "Pending",
-      dateTime: "2025-01-06T10:30:00",
-      quantity: "500",
-      fuelType: "Regular Petrol"
-    },
-    {
-      id: 2,
-      stationName: "VP Station",
-      customer: "Sangar TRS",
-      address: "123 Main Street",
-      status: "Pending",
-      dateTime: "2025-01-07T10:30:00",
-      quantity: "90",
-      fuelType: "Regular Disel"
+  const [orders, setOrders] = useState([]);
+  const [loaing,setLoading] = useState(false);
+  
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get('http://localhost:5000/api/order/deliveryboydata');
+      setOrders(response.data.deliveryBoy);
+      console.log(orders);
+      
+    } catch (error) {
+      console.error('DeliveryBoyData fetching Error:',error);
     }
-  ]);
-
-  // Sample delivery images
-  const deliveryImages = [
-    "/api/placeholder/400/300",
-    "/api/placeholder/400/300",
-    "/api/placeholder/400/300"
-  ];
-
+    finally{
+      setLoading(false);
+    }
+  };
+ 
+ 
+  useEffect(() => {
+    fetchData()
+  },[]);
   // // Sample orders
   // const orders = [
   //   { id: 1, customer: "John Doe", address: "123 Main St", status: "Pending Pickup" },
@@ -119,7 +114,7 @@ const DeliveryBoyDashboard = () => {
     setSelectedOrder(order);
     setIsPopupOpen(true);
     setOrders(orders.map(msg => 
-      msg.id === order.id ? {...msg, status: 'In Progress'} : msg
+      msg.id === order.id ? {...msg, Status: 'Processing'} : msg
     ));
   };
 
@@ -129,8 +124,8 @@ const DeliveryBoyDashboard = () => {
   const formatDateTime = (dateTime) => {
     return new Date(dateTime).toLocaleString();
   };
-  const  mapTrackingNavigate = () => {
-    navigate('/maptracking')
+  const OrderTrackingNavigate = () => {
+    navigate('/ordertracking')
   }
 
   return (
@@ -138,111 +133,132 @@ const DeliveryBoyDashboard = () => {
       <TopBar />
       {/* Image Carousel Section */}
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-       <Carousel>
-         <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
-         <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="..." />
-         <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
-         <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
-         <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." />
-       </Carousel>
-     </div>
+        <CarouselOne />
+      </div>
 
-      {/* Orders and Actions Section */}
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {orders.map((order) => (
-          <div 
-            key={order.id} 
-            className="bg-white shadow-md rounded-lg p-4 border"
-          >
-            <h3 className="text-lg font-semibold mb-2">{order.customer}</h3>
-            <p className="text-gray-600 mb-3">{order.address}</p>
-            <p className="text-sm text-gray-500 mb-4">{order.status}</p>
-            
-            <div className="flex space-x-3">
-              <button 
-                onClick={() => handlePickupOrder(order)}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-              >
-                Pickup Order
-              </button>
-              
-              <button 
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
-              >
-                Delivery Details
-              </button>
-              
-              <button 
-                className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition"
-              >
-                Plan Trip
-              </button>
-            </div>
-          </div>
-        ))}
-      </div> */}
-      
-      {/* Orders and Actions Sections for new */}
+
+      {/*Processing Orders and Actions Sections */}
       <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Petrol Delivery Orders</h2>
-        <div className="relative">
-          <Bell className="h-6 w-6 text-gray-600" />
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-            {orders.filter(msg => msg.status === 'Pending').length}
-          </span>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Petrol Delivery Orders</h1>
+          <div className="relative">
+            <Bell className="h-6 w-6 text-gray-600" />
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              {orders.filter((msg) => msg.Status === "Processing").length}
+            </span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {orders
+            .filter((order) => order.Status === "Processing") // Filter for 'In Process' orders
+            .map((order) => (
+              <Card
+                key={order.id}
+                className="bg-white shadow-md rounded-lg p-4 border"
+              >
+                <div className="mb-4">
+                  <h3 className="text-lg font-semibold mb-2">
+                    Email Id: {order.Email}
+                  </h3>
+                  <h4>Petrol Station Name: {order.StationName}</h4>
+                  <p className="text-gray-600 mb-1">{order.Location}</p>
+                  <p className="text-sm text-gray-500">
+                    {formatDateTime(order.createdAt)}
+                  </p>
+                  <div className="mt-2">
+                    {order.Petrol_Quantity > 0 && (
+                      <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
+                        {order.Petrol_Quantity}-Ltr {order.Petrol_Price}
+                      </span>
+                    )}
+                    <br />
+                    {order.Disel_Quantity > 0 && (
+                      <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
+                        {order.Disel_Quantity}-Ltr {order.Disel_Price}
+                      </span>
+                    )}
+                    <span className="ml-2 inline-block text-sm px-2 py-1 rounded bg-blue-500 text-orange-200">
+                      {order.Status}
+                    </span>
+                  </div>
+                </div>
+              </Card>
+            ))}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {orders.map((order) => (
-          <Card key={order.id} className="bg-white shadow-md rounded-lg p-4 border">
-            <div className="mb-4">
-              <h3 className="text-lg font-semibold mb-2">{order.stationName}</h3>
-              <p className="text-gray-600 mb-1">{order.address}</p>
-              <p className="text-sm text-gray-500">{formatDateTime(order.dateTime)}</p>
-              <div className="mt-2">
-                <span className="inline-block bg-blue-100 text-blue-800 text-sm px-2 py-1 rounded">
-                  {order.quantity}Ltr - {order.fuelType}
-                </span>
-                <span className={`ml-2 inline-block text-sm px-2 py-1 rounded ${
-                  order.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
-                  order.status === 'In Progress' ? 'bg-blue-100 text-blue-800' :
-                  'bg-green-100 text-green-800'
-                }`}>
-                  {order.status}
-                </span>
+      {/*Pending Orders and Actions Sections */}
+      <div className="p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Petrol Delivery Orders</h1>
+          <div className="relative">
+            <Bell className="h-6 w-6 text-gray-600" />
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              {orders.filter((msg) => msg.status === "Waiting" && msg.status === "Completed").length}
+            </span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {orders.map((order) => (
+            <Card
+              key={order.id}
+              className="bg-white shadow-md rounded-lg p-4 border"
+            >
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold mb-2">
+                  Email Id:{order.Email}
+                </h3>
+                <h4>PetrolStation Name:{order.StationName}</h4>
+                <p className="text-gray-600 mb-1">{order.Location}</p>
+                <p className="text-sm text-gray-500">
+                  {formatDateTime(order.createdAt)}
+                </p>
+                <div className="mt-2">
+                    {order.Petrol_Quantity > 0 && (
+                      <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
+                        {order.Petrol_Quantity}-Ltr {order.Petrol_Price}
+                      </span>
+                    )}
+                    <br />
+                    {order.Disel_Quantity > 0 && (
+                      <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
+                        {order.Disel_Quantity}-Ltr {order.Petrol_Price}
+                      </span>
+                    )}
+                    <span className="ml-2 inline-block text-sm px-2 py-1 rounded bg-blue-100 text-blue-800">
+                      {order.Status}
+                    </span>
+                  </div>
               </div>
-            </div>
 
-            <div className="flex space-x-3">
-              <button
-                onClick={() => handlePickupOrder(order)}
-                className="flex items-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-              >
-                <Truck className="h-4 w-4 mr-2" />
-                Pickup Order
-              </button>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => handlePickupOrder(order)}
+                  className="flex items-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+                >
+                  <Truck className="h-4 w-4 mr-2" />
+                  Pickup Order
+                </button>
 
-              <button
-                className="flex items-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
-              >
-                <CheckCircle className="h-4 w-4 mr-2" />
-                Delivery Details
-              </button>
+                <button className="flex items-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                  <CheckCircle className="h-4 w-4 mr-2" />
+                  Delivery Details
+                </button>
 
-              <button
-                className="flex items-center bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition"
-                onClick={mapTrackingNavigate}
-              >
-                <Map className="h-4 w-4 mr-2" />
-                Plan Trip
-              </button>
-            </div>
-          </Card>
-        ))}
+                <button
+                  className="flex items-center bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition"
+                  onClick={OrderTrackingNavigate}
+                >
+                  <Map className="h-4 w-4 mr-2" />
+                  Plan Trip
+                </button>
+              </div>
+            </Card>
+          ))}
+        </div>
       </div>
-    </div>
 
       {/* Popup for Order Pickup */}
       {isPopupOpen && selectedOrder && (
@@ -251,16 +267,18 @@ const DeliveryBoyDashboard = () => {
             <h2 className="text-xl font-bold mb-4">Pickup Confirmation</h2>
             <p className="mb-4">Order for: {selectedOrder.customer}</p>
             <p className="mb-4">Delivery Address: {selectedOrder.address}</p>
-            
+
             <div className="flex justify-between">
-              <button 
-                onClick={() => {/* Confirm pickup logic */}}
+              <button
+                onClick={() => {
+                  /* Confirm pickup logic */
+                }}
                 className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
               >
                 Confirm Pickup
               </button>
-              
-              <button 
+
+              <button
                 onClick={handleClosePopup}
                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
               >
@@ -270,6 +288,8 @@ const DeliveryBoyDashboard = () => {
           </div>
         </div>
       )}
+      <CarouselOne />
+      <br />
       <Footer />
     </div>
   );

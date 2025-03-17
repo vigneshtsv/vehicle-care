@@ -3,33 +3,33 @@ import TopBar from "../Components/UserComponents/TopBar";
 import Footer from "../Components/UserComponents/Footer";
 import { Card, Carousel } from "flowbite-react";
 import { Bell, Box, Calendar, Clock, Map, MapPin, Truck } from "lucide-react";
+import axios from "axios";
+import { BiCurrentLocation } from "react-icons/bi";
+import { CarouselOne } from "../Components/Layout/CarouselOne";
 
 const ServiceManDashboard = () => {
   const [notifications, setNotifications] = useState([]);
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      customerName: "John Doe",
-      location: "123 Main St, City",
-      date: "2025-01-07",
-      time: "14:30",
-      problemType: "Chain Repair",
-      serviceType: "Regular Maintenance",
-      status: "pending",
-      notification: "New order received",
-    },
-    {
-      id: 2,
-      customerName: "Jane Smith",
-      location: "456 Oak Ave, Town",
-      date: "2025-01-07",
-      time: "15:45",
-      problemType: "Brake Adjustment",
-      serviceType: "Emergency Repair",
-      status: "progress",
-      notification: "Service started",
-    },
-  ]);
+  const [orders, setOrders] = useState([])
+  const [loading, setLoading] = useState(false);
+  console.log(orders);
+  
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get('http://localhost:5000/api/order/deliveryboydata');
+      setOrders(response.data.deliveryBoy);
+    } catch (error) {
+      console.error('Error ServiceManData fetching Error:',error);
+    }
+    finally{
+      setLoading(false);
+    }
+  };
+ 
+ 
+  useEffect(() => {
+    fetchData()
+  },[]);
 
   useEffect(() => {
     // Filter unread notifications from orders
@@ -37,13 +37,17 @@ const ServiceManDashboard = () => {
     setNotifications(unreadNotifications);
   }, [orders]);
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "pending":
+  const formatDateTime = (dateTime) => {
+    return new Date(dateTime).toLocaleString();
+  };
+
+  const getStatusColor = (Status) => {
+    switch (Status) {
+      case "Waiting":
         return "bg-yellow-100 text-yellow-800";
-      case "progress":
+      case "Processing":
         return "bg-blue-100 text-blue-800";
-      case "completed":
+      case "Completed":
         return "bg-green-100 text-green-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -54,28 +58,7 @@ const ServiceManDashboard = () => {
     <>
       <TopBar />
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-        <Carousel>
-          <img
-            src="https://flowbite.com/docs/images/carousel/carousel-1.svg"
-            alt="..."
-          />
-          <img
-            src="https://flowbite.com/docs/images/carousel/carousel-2.svg"
-            alt="..."
-          />
-          <img
-            src="https://flowbite.com/docs/images/carousel/carousel-3.svg"
-            alt="..."
-          />
-          <img
-            src="https://flowbite.com/docs/images/carousel/carousel-4.svg"
-            alt="..."
-          />
-          <img
-            src="https://flowbite.com/docs/images/carousel/carousel-5.svg"
-            alt="..."
-          />
-        </Carousel>
+        <CarouselOne />
       </div>
 
       <div className="p-6">
@@ -129,29 +112,16 @@ const ServiceManDashboard = () => {
       </div>
 
       {/* Service Notification */}
-      <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Bike Service Orders</h1>
-          <div className="relative cursor-pointer group">
-            <Bell className="h-6 w-6 text-gray-600"/>
-            {notifications.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
-                {notifications.length}
-              </span>
-            )}
-            {/* Notification dropdown */}
-            <div className="hidden group-hover:block absolute right-0 mt-2 w-64 bg-white border rounded-lg shadow-lg z-50">
-              <div className="p-2">
-                <h3 className="text-sm font-bold mb-2">Notifications</h3>
-                {notifications.map((notif, index) => (
-                  <div
-                    key={index}
-                    className="text-sm p-2 hover:bg-gray-50 border-b"
-                  >
-                    {notif.notification}
-                  </div>
-                ))}
-              </div>
+      <div>
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold">Bike Service Orders</h1>
+            <div className="relative">
+              <Bell className="h-6 w-6 text-gray-600" />
+              
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
+                {orders.filter((msg) => msg.Status === "Processing").length}
+                </span>
             </div>
           </div>
         </div>
@@ -160,13 +130,13 @@ const ServiceManDashboard = () => {
           {orders.map((order) => (
             <div key={order.id} className="bg-white rounded-lg shadow-md p-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="font-semibold text-lg">{order.customerName}</h3>
+                <h3 className="font-semibold text-lg">{order.Email}</h3>
                 <span
                   className={`px-3 py-1 rounded-full text-sm ${getStatusColor(
-                    order.status
+                    order.Status
                   )}`}
                 >
-                  {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                  {order.Status.charAt(0).toUpperCase() + order.Status.slice(1)}
                 </span>
               </div>
 
@@ -174,24 +144,24 @@ const ServiceManDashboard = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4 text-gray-500" />
-                    <span className="text-sm">{order.location}</span>
+                    <span className="text-sm">{order.Location}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-gray-500" />
-                    <span className="text-sm">{order.date}</span>
+                    <span className="text-sm">{formatDateTime(order.createdAt)}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-gray-500" />
-                    <span className="text-sm">{order.time}</span>
+                    <BiCurrentLocation className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm">{order.Distance} - KiloMeters</span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <p className="text-sm">
-                    <strong>Problem:</strong> {order.problemType}
+                    <strong>Services:</strong> {order.Service_Type}
                   </p>
                   <p className="text-sm">
-                    <strong>Service:</strong> {order.serviceType}
+                    <strong>Problems:</strong> {order.Problem_Type}
                   </p>
                 </div>
 
@@ -226,29 +196,8 @@ const ServiceManDashboard = () => {
 
       {/* Carousel Part */}
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-        <Carousel>
-          <img
-            src="https://flowbite.com/docs/images/carousel/carousel-1.svg"
-            alt="..."
-          />
-          <img
-            src="https://flowbite.com/docs/images/carousel/carousel-2.svg"
-            alt="..."
-          />
-          <img
-            src="https://flowbite.com/docs/images/carousel/carousel-3.svg"
-            alt="..."
-          />
-          <img
-            src="https://flowbite.com/docs/images/carousel/carousel-4.svg"
-            alt="..."
-          />
-          <img
-            src="https://flowbite.com/docs/images/carousel/carousel-5.svg"
-            alt="..."
-          />
-        </Carousel>
-      <Footer />
+        <CarouselOne />
+        <Footer />
       </div>
     </>
   );

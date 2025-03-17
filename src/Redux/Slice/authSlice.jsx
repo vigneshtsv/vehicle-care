@@ -4,6 +4,7 @@ const initialState = {
   currentUser:null,
   error:null,
   loading:false,
+  userList:null,
 }
 
 
@@ -24,11 +25,23 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    setCurrentUser : (state,action) => {
+      state.currentUser = action.payload;
+    },
+    userList:(state,action) => {
+      state.userList = action.payload;
+    }
+    // signOutSuccess : (state) => {       //!signOut method in used Redux
+    //   state.currentUser = null;
+    //   state.loading = false;
+    //   state.error = null;
+    // }
+    
   }
 })
 
 //Export actions
-export const {signInStart,signInSuccess,signInFailure} = userSlice.actions;
+export const {signInStart,signInSuccess,signInFailure,setCurrentUser,userList} = userSlice.actions;
 //Export reducer
 export default userSlice.reducer;
 

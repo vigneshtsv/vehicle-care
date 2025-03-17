@@ -1,14 +1,32 @@
 import React, { useState } from 'react'
-import { TextInput,Checkbox,Label,FileInput,Button, Alert, Spinner } from "flowbite-react";
+import { TextInput,Checkbox,Label,FileInput,Button, Alert, Spinner, Textarea } from "flowbite-react";
 import { Link, useNavigate } from 'react-router-dom';
 import { HiInformationCircle } from 'react-icons/hi';
-
+import axios from 'axios';
+//import { toast } from 'react-toastify';
 
 
 function PetrolStationSignup() {
-  const [formData, setFormData] = useState({Role:'PetrolStation'});
+  const [formData, setFormData] = useState({
+    FirstName:"",
+    LastName:"",
+    PhoneNumber:"",
+    Email:"",
+    Password:"",
+    ConfirmPassword:"",
+    Address:"",
+    StationName:"",
+    Role:'PetrolStation'
+  });
+
+  const [files,setFiles] = useState({
+    AadharCard: null,
+    ProfilePicture: null,
+    PetrolStationCertification: null,
+  })
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [ successMsg, setSuccessMsg ] = useState(null);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -17,12 +35,22 @@ function PetrolStationSignup() {
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prev)=> ({...prev, file }));
+    const { name,files: fileList } = e.target;
+    setFiles({
+      ...files,
+      [name]: fileList[0]
+    });
   };
 
+  const saveToken = (token) => {
+    sessionStorage.setItem('authToken',token)
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
+    setSuccessMsg('');
+    setLoading(true);
+
     if (!formData.FirstName || !formData.LastName || !formData.Email || !formData.Password) {
       return setErrorMessage("Please fill out all fields");
     }
@@ -30,19 +58,51 @@ function PetrolStationSignup() {
     if(formData.Password !== formData.ConfirmPassword) {
       return setErrorMessage("Passwords do not match");
     }
+
+    if(!files.AadharCard) {
+      setErrorMessage('AadharCard is required')
+      setLoading(false);
+      return;
+    }
+
+    if(!files.ProfilePicture) {
+      setErrorMessage('ProfilePicture is required');
+      setLoading(false);
+      return;
+    }
+
+    if(!files.PetrolStationCertification) {
+      setErrorMessage('PetrolStationCertification is required');
+      setLoading(false);
+      return;
+    }
+
     try {
-      setLoading(true);
-      setErrorMessage(null);
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      const submitData = new FormData();
+
+      Object.entries(formData).forEach(([Key,value]) => {
+        submitData.append(Key,value)
       });
-      const data = await response.json();
-      if (!response.ok) {
-        return setErrorMessage(data.message || 'Registration failed');
+
+      Object.entries(files).forEach(([Key,file]) => {
+        if(file) {
+          submitData.append(Key,file);
+        }
+      });
+      
+      const response = await axios.post('http://localhost:5000/api/auth/register', submitData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      setFormData(response.data.user)
+      if(response.data.token) {
+        saveToken(response.data.token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+        setSuccessMsg('Registration Successfully')
+        resetForm();
+        navigate('/')
       }
       navigate('/');
     } catch (error) {
@@ -51,6 +111,26 @@ function PetrolStationSignup() {
       setLoading(false);
     }
   }
+
+  const resetForm = () => {
+    setFormData({
+      FirstName: '',
+      LastName: '',
+      PhoneNumber: '',
+      Email: '',
+      Password: '',
+      ConfirmPassword: '',
+      Address: '',
+      Role: 'DeliveryBoy',
+    });
+
+    setFiles({
+      ProfilePicture: null,
+      AadharCard: null,
+      PetrolStationCertification: null,
+    });
+  }; 
+
   return <div>
     <h1>PetrolStation Signup</h1>
      <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit}>
@@ -64,22 +144,28 @@ function PetrolStationSignup() {
       <TextInput type='tel' placeholder='9014638964' id='PhoneNumber' onChange={handleChange} required />
       </section>
       <section>
+        <TextInput type='text' placeholder='Enter Your PetrolStation Name' id='StationName' onChange={handleChange} required />
+      </section>
+      <section>
        <TextInput type='password' placeholder='Create New Password' id='Password' onChange={handleChange} required />
        <TextInput type='password' placeholder='Confirm New Password' id='ConfirmPassword' onChange={handleChange} required />
       </section>
      <div>
-       <TextInput type='textarea' placeholder='Enter Your Address' id='Address' onChange={handleChange} required/>
+       <Textarea type='text' placeholder='Enter Your Address' id='Address' onChange={handleChange} required/>
        </div>
       <div>
-         <section className="grid grid-flow-col justify-stretch space-x-4">
-             <FileInput id="AadharCard" onChange={handleFileChange} required />
-         </section>
-         <section className="grid grid-flow-col justify-stretch space-x-4">
-             <FileInput id="PetrolStationCertification" onChange={handleFileChange} required />
-         </section>
-         <section className="grid grid-flow-col justify-stretch space-x-4">
-             <FileInput id="ProfilePicture" onChange={handleFileChange} required />
-         </section>
+         <div className='mb-4'>
+           <Label htmlFor='AadharCard'>AadharCard</Label>
+           <TextInput type='file' id='AadharCard' name='AadharCard' onChange={handleFileChange} required/>
+         </div>
+         <div className='mb-4'>
+            <Label htmlFor='PetrolStationCertification'>PetrolStationCertification</Label>
+            <TextInput type='file' id='PetrolStationCertification' name='PetrolStationCertification' onChange={handleFileChange} required/>
+         </div>
+         <div className='mb-4'>
+            <Label htmlFor='ProfilePicture'>ProfilePicture</Label>
+            <TextInput type='file' id='ProfilePicture' name='ProfilePicture' onChange={handleFileChange} required/>
+         </div>
       </div>
      <div className="flex items-center gap-2">
         <Checkbox id="accept" defaultChecked required/>
@@ -91,7 +177,7 @@ function PetrolStationSignup() {
         </Label>
       </div>
       {/* <input id="Role"  type="text"  value="PetrolStation" onChange={handleChange} /> */}
-      <Button type='submit' gradientDuoTone="tealToLime" disabled={loading}>
+      <Button type='submit' outline gradientDuoTone="purpleToPink" disabled={loading}>
           {loading ? (
             <>
               <Spinner color="purple" aria-label="Purple spinner example" size='sm' />
@@ -108,6 +194,11 @@ function PetrolStationSignup() {
         <Alert color='failure' icon={HiInformationCircle}>
           <span className='font-medium me-2'>OOPS!</span> &nbsp; {errorMessage}
         </Alert>
+      )}
+      {successMsg && (
+        <Alert color='success' icon={HiInformationCircle}>
+          <span className='font-medium me-2'>Success</span> &nbsp; {successMsg}
+        </Alert> 
       )}
   </div>  
 }

@@ -91,12 +91,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Navigation, Truck, Phone } from 'lucide-react';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
-import { Marker } from 'react-leaflet';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
 
-const MapTracking = () => {
+const OrderTracking = () => {
   const mapRef = useRef(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [map, setMap] = useState(null);
@@ -297,4 +297,4 @@ const MapTracking = () => {
   );
 };
 
-export default MapTracking;
+export default OrderTracking;

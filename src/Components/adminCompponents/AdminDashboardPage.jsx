@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AdminTopBarPage from './AdminTopBarPage.jsx'
 import  Footer from '../UserComponents/Footer.jsx'
 
@@ -10,8 +10,14 @@ const recentOrders = [
   { id: 4, customer: 'naganathan', product: 'Product D', amount: 180, status: 'Completed' },
 ]
 
+
+
 function AdminDashboardPage() {
+  const[users, setUsers] = useState([]);
+    
+        
   return (
+    
     <div>
       <AdminTopBarPage />
       <main className="p-6 bg-gray-50 min-h-screen">
@@ -31,7 +37,7 @@ function AdminDashboardPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Total Users</p>
-                <h3 className="text-2xl font-bold">1,234</h3>
+                <h3 className="text-2xl font-bold">{recentOrders.length}</h3>
               </div>
             </div>
           </div>

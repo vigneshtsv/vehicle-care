@@ -17,13 +17,12 @@ import DeliveryBoyDashboard from '../Pages/DeliveryBoyDashboard.jsx';
 import PetrolStationDashboard from '../Pages/PetrolStationDashboard.jsx';
 import ServiceManDashboard from '../Pages/ServiceManDashboard.jsx';
 import LoginForm from '../UsersControl/LoginForm.jsx';
-import Maps from '../Components/Layout/Maps.jsx'
 import MapTest from '../Components/Layout/MapTest.jsx';
-// import MapOne from '../Components/Layout/MapOne.jsx';
 import MapPage from '../Components/Layout/MapPage.jsx';
-import MapTracking from '../Components/Layout/MapTracking.jsx';
-import { CarouselOne } from '../Components/Layout/CarouselOne.jsx';
 import Search from '../Components/Layout/Search.jsx';
+import { CarouselOne } from '../Components/Layout/CarouselOne.jsx';
+import OrderTracking from '../Components/Layout/OrderTracking.jsx';
+
 
 
 const AppRoutes = [
@@ -105,24 +104,16 @@ const AppRoutes = [
         element: <ServiceManDashboard />
     },
     {
-        path: '/maps',
-        element: <Maps />
-    },
-    {
         path:'/maptest',
         element:<MapTest />
     },
-    // {
-    //     path:'/mapone',
-    //     element:<MapOne />
-    // },
     {
         path:'/mappage',
         element:<MapPage />
     },
     {
-        path:'/maptracking',
-        element:<MapTracking />
+        path:'/ordertracking',
+        element:<OrderTracking />
     },
     {
         path:'/carouselone',
