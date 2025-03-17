@@ -428,6 +428,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button,Card,Label,TextInput,Select,Modal,Alert,Table,Spinner } from 'flowbite-react';
 import {HiOutlineExclamationCircle,HiTrash,HiPencil,HiPlus} from 'react-icons/hi';
+import AdminTopBarPage from './AdminTopBarPage';
 
 const ROLES = ['Admin', 'Customer', 'PetrolStation', 'DeliveryBoy', 'ServiceMan'];
 
@@ -444,7 +445,7 @@ const UserList = () => {
   // State management
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [selectedRole, setSelectedRole] = useState('all');
+  const [selectedRole, setSelectedRole] = useState('All');
   const [isEditing, setIsEditing] = useState(false);
   const [currentUser, setCurrentUser] = useState(initialFormData);
   const [error, setError] = useState(null);
@@ -452,23 +453,40 @@ const UserList = () => {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
-  console.log(users);
+  //console.log(currentUser.Email);
   
   
   // API base URL - should be in environment variable
   const API_BASE_URL = 'http://localhost:5000/api';
+  const ROLES = [
+    'Admin', 
+    'Customer', 
+    'DeliveryBoy', 
+    'PetrolStation', 
+    'ServiceMan'
+  ];
 
   useEffect(() => {
     fetchUsers();
   }, []);
-
+  
+  // useEffect(() => {
+  //   setFilteredUsers(
+  //     selectedRole === 'All' 
+  //       ? users 
+  //       : users.filter(user => user.Role === selectedRole)
+  //   );
+  // }, [selectedRole, users]);
   useEffect(() => {
-    setFilteredUsers(
-      selectedRole === 'all' 
-        ? users 
-        : users.filter(user => user.Role === selectedRole)
-    );
+    if (selectedRole === 'All') {
+      setFilteredUsers(users);
+    } else {
+      const filtered = users.filter(user => user.role === selectedRole);
+      setFilteredUsers(filtered);
+    }
   }, [selectedRole, users]);
+  
+  
 
   const fetchUsers = async () => {
     try {
@@ -485,6 +503,7 @@ const UserList = () => {
 
       const data = await response.json();
       setUsers(data);
+      //setFilteredUsers(data)
       setError(null);
     } catch (err) {
       setError('Failed to load users. Please try again later.');
@@ -506,8 +525,8 @@ const UserList = () => {
 
     try {
       const endpoint = isEditing 
-        ? `${API_BASE_URL}/admin/updateuser/${currentUser.id}`
-        : `${API_BASE_URL}/auth/register`;
+        ? `${API_BASE_URL}/admin/updateuser/${currentUser._id}`
+        : `${API_BASE_URL}/auth/register`;  
       
       const response = await fetch(endpoint, {
         method: isEditing ? 'PUT' : 'POST',
@@ -542,11 +561,11 @@ const UserList = () => {
   };
 
   const handleDeleteUser = async () => {
-    if (!userToDelete?.id) return;
+    if (!userToDelete?._id) return;
     
     try {
       setIsLoading(true);
-      const response = await fetch(`${API_BASE_URL}/admin/deleteuser/${userToDelete.id}`, {
+      const response = await fetch(`${API_BASE_URL}/admin/deleteuser/${userToDelete._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -607,7 +626,9 @@ const UserList = () => {
   };
 
   return (
-    <Card className="max-w-4xl mx-auto">
+    <div>
+      <AdminTopBarPage />
+      <Card className="max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-gray-900">User Management</h2>
         <Button onClick={() => {
@@ -632,7 +653,7 @@ const UserList = () => {
           onChange={(e) => setSelectedRole(e.target.value)}
           className="w-48"
         >
-          <option value="all">All Roles</option>
+          <option value="All">All Roles</option>
           {ROLES.map(Role => (
             <option key={Role} value={Role}>
               {Role}
@@ -640,6 +661,7 @@ const UserList = () => {
           ))}
         </Select>
       </div>
+      
 
       {isLoading ? (
         <div className="text-center py-4">
@@ -714,14 +736,15 @@ const UserList = () => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="firstName" value="First Name" />
+                  <Label htmlFor="FirstName" value="First Name" />
                 </div>
                 <TextInput
                   id="FirstName"
+                  type="text"
                   value={currentUser.FirstName}
                   onChange={(e) => setCurrentUser({ 
                     ...currentUser, 
-                    firstName: e.target.value 
+                    FirstName: e.target.value 
                   })}
                   required
                 />
@@ -732,10 +755,11 @@ const UserList = () => {
                 </div>
                 <TextInput
                   id="LastName"
+                  type="text"
                   value={currentUser.LastName}
                   onChange={(e) => setCurrentUser({ 
                     ...currentUser, 
-                    lastName: e.target.value 
+                    LastName: e.target.value 
                   })}
                 />
               </div>
@@ -759,7 +783,7 @@ const UserList = () => {
 
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="phoneNumber" value="Phone Number" />
+                <Label htmlFor="phoneNumber" value="PhoneNumber" />
               </div>
               <TextInput
                 id="PhoneNumber"
@@ -767,7 +791,7 @@ const UserList = () => {
                 value={currentUser.PhoneNumber}
                 onChange={(e) => setCurrentUser({ 
                   ...currentUser, 
-                  phoneNumber: e.target.value 
+                  PhoneNumber: e.target.value 
                 })}
               />
             </div>
@@ -783,9 +807,9 @@ const UserList = () => {
                   value={currentUser.Password}
                   onChange={(e) => setCurrentUser({ 
                     ...currentUser, 
-                    password: e.target.value 
+                    Password: e.target.value 
                   })}
-                  required={!isEditing}
+                  required={!isEditing}   
                 />
               </div>
             )}
@@ -799,7 +823,7 @@ const UserList = () => {
                 value={currentUser.Role}
                 onChange={(e) => setCurrentUser({ 
                   ...currentUser, 
-                  role: e.target.value 
+                  Role: e.target.value 
                 })}
               >
                 {ROLES.map(role => (
@@ -878,6 +902,7 @@ const UserList = () => {
         </Modal.Body>
       </Modal>
     </Card>
+    </div>
   );
 };
 

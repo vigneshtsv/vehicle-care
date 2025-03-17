@@ -88,12 +88,15 @@
 
 
 import React, { useState } from 'react';
-import { Card, Carousel } from 'flowbite-react'
+import { Button, Card, Carousel } from 'flowbite-react'
 import TopBar from '../Components/UserComponents/TopBar';
 import Footer from '../Components/UserComponents/Footer';
+import { useNavigate } from 'react-router-dom';
+
 
 const CustomerDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   // First Carousel Images
   const firstCarouselImages = [
@@ -110,7 +113,7 @@ const CustomerDashboard = () => {
   ];
 
   const handleClickMe = () => {
-    setIsModalOpen(true);
+    navigate('/mappage')
   };
 
   const handleCloseModal = () => {
@@ -148,12 +151,12 @@ const CustomerDashboard = () => {
             <h3 className="text-sm text-gray-500 mb-4">
               Do you Want petrol click me
             </h3>
-            <button 
+            <Button 
               onClick={handleClickMe}
               className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
             >
               Click Me
-            </button>
+            </Button>
           </div>
         </Card>
 
@@ -171,12 +174,12 @@ const CustomerDashboard = () => {
             <h3 className="text-sm text-gray-500 mb-4">
               Do you Want Disel click me
             </h3>
-            <button 
+            <Button 
               onClick={handleClickMe}
               className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
             >
               Click Me
-            </button>
+            </Button>
           </div>
         </Card>
 
@@ -194,12 +197,12 @@ const CustomerDashboard = () => {
             <h3 className="text-sm text-gray-500 mb-4">
               Do you Want Your Bike Service click me
             </h3>
-            <button 
+            <Button 
               onClick={handleClickMe}
               className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
             >
               Click Me
-            </button>
+            </Button>
           </div>
         </Card>
       </div>
@@ -229,18 +232,18 @@ const CustomerDashboard = () => {
             <h2 className="text-xl font-bold mb-4">Petrol Order Confirmation</h2>
             <p className="mb-6 text-gray-600">Would you like to proceed with your petrol order?</p>
             <div className="flex justify-between">
-              <button 
+              <Button 
                 onClick={handleCloseModal}
                 className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300"
               >
                 Confirm Order
-              </button>
-              <button 
+              </Button>
+              <Button 
                 onClick={handleCloseModal}
                 className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
               >
                 Cancel
-              </button>
+              </Button>
             </div>
           </div>
         </div>

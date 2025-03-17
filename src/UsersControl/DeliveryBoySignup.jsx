@@ -78,7 +78,7 @@ function DeliveryBoySignup() {
             <FileInput id="DrivingLicence" onChange={handleFileChange} required />
          </section>
          <section className="grid grid-flow-col justify-stretch space-x-4">
-            <FileInput id="CurrentPhoto" onChange={handleFileChange} required />
+            <FileInput id="ProfilePicture" onChange={handleFileChange} required />
          </section>
       </div>
      <div className="flex items-center gap-2">

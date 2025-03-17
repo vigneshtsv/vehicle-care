@@ -6,7 +6,7 @@ const ForgotPassword = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const API_URL = "http://localhost:5000/api/forgotpassword"; // Replace with your API endpoint
+  const API_URL = "http://localhost:5000/api/forgotpassword";
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -43,7 +43,7 @@ function TopBar() {
           </Link>
           <DropdownItem>{currentUser.Role}</DropdownItem>
           <DropdownDivider />
-           <Dropdown.Item onClick={logout}>logged Out</Dropdown.Item>
+           <Dropdown.Item onClick={logout}>LogOut</Dropdown.Item>
         </Dropdown>
       ) : (
         <Link to='/'>

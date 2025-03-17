@@ -269,7 +269,7 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { error:errorMessage } = useSelector((state) => state.user);
+  const { currentUser,loading,error:errorMessage } = useSelector((state) => state.user);
 
   const handleChange = async (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -310,7 +310,7 @@ const LoginForm = () => {
              
              //!Navigte based on Role
                  if(data.data.Role==='Admin'){
-                   navigate('/admindasboardpage')
+                   navigate('/admindashboardpage')
                  }else if(data.data.Role === 'Customer'){
                    navigate('/customerdashboard')
                  }else if(data.data.Role === 'DeliveryBoy'){
@@ -332,7 +332,6 @@ const LoginForm = () => {
            dispatch(signInFailure(error.message));
          }    
  };
-
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center">

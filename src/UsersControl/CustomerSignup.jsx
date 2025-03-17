@@ -9,7 +9,6 @@ function CustomerSignup() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
-
   
   
   const handleChange = (e) => {
@@ -45,7 +44,7 @@ function CustomerSignup() {
       if (!response.ok) {
         return setErrorMessage(data.message || 'Registration failed');
       }
-      
+      // if(data.Role === Admin)
       navigate('/');
     } catch (error) {
       setErrorMessage(error.message);
@@ -104,3 +103,5 @@ function CustomerSignup() {
 }
 
 export default CustomerSignup;
+
+
