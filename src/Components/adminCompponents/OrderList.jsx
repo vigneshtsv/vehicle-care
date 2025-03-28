@@ -17,19 +17,21 @@ export default function OrderList() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/order/deliveryboydata`, {
+      const response = await axios.get(`http://localhost:5000/api/order/deliveryboydata`, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
       });
-      
-      setOrders(response.data.deliveryBoy);
-      toast.success('OrderList for Admin Panel')
-      console.log(orders);
+
+      if(response.status===200){
+        setOrders(response.data.deliveryBoy);
+        toast.success('OrderList for Admin Panel')
+        console.log(response.data.deliveryBoy); 
+      }
       
     } catch (error) {
-      console.error("ServiceManData fetching Error:", error);
-      toast.error('ServiceManData fetching Error:')
+      console.error("orders fetching Error:", error);
+      toast.error('orderlist fetching Error:')
     } finally {
       setLoading(false);
     }

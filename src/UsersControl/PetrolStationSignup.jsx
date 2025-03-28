@@ -3,6 +3,8 @@ import { TextInput,Checkbox,Label,FileInput,Button, Alert, Spinner, Textarea } f
 import { Link, useNavigate } from 'react-router-dom';
 import { HiInformationCircle } from 'react-icons/hi';
 import axios from 'axios';
+import { IoMdArrowBack } from 'react-icons/io';
+import { LogInIcon } from 'lucide-react';
 //import { toast } from 'react-toastify';
 
 
@@ -131,76 +133,177 @@ function PetrolStationSignup() {
     });
   }; 
 
-  return <div>
-    <h1>PetrolStation Signup</h1>
-     <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit}>
-     <div className="grid grid-flow-col justify-stretch space-x-4">
-        <TextInput type='text' placeholder='First Name' id='FirstName' onChange={handleChange} required/>
-        <TextInput type='text' placeholder='Last Name' id='LastName' onChange={handleChange} required/>
-      </div>
-      <section>
-      <TextInput type="email" placeholder="vignesh@gmail.com" id='Email' onChange={handleChange} required />
-      <br /> 
-      <TextInput type='tel' placeholder='9014638964' id='PhoneNumber' onChange={handleChange} required />
-      </section>
-      <section>
-        <TextInput type='text' placeholder='Enter Your PetrolStation Name' id='StationName' onChange={handleChange} required />
-      </section>
-      <section>
-       <TextInput type='password' placeholder='Create New Password' id='Password' onChange={handleChange} required />
-       <TextInput type='password' placeholder='Confirm New Password' id='ConfirmPassword' onChange={handleChange} required />
-      </section>
-     <div>
-       <Textarea type='text' placeholder='Enter Your Address' id='Address' onChange={handleChange} required/>
-       </div>
-      <div>
-         <div className='mb-4'>
-           <Label htmlFor='AadharCard'>AadharCard</Label>
-           <TextInput type='file' id='AadharCard' name='AadharCard' onChange={handleFileChange} required/>
-         </div>
-         <div className='mb-4'>
-            <Label htmlFor='PetrolStationCertification'>PetrolStationCertification</Label>
-            <TextInput type='file' id='PetrolStationCertification' name='PetrolStationCertification' onChange={handleFileChange} required/>
-         </div>
-         <div className='mb-4'>
-            <Label htmlFor='ProfilePicture'>ProfilePicture</Label>
-            <TextInput type='file' id='ProfilePicture' name='ProfilePicture' onChange={handleFileChange} required/>
-         </div>
-      </div>
-     <div className="flex items-center gap-2">
-        <Checkbox id="accept" defaultChecked required/>
-        <Label htmlFor="accept" className="flex">
-          I agree with the&nbsp;
-          <a href="/termsconditions" className="text-cyan-600 hover:underline dark:text-cyan-500">
-            terms and conditions
-          </a>
-        </Label>
-      </div>
-      {/* <input id="Role"  type="text"  value="PetrolStation" onChange={handleChange} /> */}
-      <Button type='submit' outline gradientDuoTone="purpleToPink" disabled={loading}>
+  const backPage = () => {
+    navigate(-1);
+  }
+
+  const loginPage = () => {
+    navigate('/');
+  }
+
+  return (
+    <div>
+      <Button onClick={backPage} outline gradientDuoTone="purpleToBlue">
+        <IoMdArrowBack className="mr-2" />
+        Back
+      </Button>
+      <Button onClick={loginPage} outline gradientDuoTone="purpleToBlue">
+        Login <LogInIcon className="mr-2" />
+      </Button>
+      <h1>PetrolStation Signup</h1>
+      <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit}>
+        <div className="grid grid-flow-col justify-stretch space-x-4">
+          <TextInput
+            type="text"
+            placeholder="First Name"
+            id="FirstName"
+            onChange={handleChange}
+            required
+          />
+          <TextInput
+            type="text"
+            placeholder="Last Name"
+            id="LastName"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <section>
+          <TextInput
+            type="email"
+            placeholder="vignesh@gmail.com"
+            id="Email"
+            onChange={handleChange}
+            required
+          />
+          <br />
+          <TextInput
+            type="tel"
+            placeholder="9014638964"
+            id="PhoneNumber"
+            onChange={handleChange}
+            required
+          />
+        </section>
+        <section>
+          <TextInput
+            type="text"
+            placeholder="Enter Your PetrolStation Name"
+            id="StationName"
+            onChange={handleChange}
+            required
+          />
+        </section>
+        <section>
+          <TextInput
+            type="password"
+            placeholder="Create New Password"
+            id="Password"
+            onChange={handleChange}
+            required
+          />
+          <TextInput
+            type="password"
+            placeholder="Confirm New Password"
+            id="ConfirmPassword"
+            onChange={handleChange}
+            required
+          />
+        </section>
+        <div>
+          <Textarea
+            type="text"
+            placeholder="Enter Your Address"
+            id="Address"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <div className="mb-4">
+            <Label htmlFor="AadharCard">AadharCard</Label>
+            <TextInput
+              type="file"
+              id="AadharCard"
+              name="AadharCard"
+              onChange={handleFileChange}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <Label htmlFor="PetrolStationCertification">
+              PetrolStationCertification
+            </Label>
+            <TextInput
+              type="file"
+              id="PetrolStationCertification"
+              name="PetrolStationCertification"
+              onChange={handleFileChange}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <Label htmlFor="ProfilePicture">ProfilePicture</Label>
+            <TextInput
+              type="file"
+              id="ProfilePicture"
+              name="ProfilePicture"
+              onChange={handleFileChange}
+              required
+            />
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <Checkbox id="accept" defaultChecked required />
+          <Label htmlFor="accept" className="flex">
+            I agree with the&nbsp;
+            <a
+              href="/termsconditions"
+              className="text-cyan-600 hover:underline dark:text-cyan-500"
+            >
+              terms and conditions
+            </a>
+          </Label>
+        </div>
+        {/* <input id="Role"  type="text"  value="PetrolStation" onChange={handleChange} /> */}
+        <Button
+          type="submit"
+          outline
+          gradientDuoTone="purpleToPink"
+          disabled={loading}
+        >
           {loading ? (
             <>
-              <Spinner color="purple" aria-label="Purple spinner example" size='sm' />
-              <span className='pl-3'>Loading....</span>
+              <Spinner
+                color="purple"
+                aria-label="Purple spinner example"
+                size="sm"
+              />
+              <span className="pl-3">Loading....</span>
             </>
-          ) : ('Submit')}
+          ) : (
+            "Submit"
+          )}
         </Button>
-  </form>
-        <div className='flex gap-2 text-sm mt-6'>
-              <span>Already Have An Account?</span>
-              <Link to='/' className='text-blue-600'>Sign in</Link>
-        </div>
+      </form>
+      <div className="flex gap-2 text-sm mt-6">
+        <span>Already Have An Account?</span>
+        <Link to="/" className="text-blue-600">
+          Sign in
+        </Link>
+      </div>
       {errorMessage && (
-        <Alert color='failure' icon={HiInformationCircle}>
-          <span className='font-medium me-2'>OOPS!</span> &nbsp; {errorMessage}
+        <Alert color="failure" icon={HiInformationCircle}>
+          <span className="font-medium me-2">OOPS!</span> &nbsp; {errorMessage}
         </Alert>
       )}
       {successMsg && (
-        <Alert color='success' icon={HiInformationCircle}>
-          <span className='font-medium me-2'>Success</span> &nbsp; {successMsg}
-        </Alert> 
+        <Alert color="success" icon={HiInformationCircle}>
+          <span className="font-medium me-2">Success</span> &nbsp; {successMsg}
+        </Alert>
       )}
-  </div>  
+    </div>
+  );  
 }
 
 export default PetrolStationSignup;

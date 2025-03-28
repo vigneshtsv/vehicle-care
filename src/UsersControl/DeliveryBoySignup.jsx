@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { HiInformationCircle } from 'react-icons/hi';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { IoMdArrowBack } from 'react-icons/io';
+import { LogInIcon } from 'lucide-react';
 
 
 function DeliveryBoySignup() {
@@ -137,7 +139,25 @@ function DeliveryBoySignup() {
       DrivingLicence: null,
     });
   };
+
+  const backPage = () => {
+    navigate(-1);
+  }
+
+  const loginPage = () => {
+    navigate('/');
+  }
+
   return <div>
+    <div className="flex space-x-4">
+          <Button onClick={backPage} outline gradientDuoTone="purpleToBlue">
+              <IoMdArrowBack className="mr-2" />
+              Back
+          </Button>
+          <Button onClick={loginPage} outline gradientDuoTone="purpleToBlue">
+              Login <LogInIcon className="mr-2" />
+          </Button>
+    </div>
     <h1>DeliveryBoy Signup</h1>
     <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit} >
       <div className="grid grid-flow-col justify-stretch space-x-4">

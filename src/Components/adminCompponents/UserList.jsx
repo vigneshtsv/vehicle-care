@@ -430,7 +430,7 @@ import { Button,Card,Label,TextInput,Select,Modal,Alert,Table,Spinner } from 'fl
 import {HiOutlineExclamationCircle,HiTrash,HiPencil,HiPlus} from 'react-icons/hi';
 import AdminTopBarPage from './AdminTopBarPage';
 import { useDispatch } from 'react-redux';
-
+import axios from 'axios';
 
 
 const ROLES = ['Admin', 'Customer', 'PetrolStation', 'DeliveryBoy', 'ServiceMan'];
@@ -440,7 +440,7 @@ const initialFormData = {
   LastName: '',
   Email: '',
   PhoneNumber: '',
-  Role: ROLES,
+  Role: ROLES[0],
   Password: ''
 };
 
@@ -471,41 +471,25 @@ const UserList = () => {
     fetchUsers();
   }, []);
   
-  // useEffect(() => {
-  //   setFilteredUsers(
-  //     selectedRole === 'All' 
-  //       ? users 
-  //       : users.filter(user => user.Role === selectedRole)
-  //   );
-  // }, [selectedRole, users]);
-
   useEffect(() => {
-    if (selectedRole === 'All') {
-      setFilteredUsers(users);
-    } else {
-      setFilteredUsers(users.filter(user => user.Role === selectedRole));
-    }  
-  }, [selectedRole, users]);
-  
-  
+      if (selectedRole === 'All') {
+        setFilteredUsers(users);
+      } else {
+        setFilteredUsers(users.filter(user => user.Role === selectedRole));
+      }
+  },[selectedRole,users]);
   
 
   const fetchUsers = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      const response = await fetch(`${API_BASE_URL}/admin/getalluser`, {
-        headers: {
-          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-        }
-      });
-       
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setUsers(data);
-      setFilteredUsers(data)
+      const response = await axios.get(`${API_BASE_URL}/admin/getalluserdata`);
+      console.log(response);
+      const fetchdata = response.data.users
+      console.log(fetchdata);
+      
+      setUsers(fetchdata);
+      setFilteredUsers(fetchdata)
       setError(null);
     } catch (err) {
       setError('Failed to load users. Please try again later.');
@@ -530,7 +514,7 @@ const UserList = () => {
         ? `${API_BASE_URL}/admin/updateuser/${currentUser._id}`
         : `${API_BASE_URL}/auth/register`;  
       
-      const response = await fetch(endpoint, {
+      const response = await fetch(endpoint, {  
         method: isEditing ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -549,7 +533,7 @@ const UserList = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to save user');
+        throw new Error(errorData.message || `Failed to ${isEditing ? 'update' : 'create'} user`);
       }
       
       await fetchUsers();
@@ -588,7 +572,8 @@ const UserList = () => {
       setIsLoading(false);
     }
   };
-
+  console.log(filteredUsers);
+  
   const validateForm = () => {
     if (!currentUser.Email || !currentUser.FirstName || (!isEditing && !currentUser.Password)) {
       setError('Please fill in all required fields');
@@ -693,7 +678,7 @@ const UserList = () => {
                 </Table.Cell>
               </Table.Row>
             ) : (
-              filteredUsers.users.map(user => (
+              filteredUsers.map(user => (
                 <Table.Row key={user.id} className="bg-white">
                   <Table.Cell className="font-medium text-gray-900">
                     {user.FirstName} {user.LastName}

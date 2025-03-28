@@ -1,34 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import TopBar from '../Components/UserComponents/TopBar'
 import Footer from '../Components/UserComponents/Footer'
-import { Alert, Button, Card, Label } from "flowbite-react";
+import { Button, Card, Label } from "flowbite-react";
 import { CarouselOne } from '../Components/Layout/CarouselOne';
 import { Form } from 'react-router-dom';
 import { TextInput } from 'flowbite-react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { setCurrentUser } from '../Redux/Slice/authSlice';
 
 
 function PetrolStationDashboard() {
   const {currentUser} = useSelector(state => state.user);
-  const [petrolData, setPetrolData] = useState([]);
+  const [petrolData, setPetrolData] = useState({});
   const [ currentStation,setCurretStation ] = useState([]);
   const [formData, setFormData] = useState({
-    StationName : `${currentUser.StationName}`,
+    StationName : `${currentUser?.StationName}`,
     Distance : '2.5', 
     PetrolPrice : '',
     DiselPrice : '',
   });
-
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  dispatch(setCurrentUser(localStorage.getItem("user")));
 
   const fetch = async () => {
     try {
       const response = await axios.get(
         `http://localhost:5000/api/petrolstation/getpetroldata`
       );
-      setPetrolData(response.data.petrolStation);
-      setCurretStation(currentUser.StationName === petrolData.StationName)
-      console.log(currentStation);
+      if (response.data && response.data.users && response.data.users.length > 0) {
+        
+        const FetchData = response.data.users[0];
+        setPetrolData(FetchData);
+      }
+      
+      // setCurretStation(currentUser.StationName === petrolData.StationName)
+      console.log(petrolData);
       
     } catch (error) {
       console.error("PetrolStationData fetching Error:", error);
@@ -48,26 +56,39 @@ console.log(currentUser.StationName);
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  console.log(formData);
+  
+  console.log(petrolData.StationName);
+  console.log(currentUser.StationName);
+  
   
   try {
-    const userId = petrolData._id
-    if (currentUser.StationName) {
-      // Pass formData to the API endpoint for updating
-      const response = await axios.put(`http://localhost:5000/api/petrolstation/updatepetroldata/${userId}`);
-     
+    setLoading(true);
+    if (currentUser.StationName === petrolData.StationName) {
+      console.log("Station names match. Update allowed.");
       
+      const StationID = currentUser.StationName;
+      // Pass formData to the API endpoint for updating
+      const response = await axios.put(`http://localhost:5000/api/petrolstation/updatepetroldata/${StationID}`,
+        formData
+      );
       console.log(response.data.message || "Update successful");
-      setFormData(response.data);
+      // setFormData(response.data);
     } else {
-      throw new Error("Station names do not match. Update not allowed.");
+      const response = await axios.post(`http://localhost:5000/api/petrolstation/registerpetroldata`,
+        formData
+      );
+      console.log(response.data.message || "Registration successful");
+      
     }
+
+    setLoading(false);
   } catch (error) {
     console.error("Error in registration/update:", error.message);
   }
   
   console.log(formData.StationName);
 }
+
   return (
     <div>
       <TopBar />
@@ -126,10 +147,10 @@ const handleSubmit = async (e) => {
           </Card>
         </div>
       </div>
-
+      
        {/* Station Details Update */}
       <Card className="max-w-6xl mx-auto">
-        <h2 className="text-2xl font-bold mb-4">Station Details Update Filled <span className='inline-block text-blue-600 font-bold animate-pulse-text'>Its Only PetrolStation Owner</span></h2>
+        <h2 className="text-2xl font-bold mb-4">Station Details Update Filled <span className='text-sm text-lime-200 p-1 bg-red-600 rounded-2xl animate-ping'>Its Only PetrolStation Owner</span></h2>
         <Form className="space-y-6" onSubmit={handleSubmit}>
           <div>
           <Label htmlFor="text">Station Name</Label> 
@@ -138,14 +159,14 @@ const handleSubmit = async (e) => {
 
           <div>
           <Label htmlFor="text">PetrolPrice</Label>
-          <TextInput type="num" name="PetrolPrice" value={formData.PetrolPrice} onChange={handleChange} required/>
+          <TextInput type="number" name="PetrolPrice" value={formData.PetrolPrice} onChange={handleChange} required/>
           </div>
 
           <div>
           <Label htmlFor="text">DiselPrice</Label>
-          <TextInput type="num" name="DiselPrice" value={formData.DiselPrice} onChange={handleChange} required/>
+          <TextInput type="number" name="DiselPrice" value={formData.DiselPrice} onChange={handleChange} required/>
           </div>
-
+           
           <Button type='submit' gradientDuoTone="purpleToPink" outline pill>
             Submit
           </Button>

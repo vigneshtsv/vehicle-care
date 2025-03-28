@@ -41,14 +41,14 @@ function TopBar() {
             </a>
           </li>
           <li className="font-extrabold py-8 text-blue-600 hover:text-sky-500">
-            <a href="/loginform" active={path === "/"} as={"div"}>
+            <a href="/" active={path === "/"} as={"div"}>
               LOGIN
             </a>
           </li>
           <li className="font-extrabold py-8 text-blue-600 hover:text-sky-500">
             <a
-              href="/admintopbarpage"
-              active={path === "/admintopbarpage"}
+              href="/myorders"
+              active={path === "/myorders"}
               as={"div"}
             >
               YOUR ORDER
@@ -60,7 +60,7 @@ function TopBar() {
             arrowIcon={false}
             inline
             label={
-              <Avatar alt="user" img={currentUser.ProfilePicture} rounded />
+              <Avatar alt="user" img={currentUser?.ProfilePicture} rounded />
             }
           >
             <Dropdown.Header className="bg-red-100">

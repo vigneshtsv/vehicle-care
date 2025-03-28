@@ -22,6 +22,7 @@ import MapPage from '../Components/Layout/MapPage.jsx';
 import Search from '../Components/Layout/Search.jsx';
 import { CarouselOne } from '../Components/Layout/CarouselOne.jsx';
 import OrderTracking from '../Components/Layout/OrderTracking.jsx';
+import MyOrders from '../Components/UserComponents/MyOrders.jsx';
 
 
 
@@ -122,6 +123,10 @@ const AppRoutes = [
     {
         path:'/search',
         element:<Search />
+    },
+    {
+        path:'/myorders',
+        element:<MyOrders />
     }
 
 ]

@@ -8,32 +8,6 @@ import Footer from '../UserComponents/Footer';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-// Simulated data
-const MOCK_STATIONS = [
-  {
-    Id: 1,
-    Name: "VLS PetrolStation",
-    Location:"Madurai",
-    latitude: 51.5174,
-    longitude: -0.1378,
-    PetrolPrice: 93.20,
-    DiselPrice: 82.30,
-    Distance: 2.5,
-    Fuel: ["Petrol", "Diesel"]
-  },
-  {
-    Id: 2,
-    Name: "BP PetrolStation",
-    Location:"Madurai",
-    latitude: 51.4974,
-    longitude: -0.1178,
-    PetrolPrice: 94.00,
-    DiselPrice: 84.00,
-    Distance: 3.2,
-    Fuel: ["Petrol", "Diesel"]
-  }
-];
-
 const MOCK_SERVICES = [
   {
     Id: 1,
@@ -42,7 +16,8 @@ const MOCK_SERVICES = [
     longitude: -0.1478,
     Services : ["Repair", "Maintenance"],
     Distance: 4.1,
-    Specialization: "Mountain Bikes"
+    Specialization: "Mountain Bikes",
+    Location: "Madurai, Tamil Nadu",
   },
   {
     Id: 2,
@@ -51,7 +26,18 @@ const MOCK_SERVICES = [
     longitude: -0.1078,
     Services: ["Tune-up", "Emergency Repair"],
     Distance: 5.3,
-    Specialization: "Road Bikes"
+    Specialization: "Road Bikes",
+    Location:"Madurai Main Road, Tamil Nadu",
+  },
+  {
+    Id: 3,
+    Name: "Vignesh Bike Service",
+    latitude: 51.5274,
+    longitude: -0.1478,
+    Services : ["Emergency Repair", "Tyre Puncture"],
+    Distance: 4.1,
+    Specialization: "Mountain Bikes",
+    Location:"Madurai Ring Road, Tamil Nadu",
   }
 ];
 
@@ -66,32 +52,63 @@ const Maps = () => {
   const [infoWindow, setInfoWindow] = useState(null);
   const [selectedProblem, setSelectedProblem] = useState('');
   const [otherDescription, setOtherDescription] = useState('');
-  const [quantityOrderPetrol, setQuantityOrderPetrol] = useState(0);
   const { currentUser } = useSelector((state)=>state.user)
   const [fuelOrder, setFuelOrder] = useState({
     Petrol_Quantity: '',
     Disel_Quantity: ''
   });
-  const [petrolData,setPetrolData]= useState({
-    id:'',
-    Name:'',
-    Location:'',
-    PetrolPrice:'',
-    DiselPrice:"",
-    Distance:"",
-    Fuel: ["Petrol", "Diesel"]
-})
-const [ bikeServiceData,setBikeServiceData ] = useState({
-  Email:'',
-  Distance:2.4 || 4.3 || 3.2,
-  ServiceName:'',
-  Service_Type:'',
-  Problem_Type:'',
-  Description:'',
-  Status: 'Pending',
-})
+  const [petrolData,setPetrolData]= useState([{}])
+  
 const dispatch = useDispatch()
-const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
+const API_KEY = 'gfhlsdhfsdh' || 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
+const BE_API_URL = 'http://localhost:5000/api'
+
+useEffect(() => {
+  fetchPetrolData();
+},[]);
+
+const fetchPetrolData = async () => {
+  try {
+    const response = await axios.get(`${BE_API_URL}/petrolstation/getpetroldata`);
+    if(response.data.users && Array.isArray(response.data.users)) {
+      setPetrolData(response.data.users);
+    } else {
+      console.error("Invalid petrol data received:", response.data);
+      // Incase fetch data error else working on this mock data
+      setPetrolData([
+        {
+          id: 1,
+          StationName: "BP Petrol Station",
+          Location: "Delhi, India",
+          PetrolPrice: 102.5,
+          DiselPrice: 95.5,
+          Distance: 5.2,
+          Fuel: ["Petrol", "Diesel"]
+        },
+        {
+          id: 2,
+          StationName: "HP Petrol Station",
+          Location: "Mumbai, India",
+          PetrolPrice: 105.5,
+          DiselPrice: 97.5,
+          Distance: 7.2,
+          Fuel: ["Petrol", "Diesel"]
+        },
+        {
+          id: 3,
+          StationName: "IOCL Petrol Station",
+          Location: "Bangalore, India",
+          PetrolPrice: 100.5,
+          DiselPrice: 93.5,
+          Distance: 10.2,
+          Fuel: ["Petrol", "Diesel"]
+        }
+      ])
+    }
+  } catch (error) {
+    console.error("Error fetching petrol stations:", error);
+  }
+};
 
   useEffect(() => {
     const loadGoogleMapsScript = () => {
@@ -119,7 +136,7 @@ const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
       
       // Add markers for stations and services
       const newMarkers = [
-        ...MOCK_STATIONS.map(station => {
+        ...petrolData.map(station => {
           const marker = new google.maps.Marker({
             position: { lat: station.latitude, lng: station.longitude },
             map: map,
@@ -137,7 +154,7 @@ const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
             const newInfoWindow = new google.maps.InfoWindow({
               content: `
                 <div class="p-2">
-                  <h3 class="font-semibold">${station.Name}</h3>
+                  <h3 class="font-semibold">${station.StationName}</h3>
                   <p>Distance: ${station.Distance} km</p>
                   <p>Petrol: ₹${station.PetrolPrice}</p>
                   <p>Diesel: ₹${station.DiselPrice}</p>
@@ -169,7 +186,7 @@ const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
             const newInfoWindow = new google.maps.InfoWindow({
               content: `
                 <div class="p-2">
-                  <h3 class="font-semibold">${service.Name}</h3>
+                  <h3 class="font-semibold">${service.StationName}</h3>
                   <p>Distance: ${service.Distance} km</p>
                   <p>Services: ${service.Services.join(', ')}</p>
                 </div>
@@ -240,39 +257,14 @@ const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
   const handleOrderPetrol = (station) => {
     setSelectedStation(station);
     setIsOpenPetrol(true);
-    console.log('handleOrderPetrol fuel from:', station.Name);
+    console.log('handleOrderPetrol fuel from:', station.StationName);
     
   };
 
   const handleBookBikeService = async(service) => {
     setSelectedStation(service);
     setIsOpenBike(true);
-    console.log('handleBookBikeService service from:', service.Name);
-    try {
-      const createdAt = new Date().toISOString();
-
-      const orderData = {
-        Email: currentUser?.Email || '',
-        ServiceName:service.Name || '',
-        Location:service.Location || '',
-        Service_Type:service.Service_Type || '',
-        Problem_Type:service.Problem_Type || '',
-        Description:'',
-        createdAt: createdAt,
-        Status: 'Pending',
-      }
-      const response = await axios.post(`http://localhost:5000/api/order/customerorder?email=${currentUser.Email}`, orderData)
-      if(response.status === 200) {
-        toast.success(`${currentUser.Email} your service Booked Confirmed`)
-        console.log(response);
-        setBikeServiceData(response.data.order)
-      }else {
-        toast.error("Something went wrong with your booking");
-      }
-      
-    } catch (error) {
-      console.error("Error petrolorder creating order:", error);
-    }
+    // console.log('handleBookBikeService service from:', service.StationName);
   };
 
 
@@ -282,14 +274,14 @@ const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
     try {
       const createdAt = new Date().toISOString();
 
-      const orderData = {
+      const orderData = { 
          Email: currentUser?.Email || '',
-         StationName:selectedStation?.Name || '',
-         Location: selectedStation?.Location,
+         StationName:selectedStation?.StationName || '',
+         Location: selectedStation?.Location || 'Madurai, Tamil Nadu',
          createdAt: createdAt,
          Petrol_Price: fuelOrder.Petrol_Quantity * (selectedStation?.PetrolPrice || 0),
          Petrol_Quantity:parseFloat(fuelOrder.Petrol_Quantity) || 0,
-         Status: 'Pending'
+         Status: 'Waiting'
      }
      
      
@@ -297,7 +289,7 @@ const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
                      (orderData.Disel_Price * orderData.Disel_Quantity);
                      orderData.TotalAmount = totalAmount;
  
-      const response = await axios.post(`http://localhost:5000/api/order/customerorder?email=${currentUser.Email}`, orderData)
+      const response = await axios.post(`${BE_API_URL}/order/customerorder?email=${currentUser.Email}`, orderData)
       
       console.log(orderData,response); 
       toast.success(`${currentUser.FirstName} your order Petrol ${orderData.Petrol_Quantity}Ltr Conformed`)  
@@ -316,20 +308,20 @@ const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
 
       const orderData = {
         Email: currentUser?.Email || "",
-        StationName: selectedStation?.Name || "",
-        Location: selectedStation?.Location,
+        StationName: selectedStation?.StationName || "",
+        Location: selectedStation?.Location || "Madurai, Tamil Nadu",
         createdAt: createdAt,
         Disel_Price:
           fuelOrder.Disel_Quantity * (selectedStation?.DiselPrice || 0),
         Disel_Quantity: parseFloat(fuelOrder.Disel_Quantity) || 0,
-        Status: "Pending",
+        Status: "Waiting",
       };
 
       const totalAmount =
         orderData.Petrol_Price * orderData.Petrol_Quantity +
         orderData.Disel_Price * orderData.Disel_Quantity;
       orderData.TotalAmount = totalAmount;
-      const response = await axios.post(`http://localhost:5000/api/order/customerorder?email=${currentUser.Email}`, orderData)
+      const response = await axios.post(`${BE_API_URL}/order/customerorder?email=${currentUser.Email}`, orderData)
       
       toast.success(`${currentUser.FirstName} your order Disel ${orderData.Disel_Quantity}Ltr Received`) 
       console.log(orderData, response);
@@ -338,32 +330,46 @@ const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
     }
   };
   const handleBook = async() => {
-    alert(`handleBook bike service for ${selectedStation.Name}`)
+    if(!selectedStation || !selectedProblem) {
+      toast.error("Please select a problem type");
+      return;
+    }
+    const createdAt = new Date().toISOString();
+
     try {
       const updatedBookingData = {
-        ...bikeServiceData,
+        ...selectedStation,
         Email: currentUser?.Email,
+        ServiceName: selectedStation.Name,
+        Location: selectedStation.Location, 
         Problem_Type: selectedProblem,
         Service_Type: selectedProblem === 'others' ? otherDescription : problemDescriptions[selectedProblem],
-        createdAt: new Date().toISOString()
+        Distance: selectedStation.Distance,
+        Description:'',
+        PhoneNumber: currentUser?.PhoneNumber || '',
+        createdAt: createdAt,
+        Status:'Waiting'
       }
-
-    const response = await axios.post(`http://localhost:5000/api/order/customerorder?email=${currentUser.Email}`,
+     
+    const response = await axios.post(`${BE_API_URL}/order/customerorder?email=${currentUser.Email}`,
       updatedBookingData
     );
 
+    if(response.status === 200) {
     console.log('Service booking response:', response);
     toast.success(`${currentUser.FirstName}, your bike service booking with ${selectedStation.Name} has been confirmed!`);
 
     // setSelectedProblem('');
     // setOtherDescription('');
     setIsOpenBike(false);
-
+    } else {
+      toast.error("Something went wrong with your booking.");
+    }
     } catch (error) {
       console.error("Error booking bike service:", error);
       toast.error("Failed to book bike service. Please try again.");
     }
-  }
+  };
   const handleQuantityChange = (e) => {
     const { id, value } = e.target;
     setFuelOrder(prev => ({
@@ -408,14 +414,14 @@ const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
             <h2 className="text-2xl font-bold mb-4 flex items-center">
               <Fuel className="mr-2 text-blue-600" /> Nearby Petrol Stations
             </h2>
-            {MOCK_STATIONS.map((station) => (
+            {petrolData.map((station) => (
               <div
                 key={station.Id}
                 className="border p-4 mb-4 rounded-lg shadow-sm hover:bg-gray-50 transition"
               >
                 <div className="flex items-center mb-2">
                   <Fuel className="mr-2 text-xl text-yellow-600" />
-                  <h3 className="font-semibold text-lg">{station.Name}</h3>
+                  <h3 className="font-semibold text-lg">{station.StationName}</h3>
                 </div>
                 <p className="text-gray-600 flex items-center">
                   <MapPin className="mr-2 text-red-500" />
@@ -599,7 +605,7 @@ const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
                       Please describe your problem in detail below
                     </p>
                   </div>
-                  <textarea
+                  <Textarea
                     value={otherDescription}
                     onChange={(e) => setOtherDescription(e.target.value)}
                     placeholder="Describe your problem here..."

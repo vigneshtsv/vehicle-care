@@ -17,7 +17,6 @@ const userSlice = createSlice({
       state.error = null;
     },
     signInSuccess : (state,action) => {
-      state.currentUser = action.payload;
       state.loading = false;
       state.error = null;
     },
@@ -26,22 +25,23 @@ const userSlice = createSlice({
       state.error = action.payload;
     },
     setCurrentUser : (state,action) => {
+      console.log(action.payload);
+      
       state.currentUser = action.payload;
     },
     userList:(state,action) => {
       state.userList = action.payload;
+    },
+    signOutSuccess : (state) => {      
+      state.currentUser = null;
+      state.loading = false;
     }
-    // signOutSuccess : (state) => {       //!signOut method in used Redux
-    //   state.currentUser = null;
-    //   state.loading = false;
-    //   state.error = null;
-    // }
     
   }
 })
 
 //Export actions
-export const {signInStart,signInSuccess,signInFailure,setCurrentUser,userList} = userSlice.actions;
+export const {signInStart,signInSuccess,signInFailure,setCurrentUser,userList,signOutSuccess} = userSlice.actions;
 //Export reducer
 export default userSlice.reducer;
 

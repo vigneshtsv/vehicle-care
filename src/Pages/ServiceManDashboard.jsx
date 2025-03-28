@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from "react";
 import TopBar from "../Components/UserComponents/TopBar";
 import Footer from "../Components/UserComponents/Footer";
-import { Card, Carousel } from "flowbite-react";
+import { Button, Card, Carousel } from "flowbite-react";
 import { Bell, Box, Calendar, Clock, Map, MapPin, Truck } from "lucide-react";
 import axios from "axios";
 import { BiCurrentLocation } from "react-icons/bi";
 import { CarouselOne } from "../Components/Layout/CarouselOne";
+import { useNavigate } from "react-router-dom";
+import { CiDeliveryTruck } from "react-icons/ci";
+import { GiStorkDelivery } from "react-icons/gi";
 
 const ServiceManDashboard = () => {
   const [notifications, setNotifications] = useState([]);
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(false);
+  const [selectedOrder,setSelectedOrder] = useState(null);
+  const [isPopupOpen,setIsPopupOpen] = useState(false);
+  const [isDeliveryPopupOpen,setIsDeliveryPopupOpen] = useState(false);
+  
+
+  const Navigate = useNavigate();
   console.log(orders);
   
   const fetchData = async () => {
@@ -54,6 +63,85 @@ const ServiceManDashboard = () => {
     }
   };
 
+  const OrderTrackingNavigate = () => {
+    Navigate('/ordertracking');
+  };
+
+  const handlePickupOrder = (order) => {
+    setSelectedOrder(order);
+    setIsPopupOpen(true);
+  }
+
+  const handleConfirmPickup = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/order/updateorderdata/${selectedOrder._id}`,
+        {
+          id: selectedOrder._id,
+          Status: "Processing",
+        }
+      );
+
+      if (response.status === 200) {
+        setOrders(
+          orders.map((order) =>
+            order._id === selectedOrder._id
+              ? { ...order, Status: "Processing" }
+              : order
+          )
+        );
+        toast.success("Order picked up successfully");
+      }
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      toast.error("Failed to update order status");
+    } finally {
+      setLoading(false);
+      setIsPopupOpen(false);
+    }
+  };
+  
+  const handleDeliveryDetails = (order) => {
+    setSelectedOrder(order);
+    setIsDeliveryPopupOpen(true);
+  }
+
+  const handleCompleteDelivery = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.put(`http://localhost:5000/api/order/updateorderdata/${selectedOrder._id}`,{
+        id: selectedOrder._id,
+        Status: 'Completed'
+      })
+
+      if(response.status === 200){
+        setOrders(
+          orders.map((order) =>
+            order._id === selectedOrder._id
+              ? { ...order, Status: "Completed" }
+              : order
+          )
+        );
+        toast.success("Order delivered successfully");
+      }
+    } catch (error) {
+      console.error('Error updating order status:',error);
+      toast.error("Failed to update order status");
+    }finally{
+      setLoading(false);
+      setIsDeliveryPopupOpen(false);
+  }
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  }
+
+  const handleCloseDeliveryPopup = () => {
+    setIsDeliveryPopupOpen(false);
+  }
+
   return (
     <>
       <TopBar />
@@ -61,73 +149,25 @@ const ServiceManDashboard = () => {
         <CarouselOne />
       </div>
 
-      <div className="p-6">
-        <h2 className="text-4xl font-bold mb-6 text-gray-800 ">Dashboard</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* This month revenue */}
-          {/* <Card href="#" className="max-w-sm">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              TOTAL REVENUE
-            </h5>
-            <div className="flex flex-row justify-between">
-              <div>10.10</div>
-              <div>RS.100</div>
-            </div>
-            <div className="flex flex-row justify-between">
-              <span>Services</span>
-              <span>Amount</span>
-            </div>
-          </Card> */}
-
-          {/* This week revenue */}
-          {/* <Card href="#" className="max-w-sm">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              THIS MONTH REVENUE
-            </h5>
-            <div className="flex flex-row justify-between">
-              <div>10.10</div>
-              <div>RS.100</div>
-            </div>
-            <div className="flex flex-row justify-between">
-              <span>Services</span>
-              <span>Amount</span>
-            </div>
-          </Card> */}
-
-          {/* Today revenue */}
-          {/* <Card href="#" className="max-w-sm">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              TODAY REVENUE
-            </h5>
-            <div className="flex flex-row justify-between">
-              <div>10.10</div>
-              <div>RS.100</div>
-            </div>
-            <div className="flex flex-row justify-between">
-              <span>Services</span>
-              <span>Amount</span>
-            </div>
-          </Card> */}
-        </div>
-      </div>
-
-      {/* Service Notification */}
+      {/* Waiting Order Notification */}
       <div>
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold">Bike Service Orders</h1>
+            <h1 className="text-2xl font-bold">Waiting Orders Notifications</h1>
             <div className="relative">
               <Bell className="h-6 w-6 text-gray-600" />
-              
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
-                {orders.filter((msg) => msg.Status === "Processing").length}
-                </span>
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
+                {orders.filter((order) => order.Status === "Waiting" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
+                        (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== ""))).length}
+              </span>
             </div>
           </div>
         </div>
 
         <div className="grid gap-6">
-          {orders.map((order) => (
+          {orders.filter((order) => order.Status === "Waiting" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
+                        (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== "")))
+          .map((order) => (
             <div key={order.id} className="bg-white rounded-lg shadow-md p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg">{order.Email}</h3>
@@ -148,11 +188,15 @@ const ServiceManDashboard = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-gray-500" />
-                    <span className="text-sm">{formatDateTime(order.createdAt)}</span>
+                    <span className="text-sm">
+                      {formatDateTime(order.createdAt)}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <BiCurrentLocation className="h-4 w-4 text-gray-500" />
-                    <span className="text-sm">{order.Distance} - KiloMeters</span>
+                    <span className="text-sm">
+                      {order.Distance} - KiloMeters
+                    </span>
                   </div>
                 </div>
 
@@ -166,33 +210,258 @@ const ServiceManDashboard = () => {
                 </div>
 
                 <div className="flex gap-3 pt-2">
-                  <button
-                    className="flex items-center gap-2 px-4 py-2 border rounded-md hover:bg-gray-50 transition-colors"
-                    //onClick={() => console.log('Pickup:', order.id)}
+                  <Button 
+                    outline gradientDuoTone="greenToBlue"
+                    onClick={() => handlePickupOrder(order)}
                   >
                     <Box className="h-4 w-4" />
                     Pickup
-                  </button>
-                  <button
-                    className="flex items-center gap-2 px-4 py-2 border rounded-md hover:bg-gray-50 transition-colors"
-                    //onClick={() => console.log('Delivery:', order.id)}
+                  </Button>
+                  <Button
+                    outline gradientDuoTone="greenToBlue"
+                    onClick={() => handleDeliveryDetails(order)}
                   >
                     <Truck className="h-4 w-4" />
-                    Delivery
-                  </button>
-                  <button
-                    className="flex items-center gap-2 px-4 py-2 border rounded-md hover:bg-gray-50 transition-colors"
-                    //onClick={() => console.log('Plan Trip:', order.id)}
+                    Delivery Details
+                  </Button>
+                  <Button
+                    outline gradientDuoTone="greenToBlue"
+                    onClick={OrderTrackingNavigate}
                   >
                     <Map className="h-4 w-4" />
                     Plan Trip
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Processing Order Notification */}
+      <div>
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold">Processing Orders Notifications</h1>
+            <div className="relative">
+              <Bell className="h-6 w-6 text-gray-600" />
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
+                {orders.filter((order) => order.Status === "Processing" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
+                        (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== ""))).length}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-6">
+          {orders.filter((order) => order.Status === "Processing" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
+                        (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== "")))
+          .map((order) => (
+            <div key={order.id} className="bg-white rounded-lg shadow-md p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-semibold text-lg">{order.Email}</h3>
+                <span
+                  className={`px-3 py-1 rounded-full text-sm ${getStatusColor(
+                    order.Status
+                  )}`}
+                >
+                  {order.Status.charAt(0).toUpperCase() + order.Status.slice(1)}
+                </span>
+              </div>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm">{order.Location}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm">
+                      {formatDateTime(order.createdAt)}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BiCurrentLocation className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm">
+                      {order.Distance} - KiloMeters
+                    </span>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <p className="text-sm">
+                    <strong>Services:</strong> {order.Service_Type}
+                  </p>
+                  <p className="text-sm">
+                    <strong>Problems:</strong> {order.Problem_Type}
+                  </p>
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  
+                 <Button
+                    outline gradientDuoTone="greenToBlue"
+                    onClick={() => handleDeliveryDetails(order)}
+                  >
+                    <CiDeliveryTruck className="h-4 w-4" />
+                    Delivery
+                  </Button>
+                  <Button
+                    outline gradientDuoTone="greenToBlue"
+                    onClick={OrderTrackingNavigate}
+                  >
+                    <Map className="h-4 w-4" />
+                    Plan Trip
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Completed Order Notification */}
+      <div>
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold">Completed Orders Notifications</h1>
+            <div className="relative">
+              <Bell className="h-6 w-6 text-gray-600" />
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
+                {orders.filter((order) => order.Status === "Completed" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
+                        (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== ""))).length}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-6">
+          {orders.filter((order) => order.Status === "Completed" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
+                        (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== "")))
+          .map((order) => (
+            <div key={order.id} className="bg-white rounded-lg shadow-md p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-semibold text-lg">{order.Email}</h3>
+                <span
+                  className={`px-3 py-1 rounded-full text-sm ${getStatusColor(
+                    order.Status
+                  )}`}
+                >
+                  {order.Status.charAt(0).toUpperCase() + order.Status.slice(1)}
+                </span>
+              </div>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm">{order.Location}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm">
+                      {formatDateTime(order.createdAt)}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BiCurrentLocation className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm">
+                      {order.Distance} - KiloMeters
+                    </span>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <p className="text-sm">
+                    <strong>Services:</strong> {order.Service_Type}
+                  </p>
+                  <p className="text-sm">
+                    <strong>Problems:</strong> {order.Problem_Type}
+                  </p>
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <Button
+                    outline gradientDuoTone="greenToBlue"
+                    onClick={() => handleDeliveryDetails(order)}
+                  >
+                    <GiStorkDelivery className="h-4 w-4" />
+                    Delivery Details
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* Pickup Order Popup */}
+      {isPopupOpen && selectedOrder && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white p-6 rounded-lg shadow-xl w-96">
+                  <h2 className="text-xl font-bold mb-4">Pickup Confirmation</h2>
+                  <p className="mb-4">Order for: {selectedOrder.Email}</p>
+                  <p className="mb-4">Delivery Address: {selectedOrder.Location}</p>
+      
+                  <div className="flex justify-between">
+                    <Button
+                      onClick={handleConfirmPickup}
+                      outline gradientDuoTone="greenToBlue"
+                    >
+                      Confirm Pickup
+                    </Button>
+      
+                    <Button
+                      onClick={handleClosePopup}
+                      outline gradientDuoTone="pinkToOrange"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+      {/* Delivery Details Popup */}
+      {isDeliveryPopupOpen && selectedOrder && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl w-96">
+            <h2 className="text-xl font-bold mb-4">Delivery Details</h2>
+            <p className="mb-2">Customer: {selectedOrder.Email}</p>
+            <p className="mb-2">Location: {selectedOrder.Location}</p>
+            <p className="mb-2">Station: {selectedOrder.StationName}</p>
+            
+            {selectedOrder.Petrol_Quantity > 0 && (
+              <p className="mb-2">Petrol: {selectedOrder.Petrol_Quantity} Liters</p>
+            )}
+            
+            {selectedOrder.Disel_Quantity > 0 && (
+              <p className="mb-2">Diesel: {selectedOrder.Disel_Quantity} Liters</p>
+            )}
+            
+            <p className="mb-4">Status: {selectedOrder.Status}</p>
+
+            <div className="flex justify-between">
+              {selectedOrder.Status === "Processing" && (
+                <Button
+                  onClick={handleCompleteDelivery}
+                  outline gradientDuoTone="greenToBlue"
+                >
+                  Mark as Delivered
+                </Button>
+              )}
+
+              <Button
+                onClick={handleCloseDeliveryPopup}
+                outline gradientDuoTone="pinkToOrange"
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Carousel Part */}
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">

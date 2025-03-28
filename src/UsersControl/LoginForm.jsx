@@ -304,6 +304,11 @@ const LoginForm = () => {
            {
              dispatch(signInSuccess(data.message));
              toast.success(data.message)
+
+             localStorage.setItem('user', JSON.stringify({...data.user, AadharCard: null,ProfilePicture
+:null             }));
+            //  dispatch(setCurrentUser(sessionStorage.getItem(JSON.parse(data.user))));
+
              sessionStorage.setItem('token',data.token)
              sessionStorage.setItem('Role',data.user.Role)
              sessionStorage.setItem('Id',data.user.Id)
@@ -321,7 +326,6 @@ const LoginForm = () => {
                  }else{
                    navigate('/servicemandashboard')
                  }
-                 console.log(currentUser);  
                  
                  
            }else{
@@ -331,6 +335,7 @@ const LoginForm = () => {
            }
  
          } catch (error) {
+          console.log(error);
            toast.error(error.response?.data?.message || 'Error accurred during login.');
            dispatch(signInFailure(error.message));
          }    

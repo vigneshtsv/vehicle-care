@@ -1,75 +1,5 @@
-// import React from 'react'
-// import TopBar from '../Components/UserComponents/TopBar'
-// import { Carousel } from "flowbite-react";
-// import { Card } from "flowbite-react"
-// import Footer from '../Components/UserComponents/Footer';
-
-// function DeliveryBoyDashboard() {
-//   return <>
-//   <TopBar />
-//   <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-//       <Carousel>
-//         <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
-//         <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="..." />
-//         <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
-//         <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
-//         <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." />
-//       </Carousel>
-//     </div>
-//     <div className='flex flex-row justify-between'>
-//       {/* card with plan a trip */}
-//        <Card
-//          className="max-w-sm m-5"
-//          imgAlt="pickup"
-//          imgSrc=""
-//        >
-//          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-//            Pickup
-//          </h5>
-//        </Card>
-//        {/* card with plan a trip */}
-//        <Card
-//          className="max-w-sm m-5"
-//          imgAlt="Delivery"
-//          imgSrc=""
-//        >
-//          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-//              Delivery
-//          </h5>
-//        </Card>
-//        {/* card with plan a trip */}
-//        <Card
-//          className="max-w-sm m-5"
-//          imgAlt="Plan a Trip"
-//          imgSrc=""
-//        >
-//          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-//            Plan a Trip
-//          </h5>
-//        </Card>
-//      </div>
-//        {/* Carousel of the photos */}
-//       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-//           <Carousel>
-//             <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
-//             <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="..." />
-//             <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
-//             <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
-//             <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." />
-//           </Carousel>
-//      </div>
-//      <Footer />
-//   </>
-// }
-
-// export default DeliveryBoyDashboard
-
-
-//!calude.ai react code with deliveryboydashboard
-
-
 import React, { useEffect, useState } from 'react';
-import { Card, Carousel } from "flowbite-react";
+import { Button, Card } from "flowbite-react";
 import TopBar from '../Components/UserComponents/TopBar';
 import Footer from '../Components/UserComponents/Footer';
 import { Bell, CheckCircle, Map, Truck } from 'lucide-react';
@@ -84,14 +14,18 @@ const DeliveryBoyDashboard = () => {
   const navigate= useNavigate()
   const [orders, setOrders] = useState([]);
   const [loaing,setLoading] = useState(false);
-  
+  const [isDeliveryPopupOpen, setIsDeliveryPopupOpen] = useState(false);
+
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:5000/api/order/deliveryboydata');
-      setOrders(response.data.deliveryBoy);
-      console.log(orders);
+      const response = await axios.get(`http://localhost:5000/api/order/deliveryboydata`);  
       
+      if(response.status===200){
+        setOrders(response.data.deliveryBoy);
+        toast.success('DeliveryBoyData fetched successfully')
+        console.log(response.data.deliveryBoy);
+      }
     } catch (error) {
       console.error('DeliveryBoyData fetching Error:',error);
     }
@@ -104,23 +38,69 @@ const DeliveryBoyDashboard = () => {
   useEffect(() => {
     fetchData()
   },[]);
-  // // Sample orders
-  // const orders = [
-  //   { id: 1, customer: "John Doe", address: "123 Main St", status: "Pending Pickup" },
-  //   { id: 2, customer: "Jane Smith", address: "456 Elm St", status: "In Transit" }
-  // ];
 
   const handlePickupOrder = (order) => {
     setSelectedOrder(order);
     setIsPopupOpen(true);
-    setOrders(orders.map(msg => 
-      msg.id === order.id ? {...msg, Status: 'Processing'} : msg
-    ));
+    console.log(selectedOrder);
+    
+  };
+
+  const handleConfirmPickup = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.put(`http://localhost:5000/api/order/updateorderdata/${selectedOrder._id}`,{
+        id: selectedOrder._id,
+        Status: 'Processing'
+      });
+
+      if(response.status===200){
+        setOrders(orders.map(order => order._id === selectedOrder._id ? {...order, Status: 'Processing'} : order));
+        toast.success('Order picked up successfully');
+        setIsPopupOpen(false);
+      }
+    } catch (error) {
+      console.error('Error updating order status:',error);
+      toast.error('Failed to update order status');
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  const handleDeliveryDetails = (order) => {
+    setSelectedOrder(order);
+    setIsDeliveryPopupOpen(true);
+  };
+
+  const handleCompleteDelivery = async () => {
+    setLoading(true);
+    try {
+      const response =await axios.put(`http://localhost:5000/api/order/updateorderdata/${selectedOrder._id}`,{
+        id: selectedOrder._id,
+        Status: 'Completed'
+      });
+
+      if(response.status===200){
+        setOrders(orders.map(order => order._id === selectedOrder._id ? {...order, Status: 'Completed'} : order));
+        toast.success('Order delivered successfully');
+        setIsDeliveryPopupOpen(false);
+      }
+    }catch (error) {
+      console.error('Error updating order status:',error);
+      toast.error('Failed to update order status');
+  }finally{
+    setLoading(false);
+  }
   };
 
   const handleClosePopup = () => {
     setIsPopupOpen(false);
   };
+
+  const handleCloseDeliveryPopup = () => {
+    setIsDeliveryPopupOpen(false);
+  };
+
   const formatDateTime = (dateTime) => {
     return new Date(dateTime).toLocaleString();
   };
@@ -129,29 +109,33 @@ const DeliveryBoyDashboard = () => {
   }
 
   return (
+    <>
+    <TopBar />
     <div className="container mx-auto p-4">
-      <TopBar />
       {/* Image Carousel Section */}
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
         <CarouselOne />
       </div>
 
 
-      {/*Processing Orders and Actions Sections */}
+      {/*Waiting Orders and Actions Sections */}
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Petrol Delivery Orders</h1>
+          <h1 className="text-3xl font-bold">Waiting Orders</h1>
           <div className="relative">
             <Bell className="h-6 w-6 text-gray-600" />
             <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-              {orders.filter((msg) => msg.Status === "Processing").length}
+            {orders.filter((order) => order.Status === "Waiting" && 
+                ((typeof order.Petrol_Quantity === 'number' && order.Petrol_Quantity > 0) || 
+                (typeof order.Disel_Quantity === 'number' && order.Disel_Quantity > 0))).length}
             </span>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {orders
-            .filter((order) => order.Status === "Processing") // Filter for 'In Process' orders
+        {orders.filter((order) => order.Status === "Waiting" && 
+                ((typeof order.Petrol_Quantity === 'number' && order.Petrol_Quantity > 0) || 
+                (typeof order.Disel_Quantity === 'number' && order.Disel_Quantity > 0)))
             .map((order) => (
               <Card
                 key={order.id}
@@ -183,25 +167,56 @@ const DeliveryBoyDashboard = () => {
                     </span>
                   </div>
                 </div>
+
+                {/* pickup and plan trip buttons */}
+                <div className="flex space-x-3">
+                <Button
+                  onClick={() => handlePickupOrder(order)}
+                  gradientMonochrome="info"
+                >
+                  <Truck className="h-4 w-4 mr-2" />
+                  Pickup Order
+                </Button>
+
+                <Button 
+                onClick={()=> handleDeliveryDetails(order)}
+                gradientMonochrome="lime">
+                  <CheckCircle className="h-4 w-4 mr-2" />
+                  Delivery Details
+                </Button>
+
+                <Button
+                  gradientMonochrome="purple"
+                  onClick={OrderTrackingNavigate}
+                >
+                  <Map className="h-4 w-4 mr-2" />
+                  Plan Trip
+                </Button>
+              </div>
               </Card>
             ))}
         </div>
       </div>
 
-      {/*Pending Orders and Actions Sections */}
+      {/*Prcessing Orders and Actions Sections */}
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Petrol Delivery Orders</h1>
+          <h1 className="text-3xl font-bold">Processing Orders</h1>
           <div className="relative">
             <Bell className="h-6 w-6 text-gray-600" />
             <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-              {orders.filter((msg) => msg.status === "Waiting" && msg.status === "Completed").length}
+            {orders.filter((order) => order.Status === "Processing" && 
+                ((typeof order.Petrol_Quantity === 'number' && order.Petrol_Quantity > 0) || 
+                (typeof order.Disel_Quantity === 'number' && order.Disel_Quantity > 0))).length}
             </span>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {orders.map((order) => (
+        {orders.filter((order) => order.Status === "Processing" && 
+                ((typeof order.Petrol_Quantity === 'number' && order.Petrol_Quantity > 0) || 
+                (typeof order.Disel_Quantity === 'number' && order.Disel_Quantity > 0)))
+            .map((order) => (
             <Card
               key={order.id}
               className="bg-white shadow-md rounded-lg p-4 border"
@@ -233,65 +248,169 @@ const DeliveryBoyDashboard = () => {
                   </div>
               </div>
 
-              <div className="flex space-x-3">
-                <button
-                  onClick={() => handlePickupOrder(order)}
-                  className="flex items-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+              {/* Buttons pickup and plan trip */}
+              <div className="flex space-x-2">
+                <Button 
+                onClick={()=> handleDeliveryDetails(order)}
+                gradientDuoTone="purpleToPink"
                 >
-                  <Truck className="h-4 w-4 mr-2" />
-                  Pickup Order
-                </button>
-
-                <button className="flex items-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
                   <CheckCircle className="h-4 w-4 mr-2" />
                   Delivery Details
-                </button>
+                </Button>
 
-                <button
-                  className="flex items-center bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition"
+                <Button
+                  gradientDuoTone="tealToLime"
                   onClick={OrderTrackingNavigate}
                 >
                   <Map className="h-4 w-4 mr-2" />
                   Plan Trip
-                </button>
+                </Button>
               </div>
             </Card>
           ))}
         </div>
       </div>
 
+      {/*Completed Orders and Actions Sections */}
+      <div className="p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">Completed Orders</h1>
+          <div className="relative">
+            <Bell className="h-6 w-6 text-gray-600" />
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+            {orders.filter((order) => order.Status === "Completed" && 
+                ((typeof order.Petrol_Quantity === 'number' && order.Petrol_Quantity > 0) || 
+                (typeof order.Disel_Quantity === 'number' && order.Disel_Quantity > 0))).length}
+            </span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {orders.filter((order) => order.Status === "Completed" && 
+                ((typeof order.Petrol_Quantity === 'number' && order.Petrol_Quantity > 0) || 
+                (typeof order.Disel_Quantity === 'number' && order.Disel_Quantity > 0)))
+            .map((order) => (
+            <Card
+              key={order.id}
+              className="bg-white shadow-md rounded-lg p-4 border"
+            >
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold mb-2">
+                  Email Id:{order.Email}
+                </h3>
+                <h4>PetrolStation Name:{order.StationName}</h4>
+                <p className="text-gray-600 mb-1">{order.Location}</p>
+                <p className="text-sm text-gray-500">
+                  {formatDateTime(order.createdAt)}
+                </p>
+                <div className="mt-2">
+                    {order.Petrol_Quantity > 0 && (
+                      <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
+                        {order.Petrol_Quantity}-Ltr {order.Petrol_Price}
+                      </span>
+                    )}
+                    <br />
+                    {order.Disel_Quantity > 0 && (
+                      <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
+                        {order.Disel_Quantity}-Ltr {order.Petrol_Price}
+                      </span>
+                    )}
+                    <span className="ml-2 inline-block text-sm px-2 py-1 rounded bg-blue-100 text-blue-800">
+                      {order.Status}
+                    </span>
+                  </div>
+              </div>
+
+              {/* Buttons pickup and plan trip */}
+              <div className="flex">
+                <Button 
+                onClick={()=> handleDeliveryDetails(order)}
+                gradientDuoTone="redToYellow"
+                >
+                  <CheckCircle className="h-4 w-4 mr-2" />
+                  Delivery Details
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+
       {/* Popup for Order Pickup */}
       {isPopupOpen && selectedOrder && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-xl w-96">
             <h2 className="text-xl font-bold mb-4">Pickup Confirmation</h2>
-            <p className="mb-4">Order for: {selectedOrder.customer}</p>
-            <p className="mb-4">Delivery Address: {selectedOrder.address}</p>
+            <p className="mb-4">Order for: {selectedOrder.Email}</p>
+            <p className="mb-4">Delivery Address: {selectedOrder.Location}</p>
 
             <div className="flex justify-between">
-              <button
-                onClick={() => {
-                  /* Confirm pickup logic */
-                }}
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+              <Button
+                onClick={handleConfirmPickup}
+                outline gradientDuoTone="greenToBlue"
               >
                 Confirm Pickup
-              </button>
+              </Button>
 
-              <button
+              <Button
                 onClick={handleClosePopup}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                outline gradientDuoTone="pinkToOrange"
               >
                 Cancel
-              </button>
+              </Button>
             </div>
           </div>
         </div>
       )}
+        
+        {/* Popup for Order Delivery Details */}
+        {isDeliveryPopupOpen && selectedOrder && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl w-96">
+            <h2 className="text-xl font-bold mb-4">Delivery Details</h2>
+            <p className="mb-2">Customer: {selectedOrder.Email}</p>
+            <p className="mb-2">Location: {selectedOrder.Location}</p>
+            <p className="mb-2">Station: {selectedOrder.StationName}</p>
+            
+            {selectedOrder.Petrol_Quantity > 0 && (
+              <p className="mb-2">Petrol: {selectedOrder.Petrol_Quantity} Liters</p>
+            )}
+            
+            {selectedOrder.Disel_Quantity > 0 && (
+              <p className="mb-2">Diesel: {selectedOrder.Disel_Quantity} Liters</p>
+            )}
+            
+            <p className="mb-4">Status: {selectedOrder.Status}</p>
+
+            <div className="flex justify-between">
+              {selectedOrder.Status === "Processing" && (
+                <Button
+                  onClick={handleCompleteDelivery}
+                  outline gradientDuoTone="greenToBlue"
+                >
+                  Mark as Delivered
+                </Button>
+              )}
+
+              <Button
+                onClick={handleCloseDeliveryPopup}
+                outline gradientDuoTone="pinkToOrange"
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+
       <CarouselOne />
       <br />
       <Footer />
     </div>
+    </>
   );
 };
 export default DeliveryBoyDashboard;

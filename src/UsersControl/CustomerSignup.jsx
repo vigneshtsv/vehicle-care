@@ -115,7 +115,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Label, Textarea, TextInput } from 'flowbite-react';
-
+import { useNavigate } from 'react-router-dom';
+import { IoMdArrowBack } from "react-icons/io";
+import { LogInIcon } from 'lucide-react';
 
 const CustomerSignup = () => {
   const [formData, setFormData] = useState({
@@ -137,6 +139,7 @@ const CustomerSignup = () => {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const navigate = useNavigate();
 
   // Handle text input changes
   const handleInputChange = (e) => {
@@ -211,7 +214,6 @@ const CustomerSignup = () => {
       console.log(response.data);
       setFormData(response.data.user)
       // Optionally reset form
-      resetForm();
       console.log(response.data.token);
       
       if(response.data.token) {
@@ -219,8 +221,8 @@ const CustomerSignup = () => {
         axios.defaults.headers.common['Authorization'] = `Bearer${response.data.token}`;
         setSuccessMsg('Registration Successfully');
         resetForm();
-        navigate('/')
         toast.success('Customer Registration Successfully')
+        setTimeout(() => navigate('/'), 1500);
       }
     } catch (error) {
       setErrorMsg(
@@ -251,166 +253,168 @@ const CustomerSignup = () => {
     });
   };
 
+  const backPage = () => {
+    navigate(-1);
+  }
+
+  const loginPage = () => {
+    navigate('/');
+  }
+
+
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
-    <h2 className="text-2xl font-bold mb-6 text-center">Customer Registration</h2>
-    
-    <form onSubmit={handleSubmit} encType="multipart/form-data">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="FirstName">
-            First Name *
-          </Label>
-          <TextInput
-            type="text"
-            id="FirstName"
-            name="FirstName"
-            value={formData.FirstName}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        
-        <div>
-          <Label htmlFor="LastName">
-            Last Name *
-          </Label>
-          <TextInput
-            type="text"
-            id="LastName"
-            name="LastName"
-            value={formData.LastName}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-      </div>
-      
-      <div className="mb-4">
-        <Label htmlFor="Email">
-          Email *
-        </Label>
-        <TextInput
-          type="email"
-          id="Email"
-          name="Email"
-          value={formData.Email}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      
-      <div className="mb-4">
-        <Label htmlFor="PhoneNumber">
-          Phone Number *
-        </Label>
-        <TextInput
-          type="tel"
-          id="PhoneNumber"
-          name="PhoneNumber"
-          value={formData.PhoneNumber}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="mb-4">
-          <Label htmlFor="Password">
-            Password *
-          </Label>
-          <TextInput
-            type="password"
-            id="Password"
-            name="Password"
-            value={formData.Password}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        
-        <div className="mb-4">
-          <Label htmlFor="ConfirmPassword">
-            Confirm Password *
-          </Label>
-          <TextInput
-            type="password"
-            id="ConfirmPassword"
-            name="ConfirmPassword"
-            value={formData.ConfirmPassword}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-      </div>
-      
-      <div className="mb-4">
-        <Label htmlFor="Address">
-          Address
-        </Label>
-        <Textarea
-          id="Address"
-          name="Address"
-          value={formData.Address}
-          onChange={handleInputChange}
-          rows="3"
-        ></Textarea>
-      </div>
-      
-      {/* File upload fields */}
-      <h3 className="text-lg font-semibold mt-6 mb-4">Upload Documents</h3>
-      
-      <div className="mb-4">
-        <Label htmlFor="AadharCard">
-          Aadhar Card *
-        </Label>
-        <TextInput
-          type="file"
-          id="AadharCard"
-          name="AadharCard"
-          onChange={handleFileChange}
-          required
-        />
-      </div>
-
-      <div className="mb-4">
-        <Label htmlFor="ProfilePicture">
-        ProfilePicture *
-        </Label>
-        <TextInput
-          type="file"
-          id="ProfilePicture"
-          name="ProfilePicture"
-          onChange={handleFileChange}
-          required
-        />
-      </div>
-      
-      <div>
-        <Button
-          type="submit"
-          gradientDuoTone="purpleToPink"
-          disabled={loading}
-        >
-          {loading ? 'Registering...' : 'Register'}
+      <div className="flex space-x-4">
+        <Button onClick={backPage} outline gradientDuoTone="purpleToBlue">
+          <IoMdArrowBack className="mr-2" />
+          Back
+        </Button>
+        <Button onClick={loginPage} outline gradientDuoTone="purpleToBlue">
+          Login <LogInIcon className="mr-2" />
         </Button>
       </div>
-    </form>
-    <div>
-    {errorMsg && (
-      <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-        {errorMsg}
+      <h2 className="text-2xl font-bold mb-6 text-center">
+        Customer Registration
+      </h2>
+
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="FirstName">First Name *</Label>
+            <TextInput
+              type="text"
+              id="FirstName"
+              name="FirstName"
+              value={formData.FirstName}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="LastName">Last Name *</Label>
+            <TextInput
+              type="text"
+              id="LastName"
+              name="LastName"
+              value={formData.LastName}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <Label htmlFor="Email">Email *</Label>
+          <TextInput
+            type="email"
+            id="Email"
+            name="Email"
+            value={formData.Email}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <Label htmlFor="PhoneNumber">Phone Number *</Label>
+          <TextInput
+            type="tel"
+            id="PhoneNumber"
+            name="PhoneNumber"
+            value={formData.PhoneNumber}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="mb-4">
+            <Label htmlFor="Password">Password *</Label>
+            <TextInput
+              type="password"
+              id="Password"
+              name="Password"
+              value={formData.Password}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div className="mb-4">
+            <Label htmlFor="ConfirmPassword">Confirm Password *</Label>
+            <TextInput
+              type="password"
+              id="ConfirmPassword"
+              name="ConfirmPassword"
+              value={formData.ConfirmPassword}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <Label htmlFor="Address">Address</Label>
+          <Textarea
+            id="Address"
+            name="Address"
+            value={formData.Address}
+            onChange={handleInputChange}
+            rows="3"
+          ></Textarea>
+        </div>
+
+        {/* File upload fields */}
+        <h3 className="text-lg font-semibold mt-6 mb-4">Upload Documents</h3>
+
+        <div className="mb-4">
+          <Label htmlFor="AadharCard">Aadhar Card *</Label>
+          <TextInput
+            type="file"
+            id="AadharCard"
+            name="AadharCard"
+            onChange={handleFileChange}
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <Label htmlFor="ProfilePicture">ProfilePicture *</Label>
+          <TextInput
+            type="file"
+            id="ProfilePicture"
+            name="ProfilePicture"
+            onChange={handleFileChange}
+            required
+          />
+        </div>
+
+        <div>
+          <Button
+            type="submit"
+            gradientDuoTone="purpleToPink"
+            disabled={loading}
+          >
+            {loading ? "Registering..." : "Register"}
+          </Button>
+        </div>
+      </form>
+      <div>
+        {errorMsg && (
+          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            {errorMsg}
+          </div>
+        )}
+
+        {successMsg && (
+          <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+            {successMsg}
+          </div>
+        )}
       </div>
-    )}
-    
-    {successMsg && (
-      <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
-        {successMsg}
-      </div>
-    )}
     </div>
-  </div>
-);
+  );
 };
 
 export default CustomerSignup;
