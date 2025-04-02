@@ -5,7 +5,7 @@ import logoGIF from '../../assets/logoGIF.gif';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useLogout } from '../Layout/useLogout';
 import { useDispatch } from 'react-redux';
-import { setCurrentUser } from '../../Redux/Slice/authSlice';
+import { signOutSuccess } from '../../Redux/Slice/authSlice';
 
 
 function AdminTopBarPage() {
@@ -15,7 +15,7 @@ function AdminTopBarPage() {
 
   const handleLogout = () => {
     logout()
-    dispatch(setCurrentUser(null))
+    //dispatch(signOutSuccess())
   }
   return <>
   <Navbar className='border-b-2 border-blue-500'>

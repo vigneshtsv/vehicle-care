@@ -310,6 +310,7 @@ const DashboardProfile = () => {
 
   const handleLogout = () => {
     logout();
+    dispatch(signOutSuccess());
   }
   return (
     <div className="max-w-lg mx-auto p-4 w-full">

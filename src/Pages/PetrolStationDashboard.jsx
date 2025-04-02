@@ -7,7 +7,8 @@ import { Form } from 'react-router-dom';
 import { TextInput } from 'flowbite-react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { setCurrentUser } from '../Redux/Slice/authSlice';
+// import { setCurrentUser } from '../Redux/Slice/authSlice';
+import { toast } from 'react-toastify';
 
 
 function PetrolStationDashboard() {
@@ -22,7 +23,8 @@ function PetrolStationDashboard() {
   });
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  dispatch(setCurrentUser(localStorage.getItem("user")));
+ //dispatch(setCurrentUser(localStorage.getItem("user")));  //28-3-25
+console.log(currentUser);
 
   const fetch = async () => {
     try {
@@ -52,7 +54,7 @@ function PetrolStationDashboard() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 console.log(currentUser.StationName);
-
+console.log(petrolData.StationName);
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -60,30 +62,30 @@ const handleSubmit = async (e) => {
   console.log(petrolData.StationName);
   console.log(currentUser.StationName);
   
-  
   try {
     setLoading(true);
     if (currentUser.StationName === petrolData.StationName) {
       console.log("Station names match. Update allowed.");
       
-      const StationID = currentUser.StationName;
+      const StationID = currentUser.StationName; // Assuming you have the ID of the petrol station
       // Pass formData to the API endpoint for updating
       const response = await axios.put(`http://localhost:5000/api/petrolstation/updatepetroldata/${StationID}`,
         formData
       );
       console.log(response.data.message || "Update successful");
-      // setFormData(response.data);
+      setFormData(response.data);
+      toast.success('Updated Sucessfully')
     } else {
-      const response = await axios.post(`http://localhost:5000/api/petrolstation/registerpetroldata`,
+      const response = await axios.post(`http://localhost:5000/api/petrolstation/registerdata`,
         formData
       );
-      console.log(response.data.message || "Registration successful");
-      
+      console.log(response.data.message || "Registration successfully"); 
+      toast.success('Registration Successfully')    
     }
-
     setLoading(false);
   } catch (error) {
     console.error("Error in registration/update:", error.message);
+    toast.error('Error in registration/update')
   }
   
   console.log(formData.StationName);

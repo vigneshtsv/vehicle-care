@@ -294,7 +294,6 @@ const LoginForm = () => {
             Password: formData.Password
           });  
            const data = response.data
-           //const res = await axios.post('http://localhost:5000/api/auth/loginuser',formData);
             console.log(data);
             console.log(data.token);  
             console.log(data.user);
@@ -305,15 +304,16 @@ const LoginForm = () => {
              dispatch(signInSuccess(data.message));
              toast.success(data.message)
 
-             localStorage.setItem('user', JSON.stringify({...data.user, AadharCard: null,ProfilePicture
-:null             }));
-            //  dispatch(setCurrentUser(sessionStorage.getItem(JSON.parse(data.user))));
-
+             //localStorage.setItem('user', JSON.stringify({...data.user, AadharCard: null,ProfilePicture}));  //28-3-25
+             
+            //  dispatch(setCurrentUser(data.user))
              sessionStorage.setItem('token',data.token)
              sessionStorage.setItem('Role',data.user.Role)
              sessionStorage.setItem('Id',data.user.Id)
+             //sessionStorage.setItem('user', JSON.stringify(data.user)); // Store user data in session storage
              
              dispatch(setCurrentUser(data.user))
+             
              //!Navigte based on Role
                  if(data.user.Role==='Admin'){
                    navigate('/admindashboardpage')

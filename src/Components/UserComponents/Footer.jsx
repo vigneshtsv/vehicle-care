@@ -1,6 +1,8 @@
 import React from 'react';
 import { Mail,Facebook,Instagram,MessageCircle,Home,Phone } from "lucide-react";
 import { useLogout } from '../Layout/useLogout';
+import { useDispatch } from 'react-redux';
+
 
 const SocialIcon = ({ href, icon: Icon }) => (
   <a 
@@ -39,6 +41,13 @@ const ContactItem = ({ icon: Icon, children }) => (
 
 const Footer = () => {
   const logout = useLogout();
+  const dispatch = useDispatch();
+
+
+  const handleLogout = () => {
+    logout();
+    dispatch(signOutSuccess());
+  };
   const socialLinks = [
     { href: "mailto:vigneshts27@gmail.com", icon: Mail },
     { href: "https://www.facebook.com/profile.php?id=100011227996704&mibextid=ZbWKwL", icon: Facebook },
@@ -85,7 +94,7 @@ const Footer = () => {
             </h3>
             <ul className="space-y-2">
               <QuickLinkItem href="/">Home</QuickLinkItem>
-              <QuickLinkItem><button onClick={logout}>Logout</button></QuickLinkItem>
+              <QuickLinkItem><button onClick={handleLogout}>Logout</button></QuickLinkItem>
               <QuickLinkItem href="/track">Track Your Order</QuickLinkItem>
               <QuickLinkItem href="/cart">Cart</QuickLinkItem>
             </ul>

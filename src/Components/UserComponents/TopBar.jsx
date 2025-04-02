@@ -3,17 +3,23 @@ import { Link, useLocation } from 'react-router-dom';
 import logoGIF from '../../assets/logoGIF.gif'
 import { Avatar, Dropdown, DropdownItem, TextInput } from 'flowbite-react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLogout } from '../Layout/useLogout.jsx';
+import { signOutSuccess } from '../../Redux/Slice/authSlice.jsx';
 
 
 function TopBar() {
   let logout = useLogout()
+  const dispatch = useDispatch()
   const path =  useLocation().pathname;
   const { currentUser } = useSelector((state)=>state.user)
   console.log(currentUser);
-  
+  console.log(currentUser.Email)
 
+  const handleLogout = () => {
+    logout()
+    //dispatch(signOutSuccess())
+  }
   return (
     <>
       <div className="flex w-full justify-around">
@@ -71,7 +77,7 @@ function TopBar() {
             </Link>
             <DropdownItem className="bg-red-100">Admin</DropdownItem>
             {/* <DropdownDivider /> */}
-            <Dropdown.Item onClick={logout} className="bg-blue-100">
+            <Dropdown.Item onClick={handleLogout} className="bg-blue-100">
               LogOut
             </Dropdown.Item>
           </Dropdown>

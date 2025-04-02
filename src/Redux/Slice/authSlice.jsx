@@ -25,16 +25,26 @@ const userSlice = createSlice({
       state.error = action.payload;
     },
     setCurrentUser : (state,action) => {
-      console.log(action.payload);
-      
       state.currentUser = action.payload;
+      // try {
+      //   const sessionUser = sessionStorage.getItem('user',JSON.stringify(action.payload));
+      //   return sessionUser ? JSON.parse(sessionUser) : null;
+      // } catch (error) {
+      //   console.error('Error parsing session user:', error);
+      //   return null;
+      // }
+      
     },
     userList:(state,action) => {
       state.userList = action.payload;
     },
     signOutSuccess : (state) => {      
       state.currentUser = null;
-      state.loading = false;
+      try {
+        sessionStorage.removeItem('user');
+      } catch (error) {
+        console.error('Error removing session user:', error);
+      }
     }
     
   }
