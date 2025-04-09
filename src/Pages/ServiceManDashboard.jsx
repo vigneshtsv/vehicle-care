@@ -9,6 +9,7 @@ import { CarouselOne } from "../Components/Layout/CarouselOne";
 import { useNavigate } from "react-router-dom";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { GiStorkDelivery } from "react-icons/gi";
+import { toast } from "react-toastify";
 
 const ServiceManDashboard = () => {
   const [notifications, setNotifications] = useState([]);
@@ -17,8 +18,10 @@ const ServiceManDashboard = () => {
   const [selectedOrder,setSelectedOrder] = useState(null);
   const [isPopupOpen,setIsPopupOpen] = useState(false);
   const [isDeliveryPopupOpen,setIsDeliveryPopupOpen] = useState(false);
-  
-
+  const [formData,setFormData] = useState({
+    id: '',
+    Status: ''
+  });
   const Navigate = useNavigate();
   console.log(orders);
   

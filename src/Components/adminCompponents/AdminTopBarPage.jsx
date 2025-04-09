@@ -15,7 +15,7 @@ function AdminTopBarPage() {
 
   const handleLogout = () => {
     logout()
-    //dispatch(signOutSuccess())
+    dispatch(signOutSuccess())
   }
   return <>
   <Navbar className='border-b-2 border-blue-500'>

@@ -12,36 +12,33 @@ import { toast } from 'react-toastify';
 
 
 function PetrolStationDashboard() {
-  const {currentUser} = useSelector(state => state.user);
-  const [petrolData, setPetrolData] = useState({});
-  const [ currentStation,setCurretStation ] = useState([]);
+  const { currentUser } = useSelector((state)=>state.user)
+  const [petrolData, setPetrolData] = useState([]);
+  // const [ currentStation,setCurretStation ] = useState([]);
   const [formData, setFormData] = useState({
     StationName : `${currentUser?.StationName}`,
-    Distance : '2.5', 
+    Distance : '2.5',   
     PetrolPrice : '',
     DiselPrice : '',
   });
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
  //dispatch(setCurrentUser(localStorage.getItem("user")));  //28-3-25
-console.log(currentUser);
+ console.log(currentUser);
 
   const fetch = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/petrolstation/getpetroldata`
-      );
-      if (response.data && response.data.users && response.data.users.length > 0) {
-        
-        const FetchData = response.data.users[0];
-        setPetrolData(FetchData);
-      }
-      
-      // setCurretStation(currentUser.StationName === petrolData.StationName)
-      console.log(petrolData);
-      
-    } catch (error) {
-      console.error("PetrolStationData fetching Error:", error);
+      setLoading(true);
+      const response = await axios.get('http://localhost:5000/api/petrolstation/getpetroldata');
+      const fetchData = response.data.data;
+      const updateData = fetchData.map(petrol => ({...petrol, PetrolPrice: petrol.PetrolPrice, DiselPrice: petrol.DiselPrice}));
+      setPetrolData(updateData);
+      setLoading(false);
+      console.log(updateData);
+    } catch (err) {
+      console.error("Error fetching petrol station data:", err.message);
+      setLoading(false);
+      toast.error('Failed to fetch petrol station data')
     }
   }
 
@@ -53,34 +50,35 @@ console.log(currentUser);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-console.log(currentUser.StationName);
-console.log(petrolData.StationName);
+// console.log(currentUser.StationName);
+// console.log(petrolData.StationName);
+//console.log(petrolData[0]?.StationName);
+console.log(petrolData);
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  
-  console.log(petrolData.StationName);
-  console.log(currentUser.StationName);
-  
+
   try {
     setLoading(true);
-    if (currentUser.StationName === petrolData.StationName) {
+    const matchData = petrolData.find(station => station.StationName === currentUser.StationName);
+    if (matchData) {
       console.log("Station names match. Update allowed.");
+      console.log(petrolData);
       
       const StationID = currentUser.StationName; // Assuming you have the ID of the petrol station
       // Pass formData to the API endpoint for updating
       const response = await axios.put(`http://localhost:5000/api/petrolstation/updatepetroldata/${StationID}`,
-        formData
+      formData
       );
       console.log(response.data.message || "Update successful");
       setFormData(response.data);
-      toast.success('Updated Sucessfully')
+      toast.success(`${currentUser.StationName} Your Data Price Updated`)
     } else {
       const response = await axios.post(`http://localhost:5000/api/petrolstation/registerdata`,
         formData
       );
       console.log(response.data.message || "Registration successfully"); 
-      toast.success('Registration Successfully')    
+      toast.success(`Welcom Mr.${currentUser.StationName} Your Data Price Registered`)    
     }
     setLoading(false);
   } catch (error) {

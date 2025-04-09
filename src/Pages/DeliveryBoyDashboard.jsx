@@ -13,7 +13,11 @@ const DeliveryBoyDashboard = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigate= useNavigate()
   const [orders, setOrders] = useState([]);
-  const [loaing,setLoading] = useState(false);
+  const [loading,setLoading] = useState(false);
+  const [formData,setFormData] = useState({
+    id: '',
+    Status: ''
+  })
   const [isDeliveryPopupOpen, setIsDeliveryPopupOpen] = useState(false);
 
   const fetchData = async () => {
@@ -28,6 +32,7 @@ const DeliveryBoyDashboard = () => {
       }
     } catch (error) {
       console.error('DeliveryBoyData fetching Error:',error);
+      toast.error('DeliveryBoyData fetching Error:')
     }
     finally{
       setLoading(false);
@@ -41,21 +46,25 @@ const DeliveryBoyDashboard = () => {
 
   const handlePickupOrder = (order) => {
     setSelectedOrder(order);
+    setFormData({
+      id: order._id,
+      Status: 'Processing'
+    })
     setIsPopupOpen(true);
-    console.log(selectedOrder);
-    
+    console.log(formData);
   };
 
   const handleConfirmPickup = async () => {
     setLoading(true);
+    console.log(selectedOrder._id);
+    const updatedData = { id: selectedOrder._id, Status: 'Processing' };
     try {
-      const response = await axios.put(`http://localhost:5000/api/order/updateorderdata/${selectedOrder._id}`,{
-        id: selectedOrder._id,
-        Status: 'Processing'
-      });
+      const response = await axios.put(`http://localhost:5000/api/order/updateorderdata/${selectedOrder._id}`,
+        updatedData
+      );
 
       if(response.status===200){
-        setOrders(orders.map(order => order._id === selectedOrder._id ? {...order, Status: 'Processing'} : order));
+        setOrders(orders.map(order => order._id === selectedOrder._id ? {...order, Status: "Processing"} : order));
         toast.success('Order picked up successfully');
         setIsPopupOpen(false);
       }
@@ -75,10 +84,9 @@ const DeliveryBoyDashboard = () => {
   const handleCompleteDelivery = async () => {
     setLoading(true);
     try {
-      const response =await axios.put(`http://localhost:5000/api/order/updateorderdata/${selectedOrder._id}`,{
-        id: selectedOrder._id,
-        Status: 'Completed'
-      });
+      const response = await axios.put(`http://localhost:5000/api/order/updateorderdata/${selectedOrder._id}`,
+        {id: selectedOrder._id, Status: 'Completed'}
+      );
 
       if(response.status===200){
         setOrders(orders.map(order => order._id === selectedOrder._id ? {...order, Status: 'Completed'} : order));
@@ -138,7 +146,7 @@ const DeliveryBoyDashboard = () => {
                 (typeof order.Disel_Quantity === 'number' && order.Disel_Quantity > 0)))
             .map((order) => (
               <Card
-                key={order.id}
+                key={order._id}
                 className="bg-white shadow-md rounded-lg p-4 border"
               >
                 <div className="mb-4">
@@ -239,7 +247,7 @@ const DeliveryBoyDashboard = () => {
                     <br />
                     {order.Disel_Quantity > 0 && (
                       <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
-                        {order.Disel_Quantity}-Ltr {order.Petrol_Price}
+                        {order.Disel_Quantity}-Ltr {order.Disel_Price}
                       </span>
                     )}
                     <span className="ml-2 inline-block text-sm px-2 py-1 rounded bg-blue-100 text-blue-800">
@@ -312,10 +320,10 @@ const DeliveryBoyDashboard = () => {
                     <br />
                     {order.Disel_Quantity > 0 && (
                       <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
-                        {order.Disel_Quantity}-Ltr {order.Petrol_Price}
+                        {order.Disel_Quantity}-Ltr {order.Disel_Price}
                       </span>
                     )}
-                    <span className="ml-2 inline-block text-sm px-2 py-1 rounded bg-blue-100 text-blue-800">
+                    <span className="ml-2 inline-block text-sm px-2 py-1 rounded bg-green-500 text-slate-800">
                       {order.Status}
                     </span>
                   </div>

@@ -26,27 +26,11 @@ const userSlice = createSlice({
     },
     setCurrentUser : (state,action) => {
       state.currentUser = action.payload;
-      // try {
-      //   const sessionUser = sessionStorage.getItem('user',JSON.stringify(action.payload));
-      //   return sessionUser ? JSON.parse(sessionUser) : null;
-      // } catch (error) {
-      //   console.error('Error parsing session user:', error);
-      //   return null;
-      // }
-      
-    },
-    userList:(state,action) => {
-      state.userList = action.payload;
+      // sessionStorage.setItem('user', JSON.stringify(action.payload));
     },
     signOutSuccess : (state) => {      
       state.currentUser = null;
-      try {
-        sessionStorage.removeItem('user');
-      } catch (error) {
-        console.error('Error removing session user:', error);
-      }
     }
-    
   }
 })
 

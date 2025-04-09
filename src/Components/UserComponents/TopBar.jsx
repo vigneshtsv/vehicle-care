@@ -13,12 +13,12 @@ function TopBar() {
   const dispatch = useDispatch()
   const path =  useLocation().pathname;
   const { currentUser } = useSelector((state)=>state.user)
-  console.log(currentUser);
-  console.log(currentUser.Email)
+  //console.log(currentUser);
+  //console.log(currentUser.Email)
 
   const handleLogout = () => {
     logout()
-    //dispatch(signOutSuccess())
+    dispatch(signOutSuccess())
   }
   return (
     <>
@@ -71,6 +71,7 @@ function TopBar() {
           >
             <Dropdown.Header className="bg-red-100">
               <span>vignesh tsv</span>
+              
             </Dropdown.Header>
             <Link to="/dashboardprofile">
               <DropdownItem className="bg-blue-100"> Profile</DropdownItem>

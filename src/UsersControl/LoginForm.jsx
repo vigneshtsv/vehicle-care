@@ -253,9 +253,6 @@
 
 
 
-
-
-
 import React, { useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
@@ -294,10 +291,10 @@ const LoginForm = () => {
             Password: formData.Password
           });  
            const data = response.data
-            console.log(data);
-            console.log(data.token);  
-            console.log(data.user);
-          
+            console.log(  data);
+            console.log(data.token);
+            console.log(data.user.Role);
+            console.log(data.user.Id);
             
            if(data.success === true)
            {
@@ -305,12 +302,12 @@ const LoginForm = () => {
              toast.success(data.message)
 
              //localStorage.setItem('user', JSON.stringify({...data.user, AadharCard: null,ProfilePicture}));  //28-3-25
-             
-            //  dispatch(setCurrentUser(data.user))
+
              sessionStorage.setItem('token',data.token)
              sessionStorage.setItem('Role',data.user.Role)
              sessionStorage.setItem('Id',data.user.Id)
-             //sessionStorage.setItem('user', JSON.stringify(data.user)); // Store user data in session storage
+            //  sessionStorage.setItem('user', JSON.stringify(data.user)); // Store user data in session storage
+             
              
              dispatch(setCurrentUser(data.user))
              
@@ -409,7 +406,6 @@ const LoginForm = () => {
                   name="rememberMe"
                   type="checkbox"
                   className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                  required
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
                   Remember me

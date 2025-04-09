@@ -8,6 +8,10 @@ export const useLogout = () => {
     return ()=> {
         toast.error('Logout Successfully')
         sessionStorage.clear()
+        // sessionStorage.removeItem('user')
+        sessionStorage.removeItem('token')
+        sessionStorage.removeItem('Role')
+        sessionStorage.removeItem('Id')
         navigate('/')
     }
 }
