@@ -22,7 +22,7 @@ function ServiceManSignup() {
   const [files,setFiles] = useState({
     AadharCard: null,
     ProfilePicture: null,
-    DrivingLicence: null,
+    MechanicCertificate: null,
   })
 
   const [loading, setLoading] = useState(false);
@@ -100,7 +100,6 @@ function ServiceManSignup() {
         }
       });
       console.log(response);
-
       setFormData(response.data.user)
 
       if(response.data.token) {
@@ -108,8 +107,8 @@ function ServiceManSignup() {
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
         setSuccessMsg('Registration Successful');
         resetForm();
-        navigate('/');
-        toast.success('DeliveryBoy Registration Successfully')
+        toast.success('ServiceMan Registration Successfully')
+        setTimeout(() => navigate('/'), 1500);
       }
     } catch (error) {
       setErrorMessage(error.message);
@@ -146,155 +145,169 @@ function ServiceManSignup() {
     navigate('/');
   }
 
-  return (
-    <div>
-      <Button onClick={backPage} outline gradientDuoTone="purpleToBlue">
-        <IoMdArrowBack className="mr-2" />
-        Back
-      </Button>
-      <Button onClick={loginPage} outline gradientDuoTone="purpleToBlue">
-        Login <LogInIcon className="mr-2" />
-      </Button>
-      <h1>ServiceMan Signup</h1>
-      <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit}>
-        <div className="grid grid-flow-col justify-stretch space-x-4">
-          <TextInput
-            type="text"
-            placeholder="First Name"
-            id="FirstName"
-            onChange={handleChange}
-            required
-          />
-          <TextInput
-            type="text"
-            placeholder="Last Name"
-            id="LastName"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <section>
-          <TextInput
-            type="email"
-            placeholder="vignesh@gmail.com"
-            id="Email"
-            onChange={handleChange}
-            required
-          />
-          <br />
-          <TextInput
-            type="tel"
-            placeholder="7373892019"
-            id="PhoneNumber"
-            onChange={handleChange}
-            required
-          />
-        </section>
-        <section>
-          <TextInput
-            type="password"
-            placeholder="Create New Password"
-            id="Password"
-            onChange={handleChange}
-            required
-          />
-          <TextInput
-            type="password"
-            placeholder="Confirm New Password"
-            id="ConfirmPassword"
-            onChange={handleChange}
-            required
-          />
-        </section>
-        <div>
-          <Textarea
-            type="textarea"
-            placeholder="Enter Your Address"
-            id="Address"
-            onChange={handleChange}
-            required
-          />
-        </div>
+  return <div className='bg-red-300 min-h-screen p-4'>
+      <div className='max-w-md mx-auto mt-8 p-6 bg-white rounded-xl shadow-md'>
+        <h1 className='text-2xl font-bold mb-6 text-center'>
+          ServiceMan Signup
+        </h1>
 
-        <div>
-          <div className="mb-4">
-            <Label htmlFor="AadharCard">AadharCard</Label>
+        <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit} encType='multipart/form-data'>
+          <div className="grid grid-flow-col justify-stretch space-x-4">
             <TextInput
-              type="file"
-              id="AadharCard"
-              name="AadharCard"
-              onChange={handleFileChange}
+              type="text"
+              placeholder="First Name"
+              id="FirstName"
+              className='m-2 rounded'
+              onChange={handleChange}
+              required
+            />
+            <TextInput
+              type="text"
+              placeholder="Last Name"
+              id="LastName"
+              className='m-2 rounded'
+              onChange={handleChange}
               required
             />
           </div>
-          <div className="mb-4">
-            <Label htmlFor="MechanicCertificate">MechanicCertificate</Label>
+          <section>
             <TextInput
-              type="file"
-              id="MechanicCertificate"
-              name="MechanicCertificate"
-              onChange={handleFileChange}
+              type="email"
+              placeholder="vignesh@gmail.com"
+              id="Email"
+              onChange={handleChange}
+              required
+            />
+            <br />
+            <TextInput
+              type="tel"
+              placeholder="7373892019"
+              id="PhoneNumber"
+              onChange={handleChange}
+              required
+            />
+          </section>
+          <section className='flex flex-col md:flex-row gap-4'>
+            <TextInput
+              type="password"
+              placeholder="Create New Password"
+              id="Password"
+              onChange={handleChange}
+              required
+            />
+            <TextInput
+              type="password"
+              placeholder="Confirm New Password"
+              id="ConfirmPassword"
+              onChange={handleChange}
+              required
+            />
+          </section>
+          <div>
+            <Textarea
+              type="textarea"
+              placeholder="Enter Your Address"
+              id="Address"
+              onChange={handleChange}
               required
             />
           </div>
-          <div className="mb-4">
-            <Label htmlFor="ProfilePicture">ProfilePicture</Label>
-            <TextInput
-              type="file"
-              id="ProfilePicture"
-              name="ProfilePicture"
-              onChange={handleFileChange}
-              required
-            />
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Checkbox id="accept" defaultChecked required />
-          <Label htmlFor="accept" className="flex">
-            I agree with the&nbsp;
-            <a
-              href="/termsconditions"
-              className="text-cyan-600 hover:underline dark:text-cyan-500"
-            >
-              terms and conditions
-            </a>
-          </Label>
-        </div>
-        {/* <input id="Role"  type="text"  value="ServiceMan" onChange={handleChange} /> */}
+           
+          <h3 className='text-xl flex bg-green-400 justify-center m-2'>
+             Upload Documents
+          </h3>
 
-        <Button
-          type="submit"
-          outline
-          gradientDuoTone="purpleToPink"
-          disabled={loading}
-        >
-          {loading ? (
-            <>
-              <Spinner
-                color="purple"
-                aria-label="Purple spinner example"
-                size="sm"
+          <div>
+            <div className="mb-4">
+              <Label htmlFor="AadharCard">AadharCard</Label>
+              <TextInput
+                type="file"
+                id="AadharCard"
+                name="AadharCard"
+                onChange={handleFileChange}
+                required
               />
-              <span className="pl-3">Loading....</span>
-            </>
-          ) : (
-            "Submit"
-          )}
-        </Button>
-      </form>
-      <div className="flex gap-2 text-sm mt-6">
-        <span>Already Have An Account?</span>
-        <Link to="/" className="text-blue-600">
-          Sign in
-        </Link>
-      </div>
-      {errorMessage && (
-        <Alert color="failure" icon={HiInformationCircle}>
-          <span className="font-medium me-2">OOPS!</span> &nbsp; {errorMessage}
-        </Alert>
-      )}
-    </div>
-  );
+            </div>
+            <div className="mb-4">
+              <Label htmlFor="MechanicCertificate">MechanicCertificate</Label>
+              <TextInput
+                type="file"
+                id="MechanicCertificate"
+                name="MechanicCertificate"
+                onChange={handleFileChange}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <Label htmlFor="ProfilePicture">ProfilePicture</Label>
+              <TextInput
+                type="file"
+                id="ProfilePicture"
+                name="ProfilePicture"
+                onChange={handleFileChange}
+                required
+              />
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Checkbox id="accept" defaultChecked required />
+            <Label htmlFor="accept" className="flex">
+              I agree with the&nbsp;
+              <a
+                href="/termsconditions"
+                className="text-cyan-600 hover:underline dark:text-cyan-500"
+              >
+                terms and conditions
+              </a>
+            </Label>
+          </div>
+          {/* <input id="Role"  type="text"  value="ServiceMan" onChange={handleChange} /> */}
+        
+          <Button
+            type="submit"
+            outline
+            gradientDuoTone="purpleToPink"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Spinner
+                  color="purple"
+                  aria-label="Purple spinner example"
+                  size="sm"
+                />
+                <span className="pl-3">Loading....</span>
+              </>
+            ) : (
+              "Submit"
+            )}
+          </Button>
+        </form>
+        <div className="flex gap-2 text-sm mt-6">
+          <span>Already Have An Account?</span>
+          <Link to="/" className="text-blue-600">
+            Sign in
+          </Link>
+        </div>
+     
+         {/* Buttons */}
+         <div className="flex justify-between m-4 space-x-4">
+               <Button onClick={backPage} outline gradientDuoTone="purpleToBlue">
+                   <IoMdArrowBack className="m-2" />
+                   Back
+               </Button>
+               <Button onClick={loginPage} outline gradientDuoTone="purpleToBlue">
+                   Login <LogInIcon className="mr-2" />
+               </Button>
+         </div>
+
+        {errorMessage && (
+          <Alert color="failure" icon={HiInformationCircle}>
+            <span className="font-medium me-2">OOPS!</span> &nbsp; {errorMessage}
+          </Alert>
+        )}
+        </div>
+  </div>
   
 }
 

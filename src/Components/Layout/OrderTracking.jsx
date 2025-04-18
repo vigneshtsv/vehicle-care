@@ -1,97 +1,7 @@
-// import React, { useState, useEffect } from 'react';
-
-// import { MapPin, Truck, Navigation2 } from 'lucide-react';
-// import { Card } from 'flowbite-react';
-
-// // Mock data for demonstration - replace with real data
-// const INITIAL_CENTER = { lat: 12.9716, lng: 77.5946 }; // Example: Bangalore coordinates
-
-// const MapTracking = () => {
-//   const [customerLocation, setCustomerLocation] = useState(INITIAL_CENTER);
-//   const [deliveryBoyLocation, setDeliveryBoyLocation] = useState({
-//     lat: INITIAL_CENTER.lat + 0.01,
-//     lng: INITIAL_CENTER.lng + 0.01
-//   });
-
-//   // Mock updating delivery boy location - replace with real tracking logic
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       setDeliveryBoyLocation(prev => ({
-//         lat: prev.lat + 0.001 * (Math.random() - 0.5),
-//         lng: prev.lng + 0.001 * (Math.random() - 0.5)
-//       }));
-//     }, 3000);
-
-//     return () => clearInterval(interval);
-//   }, []);
-
-//   return (
-//     <div className="w-full max-w-4xl mx-auto p-4">
-//       <Card className="bg-white shadow-lg rounded-lg overflow-hidden">
-//         <div className="p-4 border-b border-gray-200">
-//           <h2 className="text-xl font-semibold flex items-center gap-2">
-//             <Navigation2 className="text-blue-500" />
-//             Live Delivery Tracking
-//           </h2>
-//         </div>
-
-//         <div className="p-4">
-//           <div className="flex items-center justify-between mb-4">
-//             <div className="flex items-center gap-2">
-//               <MapPin className="text-red-500" />
-//               <span>Customer Location</span>
-//             </div>
-//             <div className="flex items-center gap-2">
-//               <Truck className="text-green-500" />
-//               <span>Delivery Agent</span>
-//             </div>
-//           </div>
-
-//           {/* Map Container */}
-//           <div className="w-full h-96 bg-gray-100 rounded-lg relative">
-//             {/* Replace this div with actual Google Maps implementation */}
-//             <div className="absolute inset-0 flex items-center justify-center">
-//               <span className="text-gray-500">Map View Loading...</span>
-//             </div>
-            
-//             {/* Markers for demonstration */}
-//             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-//               <MapPin className="text-red-500 w-6 h-6" />
-//             </div>
-//             <div className="absolute top-1/3 right-1/3">
-//               <Truck className="text-green-500 w-6 h-6" />
-//             </div>
-//           </div>
-
-//           {/* Delivery Status */}
-//           <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-//             <div className="flex justify-between items-center">
-//               <div>
-//                 <p className="text-sm text-gray-600">Estimated Arrival Time</p>
-//                 <p className="font-semibold">15 mins</p>
-//               </div>
-//               <div>
-//                 <p className="text-sm text-gray-600">Distance</p>
-//                 <p className="font-semibold">2.5 km</p>
-//               </div>
-//               <div>
-//                 <p className="text-sm text-gray-600">Status</p>
-//                 <p className="font-semibold text-green-500">On the way</p>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </Card>
-//     </div>
-//   );
-// };
-
-// export default MapTracking;
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Navigation, Truck, Phone } from 'lucide-react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { Modal } from 'flowbite-react';
 
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
@@ -102,6 +12,7 @@ const OrderTracking = () => {
   const [map, setMap] = useState(null);
   const [directionsService, setDirectionsService] = useState(null);
   const [directionsRenderer, setDirectionsRenderer] = useState(null);
+  const [updatePopup,setUpdatePopup] = useState(false);
 
   const [customerLocation] = useState({
     lat: 13.0827,  // Example: Chennai coordinates
@@ -220,6 +131,10 @@ const OrderTracking = () => {
     });
   };
 
+  const handleClosePopup = () => {
+    setUpdatePopup(false);
+  }
+
   return (
     <div className="w-full max-w-4xl mx-auto p-4">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -284,13 +199,38 @@ const OrderTracking = () => {
               </div>
               <button
                 className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
-                onClick={() => alert("Calling delivery agent...")}
+                onClick={() => setUpdatePopup(true)}
               >
                 <Phone className="h-4 w-4" />
                 Contact Driver
               </button>
             </div>
           </div>
+          {updatePopup && (
+            <Modal show={updatePopup} size='xl' popup onClose={handleClosePopup}>
+              <Modal.Header>Update Project</Modal.Header>
+              <Modal.Body>
+                <div className='space-y-4'>
+                  <div className='grid grid-cols-2 gap-4'>
+                    <div>
+                      <p className="text-gray-600 mb-4">
+                        We're improving our e-commerce platform with new features and enhanced tracking capabilities. 
+                        The system will remain operational during the update.
+                      </p>
+                    </div>
+                  </div>
+                  <div className='flex justify-end'>
+                    <button
+                      className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300'
+                      onClick={() => setUpdatePopup(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                  </div>
+              </Modal.Body>
+            </Modal>
+          )}
         </div>
       </div>
     </div>

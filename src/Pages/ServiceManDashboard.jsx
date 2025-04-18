@@ -155,7 +155,7 @@ const ServiceManDashboard = () => {
       {/* Waiting Order Notification */}
       <div>
         <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-6 p-4 bg-red-400">
             <h1 className="text-2xl font-bold">Waiting Orders Notifications</h1>
             <div className="relative">
               <Bell className="h-6 w-6 text-gray-600" />
@@ -167,11 +167,12 @@ const ServiceManDashboard = () => {
           </div>
         </div>
 
-        <div className="grid gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {orders.filter((order) => order.Status === "Waiting" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
                         (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== "")))
           .map((order) => (
-            <div key={order.id} className="bg-white rounded-lg shadow-md p-6">
+            <Card className="shadow-md border-2 m-4">
+              <div key={order.id} className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg">{order.Email}</h3>
                 <span
@@ -212,31 +213,32 @@ const ServiceManDashboard = () => {
                   </p>
                 </div>
 
-                <div className="flex gap-3 pt-2">
-                  <Button 
-                    outline gradientDuoTone="greenToBlue"
+                <div className="flex gap-2 pt-2">
+                  <button 
+                    className="flex items-center p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                     onClick={() => handlePickupOrder(order)}
                   >
-                    <Box className="h-4 w-4" />
+                    <Box className="h-4 w-4"/>
                     Pickup
-                  </Button>
-                  <Button
-                    outline gradientDuoTone="greenToBlue"
+                  </button>
+                  <button
+                    className="flex items-center p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                     onClick={() => handleDeliveryDetails(order)}
                   >
                     <Truck className="h-4 w-4" />
                     Delivery Details
-                  </Button>
-                  <Button
-                    outline gradientDuoTone="greenToBlue"
+                  </button>
+                  <button
+                    className="flex items-center p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                     onClick={OrderTrackingNavigate}
                   >
                     <Map className="h-4 w-4" />
                     Plan Trip
-                  </Button>
+                  </button>
                 </div>
               </div>
             </div>
+            </Card>
           ))}
         </div>
       </div>
@@ -244,7 +246,7 @@ const ServiceManDashboard = () => {
       {/* Processing Order Notification */}
       <div>
         <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-6 p-4 bg-amber-300">
             <h1 className="text-2xl font-bold">Processing Orders Notifications</h1>
             <div className="relative">
               <Bell className="h-6 w-6 text-gray-600" />
@@ -256,11 +258,12 @@ const ServiceManDashboard = () => {
           </div>
         </div>
 
-        <div className="grid gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {orders.filter((order) => order.Status === "Processing" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
                         (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== "")))
           .map((order) => (
-            <div key={order.id} className="bg-white rounded-lg shadow-md p-6">
+            <Card className="shadow-md border-2 m-4">
+              <div key={order.id} className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg">{order.Email}</h3>
                 <span
@@ -320,6 +323,7 @@ const ServiceManDashboard = () => {
                 </div>
               </div>
             </div>
+            </Card>
           ))}
         </div>
       </div>
@@ -327,7 +331,7 @@ const ServiceManDashboard = () => {
       {/* Completed Order Notification */}
       <div>
         <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-6 p-4 bg-green-400">
             <h1 className="text-2xl font-bold">Completed Orders Notifications</h1>
             <div className="relative">
               <Bell className="h-6 w-6 text-gray-600" />
@@ -339,11 +343,12 @@ const ServiceManDashboard = () => {
           </div>
         </div>
 
-        <div className="grid gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {orders.filter((order) => order.Status === "Completed" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
                         (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== "")))
           .map((order) => (
-            <div key={order.id} className="bg-white rounded-lg shadow-md p-6">
+            <Card className="shadow-md border-2 m-4">
+              <div key={order.id} className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg">{order.Email}</h3>
                 <span
@@ -395,6 +400,7 @@ const ServiceManDashboard = () => {
                 </div>
               </div>
             </div>
+            </Card>
           ))}
         </div>
       </div>

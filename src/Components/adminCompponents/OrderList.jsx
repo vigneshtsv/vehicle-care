@@ -62,7 +62,7 @@ export default function OrderList() {
         </div>
         <div className="flex justify-between items-center mb-4">
           <table className="w-full text-sm text-left">
-            <thead className="text-gray-700 bg-gray-50">
+            <thead className="text-gray-700 bg-gray-50 flex">
               <tr>
                 <th className="px-6 bg-green-200 py-3 w-16">No</th>
                 <th className="px-6 bg-green-100 py-3">Email</th>

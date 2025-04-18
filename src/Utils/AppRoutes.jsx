@@ -17,7 +17,6 @@ import DeliveryBoyDashboard from '../Pages/DeliveryBoyDashboard.jsx';
 import PetrolStationDashboard from '../Pages/PetrolStationDashboard.jsx';
 import ServiceManDashboard from '../Pages/ServiceManDashboard.jsx';
 import LoginForm from '../UsersControl/LoginForm.jsx';
-import MapTest from '../Components/Layout/MapTest.jsx';
 import MapPage from '../Components/Layout/MapPage.jsx';
 import Search from '../Components/Layout/Search.jsx';
 import { CarouselOne } from '../Components/Layout/CarouselOne.jsx';
@@ -103,10 +102,6 @@ const AppRoutes = [
     {
         path: '/servicemandashboard',
         element: <ServiceManDashboard />
-    },
-    {
-        path:'/maptest',
-        element:<MapTest />
     },
     {
         path:'/mappage',

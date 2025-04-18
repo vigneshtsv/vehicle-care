@@ -1,3 +1,4 @@
+import { Button, Modal } from "flowbite-react";
 import React, { useState } from "react";
 
 const ForgotPassword = () => {
@@ -5,47 +6,14 @@ const ForgotPassword = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [updatePopup, setUpdatePopup] = useState(false);
 
-  const API_URL = "http://localhost:5000/api/forgotpassword";
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setSuccessMessage("");
-    setErrorMessage("");
-
-    if (!email) {
-      setErrorMessage("Email is required.");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccessMessage(
-          "If this email is registered, you will receive a password reset link shortly."
-        );
-        setEmail("");
-      } else {
-        setErrorMessage(data.message || "Something went wrong. Please try again.");
-      }
-    } catch (error) {
-      setErrorMessage("An error occurred. Please try again later.");
-    }
-
-    setLoading(false);
+  const handleSubmit = async () => {
+    setUpdatePopup(true);
   };
-
+  const handleClosePopup = () => {
+    setUpdatePopup(false);
+  };
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -74,7 +42,7 @@ const ForgotPassword = () => {
             <p className="text-red-500 text-sm">{errorMessage}</p>
           )}
           <div>
-            <button
+            <Button
               type="submit"
               className={`w-full px-4 py-2 text-white rounded-lg ${
                 loading ? "bg-blue-300 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
@@ -82,7 +50,7 @@ const ForgotPassword = () => {
               disabled={loading}
             >
               {loading ? "Sending..." : "Send Reset Link"}
-            </button>
+            </Button>
           </div>
         </form>
         <p className="text-sm text-gray-500 mt-4 text-center">
@@ -94,6 +62,32 @@ const ForgotPassword = () => {
             Login
           </a>
         </p>
+
+        {/* popupnotification */}
+        {updatePopup && (
+          <Modal show={updatePopup} size='xl' popup onClose={handleClosePopup}>
+            <Modal.Header>Update Project</Modal.Header>
+            <Modal.Body>
+              <div className='space-y-4'>
+                <div className='grid grid-cols-2 gap-4'>
+                  <div>
+                    <p className="text-gray-600 mb-4">
+                      We're improving our e-commerce platform with new features and enhanced tracking capabilities. 
+                      The system will remain operational during the update.
+                    </p>
+                  </div>
+                </div>
+                <div className='flex justify-end'>
+                  <Button
+                    onClick={() => setUpdatePopup(false)}
+                  >
+                    Close
+                  </Button>
+                </div>
+                </div>
+            </Modal.Body>
+          </Modal>
+        )}
       </div>
     </div>
   );

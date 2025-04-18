@@ -121,14 +121,14 @@ const DeliveryBoyDashboard = () => {
     <TopBar />
     <div className="container mx-auto p-4">
       {/* Image Carousel Section */}
-      <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+      <div>
         <CarouselOne />
       </div>
 
 
       {/*Waiting Orders and Actions Sections */}
       <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-6 bg-amber-500 p-3">
           <h1 className="text-3xl font-bold">Waiting Orders</h1>
           <div className="relative">
             <Bell className="h-6 w-6 text-gray-600" />
@@ -178,28 +178,31 @@ const DeliveryBoyDashboard = () => {
 
                 {/* pickup and plan trip buttons */}
                 <div className="flex space-x-3">
-                <Button
+                <button
+                  className="p-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors"
                   onClick={() => handlePickupOrder(order)}
                   gradientMonochrome="info"
                 >
                   <Truck className="h-4 w-4 mr-2" />
                   Pickup Order
-                </Button>
+                </button>
 
-                <Button 
+                <button
+                className="p-2 gap-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors"
                 onClick={()=> handleDeliveryDetails(order)}
                 gradientMonochrome="lime">
                   <CheckCircle className="h-4 w-4 mr-2" />
                   Delivery Details
-                </Button>
+                </button>
 
-                <Button
+                <button
+                  className="p-2 gap-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors"
                   gradientMonochrome="purple"
                   onClick={OrderTrackingNavigate}
                 >
                   <Map className="h-4 w-4 mr-2" />
                   Plan Trip
-                </Button>
+                </button>
               </div>
               </Card>
             ))}
@@ -208,7 +211,7 @@ const DeliveryBoyDashboard = () => {
 
       {/*Prcessing Orders and Actions Sections */}
       <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-6 p-3 bg-lime-400">
           <h1 className="text-3xl font-bold">Processing Orders</h1>
           <div className="relative">
             <Bell className="h-6 w-6 text-gray-600" />
@@ -281,7 +284,7 @@ const DeliveryBoyDashboard = () => {
 
       {/*Completed Orders and Actions Sections */}
       <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-6 p-3 bg-violet-600">
           <h1 className="text-3xl font-bold">Completed Orders</h1>
           <div className="relative">
             <Bell className="h-6 w-6 text-gray-600" />

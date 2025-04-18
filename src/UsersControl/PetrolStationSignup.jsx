@@ -5,7 +5,7 @@ import { HiInformationCircle } from 'react-icons/hi';
 import axios from 'axios';
 import { IoMdArrowBack } from 'react-icons/io';
 import { LogInIcon } from 'lucide-react';
-//import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 function PetrolStationSignup() {
@@ -104,11 +104,12 @@ function PetrolStationSignup() {
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
         setSuccessMsg('Registration Successfully')
         resetForm();
-        navigate('/')
+        toast.success('PetrolStation Registration Successfully')
+        setTimeout(() => navigate('/'), 1500);
       }
-      navigate('/');
     } catch (error) {
       setErrorMessage(error.message);
+      toast.error('PetrolStation Registration Failed.  Please try again')
     } finally {
       setLoading(false);
     }
@@ -141,20 +142,18 @@ function PetrolStationSignup() {
     navigate('/');
   }
 
-  return (
-    <div>
-      <Button onClick={backPage} outline gradientDuoTone="purpleToBlue">
-        <IoMdArrowBack className="mr-2" />
-        Back
-      </Button>
-      <Button onClick={loginPage} outline gradientDuoTone="purpleToBlue">
-        Login <LogInIcon className="mr-2" />
-      </Button>
-      <h1>PetrolStation Signup</h1>
-      <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit}>
+  return <div className='bg-red-400 min-h-screen p-4'>
+    <div className='max-w-md mx-auto mt-8 p-6 bg-white rounded-xl shadow-md'>
+      <h1 className='text-2xl font-bold mb-6 text-center'>
+        PetrolStation Signup
+      </h1>
+
+      <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit} encType='multipart/form-data'>
         <div className="grid grid-flow-col justify-stretch space-x-4">
           <TextInput
             type="text"
+            name='FirstName'
+            className='m-2 rounded'
             placeholder="First Name"
             id="FirstName"
             onChange={handleChange}
@@ -164,6 +163,7 @@ function PetrolStationSignup() {
             type="text"
             placeholder="Last Name"
             id="LastName"
+            className='m-2 rounded'
             onChange={handleChange}
             required
           />
@@ -179,7 +179,7 @@ function PetrolStationSignup() {
           <br />
           <TextInput
             type="tel"
-            placeholder="9014638964"
+            placeholder="Enter Your Phone Number"
             id="PhoneNumber"
             onChange={handleChange}
             required
@@ -194,7 +194,7 @@ function PetrolStationSignup() {
             required
           />
         </section>
-        <section>
+        <section className='flex flex-col md:flex-row gap-4'>
           <TextInput
             type="password"
             placeholder="Create New Password"
@@ -219,6 +219,10 @@ function PetrolStationSignup() {
             required
           />
         </div>
+        <h3 className='text-xl flex bg-green-400 justify-center m-2'>
+          Upload Documents
+        </h3>
+
         <div>
           <div className="mb-4">
             <Label htmlFor="AadharCard">AadharCard</Label>
@@ -253,6 +257,7 @@ function PetrolStationSignup() {
             />
           </div>
         </div>
+        
         <div className="flex items-center gap-2">
           <Checkbox id="accept" defaultChecked required />
           <Label htmlFor="accept" className="flex">
@@ -265,7 +270,7 @@ function PetrolStationSignup() {
             </a>
           </Label>
         </div>
-        {/* <input id="Role"  type="text"  value="PetrolStation" onChange={handleChange} /> */}
+
         <Button
           type="submit"
           outline
@@ -292,6 +297,18 @@ function PetrolStationSignup() {
           Sign in
         </Link>
       </div>
+
+      {/* Buttons */}
+    <div className="flex justify-between m-4 space-x-4">
+          <Button onClick={backPage} outline gradientDuoTone="purpleToBlue">
+              <IoMdArrowBack className="m-2" />
+              Back
+          </Button>
+          <Button onClick={loginPage} outline gradientDuoTone="purpleToBlue">
+              Login <LogInIcon className="mr-2" />
+          </Button>
+    </div>
+
       {errorMessage && (
         <Alert color="failure" icon={HiInformationCircle}>
           <span className="font-medium me-2">OOPS!</span> &nbsp; {errorMessage}
@@ -303,7 +320,7 @@ function PetrolStationSignup() {
         </Alert>
       )}
     </div>
-  );  
+  </div>
 }
 
 export default PetrolStationSignup;

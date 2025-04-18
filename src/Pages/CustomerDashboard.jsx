@@ -27,7 +27,7 @@ const CustomerDashboard = () => {
      </div>
 
       {/* Card Division */}
-      <div className="flex justify-center">
+      <div className="flex justify-center flex-col md:flex-row p-6 gap-6">
 
         {/* First Card */}
         <Card className="max-w-sm w-full bg-white shadow-md rounded-lg overflow-hidden">

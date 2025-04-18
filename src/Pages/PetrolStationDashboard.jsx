@@ -97,7 +97,7 @@ const handleSubmit = async (e) => {
       </div>
 
       <div className="p-6">
-        <h2 className="text-4xl font-bold mb-6 text-gray-800 justify-center">
+        <h2 className="text-4xl font-bold bg-slate-400 text-gray-800 rounded-full m-6 m p-2 flex justify-center">
           Dashboard
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -149,21 +149,21 @@ const handleSubmit = async (e) => {
       </div>
       
        {/* Station Details Update */}
-      <Card className="max-w-6xl mx-auto">
-        <h2 className="text-2xl font-bold mb-4">Station Details Update Filled <span className='text-sm text-lime-200 p-1 bg-red-600 rounded-2xl animate-ping'>Its Only PetrolStation Owner</span></h2>
+      <Card className="max-w-6xl mx-auto m-5 p-5 bg-white shadow-md rounded-lg overflow-hidden border-2 border-gray-200">
+        <h2 className="lg:text-2xl bg-stone-500 font-bold m-4 p-3 flex justify-center sm:text-xl rounded-full">Station Details Update Filled</h2>
         <Form className="space-y-6" onSubmit={handleSubmit}>
-          <div>
-          <Label htmlFor="text">Station Name</Label> 
+          <div className='flex flex-col'>
+          <Label htmlFor="text" className='text-xl'>Station Name</Label> 
           <TextInput type="text" name="StationName" value={formData.StationName} disabled onChange={handleChange}/>
           </div>
 
-          <div>
-          <Label htmlFor="text">PetrolPrice</Label>
+          <div className='flex flex-col'>
+          <Label htmlFor="text" className='text-xl'>PetrolPrice</Label>
           <TextInput type="number" name="PetrolPrice" value={formData.PetrolPrice} onChange={handleChange} required/>
           </div>
 
-          <div>
-          <Label htmlFor="text">DiselPrice</Label>
+          <div className='flex flex-col'>
+          <Label htmlFor="text" className='text-xl'>DiselPrice</Label>
           <TextInput type="number" name="DiselPrice" value={formData.DiselPrice} onChange={handleChange} required/>
           </div>
            

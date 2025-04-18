@@ -69,7 +69,8 @@ useEffect(() => {
 
 const fetchPetrolData = async () => {
   try {
-    const response = await axios.get(`${BE_API_URL}/petrolstation/getpetroldata`);
+    const response = await axios.get(`${BE_API_URL}/petrolstation/getpetroldata`)
+    
     if(response.data.users && Array.isArray(response.data.users)) {
       setPetrolData(response.data.users);
     } else {
@@ -270,7 +271,7 @@ const fetchPetrolData = async () => {
 
   const handlePetrolOrderSubmit = async(e) => {
     e.preventDefault();
-    alert(`handlePetrolOrderSubmit Petrol for ${selectedStation.Name}`);
+
     try {
       const createdAt = new Date().toISOString();
 
@@ -301,7 +302,6 @@ const fetchPetrolData = async () => {
 
   const handleDieselOrderSubmit = async (e) => {
     e.preventDefault();
-    alert(`handleDieselOrderSubmit Diesel for ${selectedStation.Name}`);
 
     try {
       const createdAt = new Date().toISOString();

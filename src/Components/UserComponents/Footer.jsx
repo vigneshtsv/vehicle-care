@@ -56,7 +56,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-b from-slate-200 to-slate-300 mt-96 shadow-lg">
+    <footer className="bg-gradient-to-b from-slate-200 to-slate-300 mt-12 shadow-lg">
       {/* Social Media Banner */}
       <div className="bg-gradient-to-r from-red-700 to-pink-700 p-8">
         <div className="max-w-7xl mx-auto">
