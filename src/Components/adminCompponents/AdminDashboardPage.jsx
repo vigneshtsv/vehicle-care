@@ -20,15 +20,15 @@ function AdminDashboardPage() {
     
     <div>
       <AdminTopBarPage />
-      <main className="p-6 bg-gray-50 min-h-screen">
+      <main className="p-6 min-h-screen admindashboardbg relative">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-500">Welcome back, Admin</p>
+          <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+          <p className="text-white">Welcome back, Admin</p>
         </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="bg-gradient-to-r from-yellow-500 via-blue-500 to-yellow-500 relative border border-blue-700  rounded-lg shadow-2xl p-6">
             <div className="flex items-center">
               <div className="p-2 bg-blue-100 rounded-full">
                 <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -36,13 +36,13 @@ function AdminDashboardPage() {
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Users</p>
-                <h3 className="text-2xl font-bold">{recentOrders.length}</h3>
+                <p className="text-sm font-medium text-white">Total Users</p>
+                <h3 className="text-2xl font-bold text-white">{recentOrders.length}</h3>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="bg-gradient-to-r from-yellow-500 via-blue-500 to-yellow-500 relative border border-blue-700  rounded-lg shadow-2xl p-6">
             <div className="flex items-center">
               <div className="p-2 bg-green-100 rounded-full">
                 <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -50,13 +50,13 @@ function AdminDashboardPage() {
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-                <h3 className="text-2xl font-bold">$45,678</h3>
+                <p className="text-sm font-medium text-white">Total Revenue</p>
+                <h3 className="text-2xl font-bold text-white">$45,678</h3>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="bg-gradient-to-r from-yellow-500 via-blue-500 to-yellow-500 relative border border-blue-700  rounded-lg shadow-2xl p-6">
             <div className="flex items-center">
               <div className="p-2 bg-purple-100 rounded-full">
                 <svg className="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -64,13 +64,13 @@ function AdminDashboardPage() {
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Orders</p>
-                <h3 className="text-2xl font-bold">567</h3>
+                <p className="text-sm font-medium text-white">Total Orders</p>
+                <h3 className="text-2xl font-bold text-white">567</h3>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="bg-gradient-to-r from-yellow-500 via-blue-500 to-yellow-500 relative border border-blue-700  rounded-lg shadow-2xl p-6">
             <div className="flex items-center">
               <div className="p-2 bg-yellow-100 rounded-full">
                 <svg className="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,15 +78,15 @@ function AdminDashboardPage() {
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Growth</p>
-                <h3 className="text-2xl font-bold">+23%</h3>
+                <p className="text-sm font-medium text-white">Growth</p>
+                <h3 className="text-2xl font-bold text-white">+23%</h3>
               </div>
             </div>
           </div>
         </div>
 
         {/* Order Table */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="bg-gradient-to-r from-teal-500 via-purple-500 to-yellow-500 relative rounded-lg shadow-lg p-6">
           <h5 className="text-xl font-bold mb-4">Recent Orders</h5>
           <div className="relative overflow-x-auto">
             <div className="mb-4">
@@ -99,13 +99,13 @@ function AdminDashboardPage() {
                 <input
                   type="text"
                   placeholder="Search orders..."
-                  className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-full p-2 pl-10 text-sm text-white border border-gray-300 rounded-3xl bg-transparent placeholder:text-white focus:ring-blue-500 focus:border-blue-500 shadow-xl"
                 />
               </div>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-500">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                <thead className="text-xs text-gray-700 uppercase bg-slate-300 border border-white">
                   <tr>
                     <th scope="col" className="px-6 py-3">Customer</th>
                     <th scope="col" className="px-6 py-3">Product</th>
@@ -115,7 +115,7 @@ function AdminDashboardPage() {
                 </thead>
                 <tbody>
                   {recentOrders.map((order) => (
-                    <tr key={order.id} className="bg-white border-b">
+                    <tr key={order.id} className="bg-transparent border border-white shadow-lg hover:bg-gray-300 hover:text-gray-900 text-white">
                       <td className="px-6 py-4">{order.customer}</td>
                       <td className="px-6 py-4">{order.product}</td>
                       <td className="px-6 py-4">${order.amount}</td>

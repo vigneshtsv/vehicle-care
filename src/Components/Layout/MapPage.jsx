@@ -386,14 +386,14 @@ const fetchPetrolData = async () => {
 
   return (<>
   <TopBar/>
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-tr from-orange-500 via-yellow-500 to-purple-500 relative">
       {/* Map Section */}
       <div className="w-full md:w-2/3 h-96 md:h-screen">
         <div id="map" className="w-full h-full" />
       </div>
       {/* Services List */}
       <div className="w-full md:w-1/3">
-      <div className="flex mb-4 border-b">
+      <div className="bg-yellow-300 flex mb-4 shadow-xl">
         <button
           className={`flex-1 py-2 px-4 ${activeTab === 'petrol' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`}
           onClick={() => setActiveTab('petrol')}
@@ -409,7 +409,7 @@ const fetchPetrolData = async () => {
       </div>
 
       {activeTab === 'petrol' && (
-        <div className="bg-white rounded-lg shadow">
+        <div className="rounded-lg shadow">
           <div className="p-4">
             <h2 className="text-2xl font-bold mb-4 flex items-center">
               <Fuel className="mr-2 text-blue-600" /> Nearby Petrol Stations
@@ -417,7 +417,7 @@ const fetchPetrolData = async () => {
             {petrolData.map((station) => (
               <div
                 key={station.Id}
-                className="border p-4 mb-4 rounded-lg shadow-sm hover:bg-gray-50 transition"
+                className="border p-4 mb-4 rounded-lg shadow-sm hover:bg-yellow-200 transition"
               >
                 <div className="flex items-center mb-2">
                   <Fuel className="mr-2 text-xl text-yellow-600" />
@@ -446,7 +446,7 @@ const fetchPetrolData = async () => {
       )}
 
       {activeTab === 'service' && (
-        <div className="bg-white rounded-lg shadow">
+        <div className="bg-transparent rounded-lg shadow">
           <div className="p-4">
             <h2 className="text-2xl font-bold mb-4 flex items-center">
               <Wrench className="mr-2 text-green-600" /> Nearby Bike Services

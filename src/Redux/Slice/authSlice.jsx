@@ -26,7 +26,7 @@ const userSlice = createSlice({
     },
     setCurrentUser : (state,action) => {
       state.currentUser = action.payload;
-      // sessionStorage.setItem('user', JSON.stringify(action.payload));
+      // localStorage.setItem('user', JSON.stringify(action.payload));
     },
     signOutSuccess : (state) => {      
       state.currentUser = null;

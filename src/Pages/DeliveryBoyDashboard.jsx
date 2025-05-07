@@ -119,13 +119,12 @@ const DeliveryBoyDashboard = () => {
   return (
     <>
     <TopBar />
-    <div className="container mx-auto p-4">
-      {/* Image Carousel Section */}
-      <div>
+    {/* Image Carousel Section */}
+    <div>
         <CarouselOne />
       </div>
-
-
+    <div className="container mx-auto p-4 deliveryboybg">
+  
       {/*Waiting Orders and Actions Sections */}
       <div className="p-6">
         <div className="flex justify-between items-center mb-6 bg-amber-500 p-3">
@@ -147,7 +146,7 @@ const DeliveryBoyDashboard = () => {
             .map((order) => (
               <Card
                 key={order._id}
-                className="bg-white shadow-md rounded-lg p-4 border"
+                className="bg-white shadow-md rounded-lg p-4 border-2 border-dashed border-red-700 "
               >
                 <div className="mb-4">
                   <h3 className="text-lg font-semibold mb-2">
@@ -230,7 +229,7 @@ const DeliveryBoyDashboard = () => {
             .map((order) => (
             <Card
               key={order.id}
-              className="bg-white shadow-md rounded-lg p-4 border"
+              className="bg-white shadow-md rounded-lg p-4 border-2 border-dashed border-green-500"
             >
               <div className="mb-4">
                 <h3 className="text-lg font-semibold mb-2">
@@ -303,7 +302,7 @@ const DeliveryBoyDashboard = () => {
             .map((order) => (
             <Card
               key={order.id}
-              className="bg-white shadow-md rounded-lg p-4 border"
+              className="bg-white shadow-md rounded-lg p-4 border-2 border-dashed border-violet-700"
             >
               <div className="mb-4">
                 <h3 className="text-lg font-semibold mb-2">
@@ -414,13 +413,9 @@ const DeliveryBoyDashboard = () => {
           </div>
         </div>
       )}
-
-
-
-      <CarouselOne />
-      <br />
-      <Footer />
     </div>
+      <CarouselOne />
+      <Footer />
     </>
   );
 };

@@ -146,7 +146,7 @@ const ServiceManDashboard = () => {
   }
 
   return (
-    <>
+    <div className="servicemanbg">
       <TopBar />
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
         <CarouselOne />
@@ -157,7 +157,7 @@ const ServiceManDashboard = () => {
         <div className="p-6">
           <div className="flex justify-between items-center mb-6 p-4 bg-red-400">
             <h1 className="text-2xl font-bold">Waiting Orders Notifications</h1>
-            <div className="relative">
+            <div className="relative bg-yellow-200 p-1 rounded-full">
               <Bell className="h-6 w-6 text-gray-600" />
               <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
                 {orders.filter((order) => order.Status === "Waiting" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
@@ -171,7 +171,7 @@ const ServiceManDashboard = () => {
           {orders.filter((order) => order.Status === "Waiting" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
                         (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== "")))
           .map((order) => (
-            <Card className="shadow-md border-2 m-4">
+            <Card className="shadow-md border-2 m-4 border-dashed border-red-500">
               <div key={order.id} className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg">{order.Email}</h3>
@@ -248,8 +248,8 @@ const ServiceManDashboard = () => {
         <div className="p-6">
           <div className="flex justify-between items-center mb-6 p-4 bg-amber-300">
             <h1 className="text-2xl font-bold">Processing Orders Notifications</h1>
-            <div className="relative">
-              <Bell className="h-6 w-6 text-gray-600" />
+            <div className="relative bg-blue-700 p-1 rounded-full">
+              <Bell className="h-6 w-6 text-white" />
               <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
                 {orders.filter((order) => order.Status === "Processing" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
                         (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== ""))).length}
@@ -262,7 +262,7 @@ const ServiceManDashboard = () => {
           {orders.filter((order) => order.Status === "Processing" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
                         (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== "")))
           .map((order) => (
-            <Card className="shadow-md border-2 m-4">
+            <Card className="shadow-md border-2 m-4 border-dashed border-yellow-500">
               <div key={order.id} className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg">{order.Email}</h3>
@@ -333,9 +333,9 @@ const ServiceManDashboard = () => {
         <div className="p-6">
           <div className="flex justify-between items-center mb-6 p-4 bg-green-400">
             <h1 className="text-2xl font-bold">Completed Orders Notifications</h1>
-            <div className="relative">
+            <div className="relative bg-red-500 p-1 rounded-full">
               <Bell className="h-6 w-6 text-gray-600" />
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
+              <span className="absolute -top-2 -right-2 bg-blue-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
                 {orders.filter((order) => order.Status === "Completed" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
                         (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== ""))).length}
               </span>
@@ -347,7 +347,7 @@ const ServiceManDashboard = () => {
           {orders.filter((order) => order.Status === "Completed" && ((typeof order.Service_Type === "string" && order.Service_Type.trim() !== "") ||
                         (typeof order.Problem_Type === "string" && order.Problem_Type.trim() !== "")))
           .map((order) => (
-            <Card className="shadow-md border-2 m-4">
+            <Card className="shadow-md border-2 m-4 border-dashed border-green-500">
               <div key={order.id} className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg">{order.Email}</h3>
@@ -477,7 +477,7 @@ const ServiceManDashboard = () => {
         <CarouselOne />
         <Footer />
       </div>
-    </>
+    </div>
   );
 };
 

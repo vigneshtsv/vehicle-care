@@ -19,7 +19,7 @@ export default function OrderList() {
     try {
       const response = await axios.get(`http://localhost:5000/api/order/deliveryboydata`, {
         headers: {
-          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
 
@@ -54,15 +54,15 @@ export default function OrderList() {
   };
 
   return (
-    <div>
+    <div className="bg-red-400 w-full">
       <AdminTopBarPage />
-      <Card className="max-w-6xl mx-auto">
-      <div class="border-2 border-red-500 p-4 rounded-lg text-lg font-semibold my-5">
-        <h1 className="text-4xl font-bold text-gray-900 text-center">ORDER MANAGEGMENT</h1>
-        </div>
-        <div className="flex justify-between items-center mb-4">
+      <Card className="orderlistbg mb-5 shadow-xl">
+      <div className="border-2 border-red-500 p-4 rounded-2xl text-lg font-semibold my-5 bg-gray-300 shadow-lg">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-red-600 text-center ">ORDER MANAGEGMENT</h1>
+      </div>
+        <div className="flex justify-between overflow-x-auto items-center mb-4">
           <table className="w-full text-sm text-left">
-            <thead className="text-gray-700 bg-gray-50 flex">
+            <thead className="text-gray-700 bg-gray-50">
               <tr>
                 <th className="px-6 bg-green-200 py-3 w-16">No</th>
                 <th className="px-6 bg-green-100 py-3">Email</th>

@@ -9,7 +9,7 @@ const AxiosService = axios.create({
 
 AxiosService.interceptors.request.use(
   (config)=>{
-    let token = sessionStorage.getItem('token')
+    let token = localStorage.getItem('token')
 
     if(config.authenticate && token )
     {

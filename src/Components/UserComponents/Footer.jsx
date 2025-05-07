@@ -56,9 +56,9 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-b from-slate-200 to-slate-300 mt-12 shadow-lg">
+    <footer className="bg-gradient-to-b from-slate-200 to-slate-300 shadow-lg">
       {/* Social Media Banner */}
-      <div className="bg-gradient-to-r from-red-700 to-pink-700 p-8">
+      <div className="bg-gradient-to-l from-orange-500 via-green-500 to-indigo-500 relative p-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <h2 className="text-white text-xl font-semibold">
@@ -122,8 +122,8 @@ const Footer = () => {
       </div>
 
       {/* Copyright Section */}
-      <div className="bg-gradient-to-r from-red-700 to-pink-700 text-white py-4">
-        <div className="max-w-7xl mx-auto px-4 text-center">
+      <div className="bg-gradient-to-l from-orange-500 via-green-500 to-indigo-500 relative py-4">
+        <div className="max-w-7xl mx-auto px-4 text-center text-white">
           <span>&copy; 2024 Copyright: </span>
           <a 
             href="/" 

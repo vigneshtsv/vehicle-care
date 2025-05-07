@@ -1,0 +1,60 @@
+.signupbg {
+    background-size: 100% 100%;
+    background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+    background-image: url("../assets/Stars\ Night\ GIF.gif");
+}
+.loginbg{ 
+    background-size: 100% 100%;
+    background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+    background-image: url('../assets/Background\ GIF.gif');
+}
+.navigationbg{
+    background-size: 100% 100%;
+    background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+    background-image: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGt1MHhxNmp4YXZkcWlvZ2hiYzhuOTR4ZWgzNjZ2cGlxODM1NGF2cyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3ogwFLbULAobloz0yY/giphy.gif');
+}
+.customerdashboardbg{
+    background-size: 100% 100%;
+    background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+    background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHF6MGMzYTJtajFhZGpyOXFycWRqNzR4OXpzbmlpaWk0eGw2YjljNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/OkVVUlG40FnuE/giphy.gif');
+}
+.deliveryboybg{
+    background-size: 100% 100%;
+    background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+    background-image: url('https://media.giphy.com/media/llxMRJAsSjXsJ5ktIv/giphy.gif?cid=ecf05e47ofkieer5817wc04sj70rzi39y8e34ws6lasc280x&ep=v1_gifs_related&rid=giphy.gif&ct=g');
+}
+.petrolstationbg{
+    background-size: 100% 100%;
+    background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+    background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2Fxd2d1ZzA4bHZ1NTk2NWE2NmQ3cTJjdG0xdW40MDlnOW5yNnkxeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/gFhZjOtzoutSvckWPM/giphy.gif');
+}
+.servicemanbg{
+    background-size: 100% 100%;
+    background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+    background-image: url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3JjYmdxYjhndGM2dnoxZzJrMThqdnR6c3d6bmplMWRheXlmZnExYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/IAb717kg5jMkMhNofp/giphy.gif');
+}
+.orderlistbg{
+    background-size: 100% 100%;
+    background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+    background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGxhaTVodXQ0MnRxcDZzdGxvbTFybnd2MzZpcm84aG02bm81ZmV0ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/FB0wvJyIkfbSvurZ5Q/giphy.gif');
+}
+.userlistbg{
+    background-size: 100% 100%;
+    background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+    background-image: url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm5zaHAxN2hscTNhdWxlajVpbXBwMWR4bXh4M2U1b3hobHNzZnk5MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/SBbiZFLnpNRIBc7Yzt/giphy.gif');
+}
+.termsbg{
+    background-size: 100% 100%;
+    background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+    background-image: url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXFzdHR2MHVvNHprN2k5dXlhMnhuY3QxZTk0b2p0eGhzM3VzNjJwOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oEjHZWViTV992Dx3W/giphy.gif');
+}
+.admindashboardbg{
+    background-size: 100% 100%;
+    background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+    background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExajU2aDVsdzloMGdteW9jNGhhcTQ3YjhiODlodWU4czdjZ3F1bjdkNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/vN2JgW7mzrXFONSClb/giphy.gif');
+}
+.dashboardprofilebg {
+    background-size: 100% 100%;
+    background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+    background-image: url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGxhaTVodXQ0MnRxcDZzdGxvbTFybnd2MzZpcm84aG02bm81ZmV0ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/FB0wvJyIkfbSvurZ5Q/giphy.gif');
+}

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Checkbox, Label, Textarea, TextInput } from 'flowbite-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
-import { LogInIcon } from 'lucide-react';
 import { toast } from 'react-toastify';
+
 
 
 const CustomerSignup = () => {
@@ -44,7 +44,7 @@ const CustomerSignup = () => {
       });
     }
   const saveToken =(token) => {
-    sessionStorage.setItem('authToken',token)
+    localStorage.setItem('authToken',token)
   }
   // Form submission handler
   const handleSubmit = async (e) => {
@@ -148,36 +148,36 @@ const CustomerSignup = () => {
     navigate('/');
   }
 
-  return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md customersingupbg">
-      <h2 className="text-2xl font-bold mb-6 text-center">
+  return <div className='signupbg p-10'>
+    <div className="max-w-md mx-auto p-6  rounded-lg shadow-2xl border border-spacing-5 border-lime-500">
+      <h2 className="text-2xl font-bold mb-6 text-lime-300  text-center">
         Customer Registration
       </h2>
 
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <form className='space-y-4' onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="grid">
-        <div className='flex flex-col md:flex-row gap-4'>
+        <div className='flex flex-col md:flex-row my-3 gap-4'>
             <div>
-              <Label htmlFor="FirstName" className="block mb-1">First Name</Label>
-              <TextInput
+              {/* <label htmlFor="FirstName" className="block text-lime-300 mb-1">First Name</label> */}
+              <input
                 type="text"
                 id="FirstName"
                 name="FirstName"
-                className="rounded"
-                value={formData.FirstName}
+                placeholder='FirstName'
+                className="flex bg-transparent border border-lime-300 px-1 text-white placeholder-gray-100 rounded"
                 onChange={handleInputChange}
                 required
               />
             </div>
-            
+
             <div>
-              <Label htmlFor="LastName" className="block mb-1">Last Name</Label>
-              <TextInput
+              {/* <label htmlFor="LastName" className="block text-lime-300 mb-1">Last Name</label> */}
+              <input
                 type="text"
                 id="LastName"
                 name="LastName"
-                className="rounded"
-                value={formData.LastName}
+                placeholder='LastName'
+                className=" flex bg-transparent border border-lime-300 px-1 text-white placeholder-gray-100 rounded"
                 onChange={handleInputChange}
                 required
               />
@@ -185,97 +185,106 @@ const CustomerSignup = () => {
         </div>
         </div>
 
-        <div className="mb-2">
-          <Label htmlFor="Email">Email *</Label>
-          <TextInput
+        <div className="mb-2 my-3">
+          {/* <label htmlFor="Email" className='text-lime-300'>Enter Your Email</label> */}
+          <input
             type="email"
             id="Email"
             name="Email"
-            value={formData.Email}
+            placeholder='Enter Your Email'
+            className="w-full flex bg-transparent border border-lime-300 text-white placeholder-gray-100 rounded"
             onChange={handleInputChange}
             required
           />
         </div>
 
-        <div className="mb-2">
-          <Label htmlFor="PhoneNumber">Phone Number *</Label>
-          <TextInput
+        <div className="mb-2 my-3">
+          {/* <label htmlFor="PhoneNumber" className='text-lime-300 '>Phone Number</label> */}
+          <input
             type="tel"
             id="PhoneNumber"
             name="PhoneNumber"
-            value={formData.PhoneNumber}
+            placeholder='Enter Your Phone Number'
+            className="w-full flex bg-transparent border border-lime-300 text-white placeholder-gray-100 rounded"
             onChange={handleInputChange}
             required
           />
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col md:flex-row my-3 gap-4">
           <div className="mb-2">
-            <Label htmlFor="Password">Password *</Label>
-            <TextInput
+            {/* <label htmlFor="Password" className='text-lime-300 '>Password</label> */}
+            <input
               type="password"
               id="Password"
               name="Password"
-              value={formData.Password}
+              placeholder='Enter Your Password'
+              className="w-full flex bg-transparent border border-lime-300 text-white placeholder-gray-100 rounded"
               onChange={handleInputChange}
               required
             />
           </div>
 
           <div className="mb-2">
-            <Label htmlFor="ConfirmPassword">Confirm Password *</Label>
-            <TextInput
+            {/* <label htmlFor="ConfirmPassword" className='text-lime-300 '>Confirm Password</label> */}
+            <input
               type="password"
               id="ConfirmPassword"
               name="ConfirmPassword"
-              value={formData.ConfirmPassword}
+              placeholder='Confirm Your Password'
+              className="w-full flex bg-transparent border border-lime-300 text-white placeholder-gray-100 rounded"
               onChange={handleInputChange}
               required
             />
           </div>
         </div>
 
-        <div className="mb-2">
-          <Label htmlFor="Address">Enter Your Address</Label>
-          <Textarea
+        <div className="mb-2 my-3">
+          {/* <label htmlFor="Address" className='text-lime-300 '>Enter Your Address</label> */}
+          <textarea
             id="Address"
             name="Address"
-            value={formData.Address}
+            placeholder='Enter Your Address'
+            className="w-full flex bg-transparent  text-white border-lime-300 placeholder-gray-100 rounded"
             onChange={handleInputChange}
             rows="3"
-          ></Textarea>
+          />
         </div>
 
         {/* File upload fields */}
-        <h3 className="text-xl flex bg-green-400 justify-center font-semibold mt-6 mb-4">Upload Documents</h3>
+        <h3 className="text-xl text-yellow-200 flex justify-center font-semibold mt-6 mb-4">Upload Documents</h3>
 
+        <div className='border border-red-700 p-2 m-4 shadow-2xl rounded'>
         <div className="mb-4">
-          <Label htmlFor="AadharCard">Aadhar Card *</Label>
-          <TextInput
+          <label htmlFor="AadharCard" className='text-lime-300'>Upload Your AadharCard</label>
+          <input
             type="file"
             id="AadharCard"
             name="AadharCard"
+            className="w-full flex bg-transparent border border-lime-300 text-white rounded"
             onChange={handleFileChange}
             required
           />
         </div>
 
         <div className="mb-4">
-          <Label htmlFor="ProfilePicture">ProfilePicture *</Label>
-          <TextInput
+          <label htmlFor="ProfilePicture" className='text-lime-300'>Upload Your ProfilePicture</label>
+          <input
             type="file"
             id="ProfilePicture"
             name="ProfilePicture"
+            className="w-full flex bg-transparent border border-lime-300 text-white rounded"
             onChange={handleFileChange}
             required
           />
+        </div>
         </div>
         
         <div className="flex items-center gap-2">
           <Checkbox id="accept" defaultChecked required/>
-          <Label htmlFor="accept" className="flex">
+          <Label htmlFor="accept" className="flex text-lime-300">
             I agree with the&nbsp;
-            <a href="/termsconditions" className="text-cyan-600 hover:underline dark:text-cyan-500">
+            <a href="/termsconditions" className="text-blue-300 hover:underline hover:text-blue-500">
               terms and conditions
             </a>
           </Label>
@@ -292,16 +301,22 @@ const CustomerSignup = () => {
           </Button>
         </div>
       </form>
+      <div className='flex gap-2 text-sm mt-6 text-lime-300'>
+          <span>Already Have An Account?</span>
+          <Link to='/' className='text-green-300 hover:text-red-300'>Login</Link>
+      </div>
+
       <div>
        {/* Buttons */}
        <div className="flex justify-between m-5">
-        <Button onClick={backPage} outline gradientDuoTone="purpleToBlue">
+        <button onClick={backPage} className='flex items-center text-white hover:text-red-400'>
           <IoMdArrowBack className="m-1" />
           Back
-        </Button>
-        <Button onClick={loginPage} outline gradientDuoTone="purpleToBlue">
-          Login <IoMdArrowForward className="m-1" />
-        </Button>
+        </button>
+        <button onClick={loginPage} className='flex items-center text-white hover:text-red-400'>
+          Login
+          <IoMdArrowForward className="m-1" /> 
+        </button>
       </div>
 
         {errorMsg && (
@@ -317,7 +332,7 @@ const CustomerSignup = () => {
         )}
       </div>
     </div>
-  );
+  </div>
 };
 
 export default CustomerSignup;

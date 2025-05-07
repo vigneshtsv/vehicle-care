@@ -1,23 +1,28 @@
-import React from 'react'
+import React from "react";
 
 export default function SignupNavigate() {
-  return <div className='box-content bg-green-400 w-80 h-50 mx-auto my-20 p-10 rounded-xl'>
-  <div>
-    <h1 className='flex-auto items-center text-3xl text-red-700 font-extrabold m-10'>Select Your Role</h1>
-  </div>
-  <ul>
-    <li className='bg-yellow-400 p-3 m-5 px-10 rounded-xl text-2xl hover:bg-yellow-700'>
-      <button><a href="/customersignup">CustomerSignup</a></button>
-    </li>
-    <li className='bg-yellow-400 p-3 m-5 px-10 rounded-xl text-2xl hover:bg-yellow-700'>
-      <button><a href="/deliveryboysignup">DeliveryBoySignup</a></button>
-    </li>
-    <li className='bg-yellow-400 p-3 m-5 px-10 rounded-xl text-2xl hover:bg-yellow-700'>
-      <button><a href="/petrolstationsignup">PetrolStationSignup</a></button>
-    </li>
-    <li className='bg-yellow-400 p-3 m-5 px-10 rounded-xl text-2xl hover:bg-yellow-700'>
-      <button><a href="/servicemansignup">ServiceManSignup</a></button>
-    </li>
-  </ul>
-</div>
+  return (
+    <div className="min-h-screen bg-cover bg-center flex items-center justify-center navigationbg px-4">
+      <div className="w-full max-w-md md:max-w-2xl bg-transparent bg-opacity-90 p-6 md:p-10 rounded-2xl border-2 border-red-500 shadow-xl">
+        <h1 className="text-center text-2xl md:text-3xl text-red-900 font-extrabold bg-green-500 mb-8 p-2 border-2 border-red-500 rounded-xl shadow-lg">
+          Role Based Signup & Add Your Details
+        </h1>
+
+        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <li className="bg-yellow-400 p-4 rounded-xl text-center text-xl hover:bg-yellow-600 transition">
+            <a href="/customersignup">Customer Signup</a>
+          </li>
+          <li className="bg-yellow-400 p-4 rounded-xl text-center text-xl hover:bg-yellow-600 transition">
+            <a href="/deliveryboysignup">Delivery Boy Signup</a>
+          </li>
+          <li className="bg-yellow-400 p-4 rounded-xl text-center text-xl hover:bg-yellow-600 transition">
+            <a href="/petrolstationsignup">Petrol Station Signup</a>
+          </li>
+          <li className="bg-yellow-400 p-4 rounded-xl text-center text-xl hover:bg-yellow-600 transition">
+            <a href="/servicemansignup">Service Man Signup</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
 }

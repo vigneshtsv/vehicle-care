@@ -17,6 +17,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <App />
       </Provider>
     </PersistGate>
-    <ToastContainer autoclose={1000}/>
+    <ToastContainer autoclose={1000} position="top-center"/>
   </React.StrictMode>
 );

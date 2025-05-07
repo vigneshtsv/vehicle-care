@@ -7,11 +7,11 @@ export const useLogout = () => {
     let navigate = useNavigate()
     return ()=> {
         toast.error('Logout Successfully')
-        sessionStorage.clear()
-        // sessionStorage.removeItem('user')
-        sessionStorage.removeItem('token')
-        sessionStorage.removeItem('Role')
-        sessionStorage.removeItem('Id')
+        localStorage.clear()
+        // localStorage.removeItem('user')
+        localStorage.removeItem('token')
+        localStorage.removeItem('Role')
+        localStorage.removeItem('Id')
         navigate('/')
     }
 }

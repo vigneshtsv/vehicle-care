@@ -22,6 +22,8 @@ import Search from '../Components/Layout/Search.jsx';
 import { CarouselOne } from '../Components/Layout/CarouselOne.jsx';
 import OrderTracking from '../Components/Layout/OrderTracking.jsx';
 import MyOrders from '../Components/UserComponents/MyOrders.jsx';
+import AdminProtectedRoute from '../Components/ProdutedRoutes/AdminProtectedRoute.jsx';
+import { Outlet } from 'react-router-dom';
 
 
 

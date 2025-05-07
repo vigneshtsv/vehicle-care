@@ -126,10 +126,10 @@ function TopBar() {
   }
   return (
     <>
-      <div className="flex items-center justify-between p-4 bg-white shadow-md w-full">
+      <div className="flex items-center justify-between p-4 bg-gradient-to-b from-red-500 via-yellow-500 to-purple-500 relative shadow-md w-full">
         {/* Logo */}
-        <Link to="/" className="flex items-center">
-          <img src={logoGIF} alt="logo" className="w-14 h-14 sm:w-20 sm:h-20" />
+        <Link to="/" className="flex items-center ">
+          <img src={logoGIF} alt="logo" className="w-14 h-14 sm:w-20 sm:h-20 rounded-full"/>
         </Link>
 
         {/* Search bar */}
@@ -138,26 +138,41 @@ function TopBar() {
             type="text"
             placeholder="Search your Service & Products"
             rightIcon={AiOutlineSearch}
-            className="w-full"
+            className="w-full text-white placeholder-transparent border-green-700 focus:ring-white focus:border-green-400"
           />
         </div>
 
         {/* Desktop Menu */}
         <ul className="hidden lg:flex gap-6 items-center">
-          <li className={`font-bold py-2 ${path === '#' ? 'text-blue-600' : 'text-gray-700'} hover:text-sky-500`}>
+          <li
+            className={`font-bold py-2 ${
+              path === "#" ? "text-blue-600" : "text-gray-700"
+            } hover:text-sky-500`}
+          >
             <Link to="#">HOME</Link>
           </li>
-          <li className={`font-bold py-2 ${path === '/footer' ? 'text-blue-600' : 'text-gray-700'} hover:text-sky-500`}>
+          <li
+            className={`font-bold py-2 ${
+              path === "/footer" ? "text-blue-600" : "text-gray-700"
+            } hover:text-sky-500`}
+          >
             <Link to="/footer">ABOUT</Link>
           </li>
-          <li className={`font-bold py-2 ${path === '/' ? 'text-blue-600' : 'text-gray-700'} hover:text-sky-500`}>
+          <li
+            className={`font-bold py-2 ${
+              path === "/" ? "text-blue-600" : "text-gray-700"
+            } hover:text-sky-500`}
+          >
             <Link to="/">LOGIN</Link>
           </li>
-          <li className={`font-bold py-2 ${path === '/myorders' ? 'text-blue-600' : 'text-gray-700'} hover:text-sky-500`}>
+          <li
+            className={`font-bold py-2 ${
+              path === "/myorders" ? "text-blue-600" : "text-gray-700"
+            } hover:text-sky-500`}
+          >
             <Link to="/myorders">YOUR ORDER</Link>
           </li>
         </ul>
-
 
         {/* Mobile Menu Icon */}
         <div className="lg:hidden">
@@ -166,15 +181,19 @@ function TopBar() {
           </button>
         </div>
 
-      {/* Avatar & Dropdown */}
-      <div className="gap-2 p-6">
+        {/* Avatar & Dropdown */}
+        <div className="gap-2 p-6">
           <Dropdown
             arrowIcon={false}
             inline
-            label={<Avatar alt="user" img={currentUser?.ProfilePicture} rounded />}
+            label={
+              <Avatar alt="user" img={currentUser?.ProfilePicture} rounded />
+            }
           >
             <Dropdown.Header>
-              <span>{`${currentUser?.FirstName} ${currentUser?.LastName}` || 'User'}</span>
+              <span>
+                {`${currentUser?.FirstName} ${currentUser?.LastName}` || "User"}
+              </span>
             </Dropdown.Header>
             <Link to="/dashboardprofile">
               <DropdownItem>Profile</DropdownItem>
@@ -183,24 +202,49 @@ function TopBar() {
             <Dropdown.Item onClick={handleLogout}>LogOut</Dropdown.Item>
           </Dropdown>
         </div>
-
       </div>
 
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="lg:hidden bg-white shadow-md p-4 space-y-2">
-          <Link to="/" className="block font-semibold text-blue-600" onClick={() => setMenuOpen(false)}>HOME</Link>
-          <Link to="/footer" className="block font-semibold text-blue-600" onClick={() => setMenuOpen(false)}>ABOUT</Link>
-          <Link to="/login" className="block font-semibold text-blue-600" onClick={() => setMenuOpen(false)}>LOGIN</Link>
-          <Link to="/myorders" className="block font-semibold text-blue-600" onClick={() => setMenuOpen(false)}>YOUR ORDER</Link>
+          <Link
+            to="/"
+            className="block font-semibold text-blue-600"
+            onClick={() => setMenuOpen(false)}
+          >
+            HOME
+          </Link>
+          <Link
+            to="/footer"
+            className="block font-semibold text-blue-600"
+            onClick={() => setMenuOpen(false)}
+          >
+            ABOUT
+          </Link>
+          <Link
+            to="/login"
+            className="block font-semibold text-blue-600"
+            onClick={() => setMenuOpen(false)}
+          >
+            LOGIN
+          </Link>
+          <Link
+            to="/myorders"
+            className="block font-semibold text-blue-600"
+            onClick={() => setMenuOpen(false)}
+          >
+            YOUR ORDER
+          </Link>
           <div className="mt-2">
-            <button onClick={handleLogout} className="text-red-500 font-bold">Logout</button>
+            <button onClick={handleLogout} className="text-red-500 font-bold">
+              Logout
+            </button>
           </div>
         </div>
       )}
 
       {/* Marquee */}
-      <div className="bg-gray-100 p-2 font-extrabold text-center text-sm sm:text-lg">
+      <div className=" p-2 font-extrabold text-center text-sm sm:text-lg bg-gradient-to-t from-blue-500 via-indigo-500 to-purple-500 relative">
         <marquee>
           <b>Door step petrol & service ( happy journey )</b>
         </marquee>

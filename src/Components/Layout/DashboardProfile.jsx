@@ -11,18 +11,17 @@ const DashboardProfile = () => {
   let logout = useLogout();
   const {currentUser} = useSelector((state) => state.user); 
   const [formData, setFormData] = useState({
-    FirstName: currentUser.FirstName || "",
-    Email: currentUser.Email || "",
-    Password: currentUser.Password || "",
-    ProfilePicture: currentUser.ProfilePicture || "",
+    FirstName: currentUser?.FirstName || "",
+    Email: currentUser?.Email || "",
+    Password: "",
+    ProfilePicture: currentUser?.ProfilePicture || "",
   });
-  const [imageFile, setImageFile] = useState(null);
+
   const [imageBase64, setImageBase64] = useState(currentUser?.ProfilePicture || "");
-  const [uploadProgress, selectUploadProgress] = useState(0);
+  const [uploadProgress, setUploadProgress]= useState(0);
   const [uploadError, setUploadError] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isDeleteModalOpen,setIsDeleteModalOpen] = useState(false);
-  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [error,setError] = useState(null);
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const filePickerRef = useRef(); 
@@ -55,7 +54,7 @@ const DashboardProfile = () => {
       let progress = 0;
       const interval = setInterval(() => {
         progress += 10;
-        selectUploadProgress(progress);
+        setUploadProgress(progress);
         if(progress >= 100) {
           clearInterval(interval);
           setImageBase64(base64);
@@ -85,8 +84,12 @@ const DashboardProfile = () => {
         ProfilePicture:formData.ProfilePicture
       }
 
-      if (formData.Password) {
+      if (formData.Password.trim() !== "") {
         userData.Password = formData.Password;
+      }
+      const token = localStorage.getItem('token');
+      if(!token) {
+        throw new Error('Authentication token not found');
       }
 
       const endpoint =`http://localhost:5000/api/updateprofile/${currentUser?.Id}`;
@@ -94,8 +97,8 @@ const DashboardProfile = () => {
       const response = await fetch(endpoint, {
         method:'PUT',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(userData),
       });
@@ -103,13 +106,18 @@ const DashboardProfile = () => {
       
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to save user');
+        const errorData = await response.json().catch(() => null)
+        throw new Error(errorData?.message || 'Failed to save user');
       }
-      
+
       const updateUser = await response.json();
-      setUpdateSuccess(true);
+      console.log('profile updated',updateUser);
       
+      if(updateUser && updateUser.user) {
+        setImageBase64(updateUser.user.ProfilePicture || '');
+      }
+      setUpdateSuccess(true);
+
     } catch (err) {
       setError(`Failed to update user`);
     } finally {
@@ -119,15 +127,20 @@ const DashboardProfile = () => {
   
   const handleDeleteAccount = async () => {
     try {
+      const token = localStorage.getItem('token');
+      if(!token) {
+        throw new Error('Authentication token not found');
+      }
+      
       const endpoint = `http://localhost:5000/api/admin/deleteuser/${currentUser?.Id}`;
 
       const response = await fetch(endpoint, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`
         }
-      })
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -136,7 +149,7 @@ const DashboardProfile = () => {
       logout();
       dispatch(signOutSuccess());
     } catch (error) {
-      setError(err.message || 'Failed to delete account');
+      setError(error.message || 'Failed to delete account');
       setIsDeleteModalOpen(false);
     }
   }
@@ -147,7 +160,8 @@ const DashboardProfile = () => {
   }
 
   return (
-    <div className="max-w-lg mx-auto p-4 w-full">
+    <div className="dashboardprofilebg p-5 min-h-screen flex items-center justify-center">
+      <div className="max-w-lg mx-auto p-4 w-full bg-white shadow-lg rounded-lg">
       <h1 className="my-7 text-center font-semibold text-4xl">Profile</h1>
       
       {error && (
@@ -317,6 +331,7 @@ const DashboardProfile = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };

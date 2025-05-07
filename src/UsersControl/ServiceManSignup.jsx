@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { HiInformationCircle } from 'react-icons/hi';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { IoMdArrowBack } from 'react-icons/io';
+import { IoMdArrowBack, IoMdArrowForward } from 'react-icons/io';
 import { LogInIcon } from 'lucide-react';
 
 function ServiceManSignup() {
@@ -45,7 +45,7 @@ function ServiceManSignup() {
   };
 
   const saveToken = (token) => {
-    sessionStorage.setItem('authToken',token)
+    localStorage.setItem('authToken',token)
   }
 
   const handleSubmit = async (e) => {
@@ -145,110 +145,132 @@ function ServiceManSignup() {
     navigate('/');
   }
 
-  return <div className='bg-red-300 min-h-screen p-4'>
-      <div className='max-w-md mx-auto mt-8 p-6 bg-white rounded-xl shadow-md'>
-        <h1 className='text-2xl font-bold mb-6 text-center'>
+  return <div className='signupbg p-10'>
+      <div className='max-w-md mx-auto mt-8 p-6 bg-transparent rounded-xl shadow-2xl border border-spacing-5 border-lime-500'>
+        <h1 className='text-2xl font-bold mb-6 text-lime-300 text-center'>
           ServiceMan Signup
         </h1>
 
-        <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit} encType='multipart/form-data'>
-          <div className="grid grid-flow-col justify-stretch space-x-4">
-            <TextInput
-              type="text"
-              placeholder="First Name"
-              id="FirstName"
-              className='m-2 rounded'
-              onChange={handleChange}
-              required
-            />
-            <TextInput
-              type="text"
-              placeholder="Last Name"
-              id="LastName"
-              className='m-2 rounded'
+        <form className="space-y-4" onSubmit={handleSubmit} encType='multipart/form-data'>
+          <div className='grid'>
+            <div className="flex flex-col md:flex-row gap-4">
+              <input
+                type="text"
+                placeholder="First Name"
+                id="FirstName"
+                className="flex bg-transparent border border-lime-300 px-1 text-white placeholder-gray-100 rounded"
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                id="LastName"
+                className=" flex bg-transparent border border-lime-300 px-1 text-white placeholder-gray-100 rounded"
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+          <div className='mb-2 my-3'>
+            <input
+              type="email"
+              placeholder="vignesh@gmail.com"
+              id="Email"
+              className="w-full flex bg-transparent border border-lime-300 text-white placeholder-gray-100 rounded"
               onChange={handleChange}
               required
             />
           </div>
-          <section>
-            <TextInput
-              type="email"
-              placeholder="vignesh@gmail.com"
-              id="Email"
-              onChange={handleChange}
-              required
-            />
-            <br />
-            <TextInput
+          <div className='mb-2 my-3'>
+            <input
               type="tel"
               placeholder="7373892019"
               id="PhoneNumber"
+              className="w-full flex bg-transparent border border-lime-300 text-white placeholder-gray-100 rounded"
               onChange={handleChange}
               required
             />
-          </section>
-          <section className='flex flex-col md:flex-row gap-4'>
-            <TextInput
+          </div>
+
+
+          <div className="flex flex-col md:flex-row my-3 gap-4">
+            <div className='mb-2'>
+            <input
               type="password"
               placeholder="Create New Password"
               id="Password"
+              className="w-full flex bg-transparent border border-lime-300 text-white placeholder-gray-100 rounded"
               onChange={handleChange}
               required
             />
-            <TextInput
+            </div>
+            <div className='mb-2'>
+            <input
               type="password"
-              placeholder="Confirm New Password"
+              placeholder="Confirm Your Password"
               id="ConfirmPassword"
+              className="w-full flex bg-transparent border border-lime-300 text-white placeholder-gray-100 rounded"
               onChange={handleChange}
               required
             />
-          </section>
+            </div>
+          </div>
+
           <div>
-            <Textarea
+            <textarea
               type="textarea"
               placeholder="Enter Your Address"
               id="Address"
+              className="w-full flex bg-transparent  text-white border-lime-300 placeholder-gray-100 rounded"
               onChange={handleChange}
               required
             />
           </div>
            
-          <h3 className='text-xl flex bg-green-400 justify-center m-2'>
+           {/* File Upload fields */}
+
+          <h3 className='text-xl flex text-yellow-200 justify-center font-semibold mt-2 mb-2'>
              Upload Documents
           </h3>
 
-          <div>
+          <div className='border border-red-700 p-2 m-2 shadow-2xl rounded'>
             <div className="mb-4">
-              <Label htmlFor="AadharCard">AadharCard</Label>
-              <TextInput
+              <label htmlFor="AadharCard" className='text-lime-300'>AadharCard</label>
+              <input
                 type="file"
                 id="AadharCard"
                 name="AadharCard"
+                className="w-full flex bg-transparent border border-lime-300 text-white rounded"
                 onChange={handleFileChange}
                 required
               />
             </div>
+
             <div className="mb-4">
-              <Label htmlFor="MechanicCertificate">MechanicCertificate</Label>
-              <TextInput
+              <label htmlFor="MechanicCertificate" className='text-lime-300'>MechanicCertificate</label>
+              <input
                 type="file"
                 id="MechanicCertificate"
                 name="MechanicCertificate"
+                className="w-full flex bg-transparent border border-lime-300 text-white rounded"
                 onChange={handleFileChange}
                 required
               />
             </div>
             <div className="mb-4">
-              <Label htmlFor="ProfilePicture">ProfilePicture</Label>
-              <TextInput
+              <label htmlFor="ProfilePicture" className='text-lime-300'>ProfilePicture</label>
+              <input
                 type="file"
                 id="ProfilePicture"
                 name="ProfilePicture"
+                className="w-full flex bg-transparent border border-lime-300 text-white rounded"
                 onChange={handleFileChange}
                 required
               />
             </div>
           </div>
+
           <div className="flex items-center gap-2">
             <Checkbox id="accept" defaultChecked required />
             <Label htmlFor="accept" className="flex">
@@ -263,10 +285,9 @@ function ServiceManSignup() {
           </div>
           {/* <input id="Role"  type="text"  value="ServiceMan" onChange={handleChange} /> */}
         
-          <Button
+          <button
             type="submit"
-            outline
-            gradientDuoTone="purpleToPink"
+            className="w-full bg-transparent text-white font-bold py-2 px-4 rounded hover:bg-purple-700 border border-lime-300 hover:border-transparent focus:outline-none focus:shadow-outline"
             disabled={loading}
           >
             {loading ? (
@@ -281,7 +302,7 @@ function ServiceManSignup() {
             ) : (
               "Submit"
             )}
-          </Button>
+          </button>
         </form>
         <div className="flex gap-2 text-sm mt-6">
           <span>Already Have An Account?</span>
@@ -292,13 +313,13 @@ function ServiceManSignup() {
      
          {/* Buttons */}
          <div className="flex justify-between m-4 space-x-4">
-               <Button onClick={backPage} outline gradientDuoTone="purpleToBlue">
+               <button onClick={backPage} className='flex items-center text-white hover:text-red-400 rounded-lg p-2'>
                    <IoMdArrowBack className="m-2" />
                    Back
-               </Button>
-               <Button onClick={loginPage} outline gradientDuoTone="purpleToBlue">
-                   Login <LogInIcon className="mr-2" />
-               </Button>
+               </button>
+               <button onClick={loginPage} className='flex items-center text-white hover:text-red-400 rounded-lg p-2'>
+                   Login <IoMdArrowForward className="mr-2" />
+               </button>
          </div>
 
         {errorMessage && (

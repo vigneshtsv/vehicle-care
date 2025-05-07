@@ -3,6 +3,7 @@ import { Card, Table, Badge, Spinner, Modal, Button } from 'flowbite-react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import TopBar from './TopBar';
+import Footer from './Footer';
 
 
 const MyOrders = () => {
@@ -64,9 +65,9 @@ const MyOrders = () => {
   return (
     <>
     <TopBar />
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto bg-green-400 px-4 py-8">
       <Card>
-        <h2 className="text-2xl font-bold mb-6">My Orders</h2>
+        <h2 className="text-4xl flex justify-center font-bold mb-6">My Orders</h2>
         {orders.length === 0 ? (
           <p className="text-gray-600">No orders found.</p>
         ) : (
@@ -199,6 +200,7 @@ const MyOrders = () => {
         </Modal>
       )}
     </div>
+    <Footer />
     </>
   );
 };

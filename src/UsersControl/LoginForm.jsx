@@ -42,9 +42,9 @@
 //             {
 //               dispatch(signInSuccess(data.message));
 //               toast.success(data.message)
-//               sessionStorage.setItem('token',data.token)
-//               sessionStorage.setItem('Role',data.Role)
-//               sessionStorage.setItem('id',data.id)
+//               localStorage.setItem('token',data.token)
+//               localStorage.setItem('Role',data.Role)
+//               localStorage.setItem('id',data.id)
               
 //               //!Navigte based on Role
 //                if(data.Role==='Admin'){
@@ -167,9 +167,9 @@
 //             {
 //               dispatch(signInSuccess(res.data.message));
 //               toast.success(res.data.message)
-//               sessionStorage.setItem('token',res.data.token)
-//               sessionStorage.setItem('Role',res.data.Role)
-//               sessionStorage.setItem('id',res.data.id)
+//               localStorage.setItem('token',res.data.token)
+//               localStorage.setItem('Role',res.data.Role)
+//               localStorage.setItem('id',res.data.id)
               
 //               //!Navigte based on Role
 //                if(res.data.Role==='Admin'){
@@ -303,10 +303,10 @@ const LoginForm = () => {
 
              //localStorage.setItem('user', JSON.stringify({...data.user, AadharCard: null,ProfilePicture}));  //28-3-25
 
-             sessionStorage.setItem('token',data.token)
-             sessionStorage.setItem('Role',data.user.Role)
-             sessionStorage.setItem('Id',data.user.Id)
-            //  sessionStorage.setItem('user', JSON.stringify(data.user)); // Store user data in session storage
+             localStorage.setItem('token',data.token)
+             localStorage.setItem('Role',data.user.Role)
+             localStorage.setItem('Id',data.user.Id)
+            //  localStorage.setItem('user', JSON.stringify(data.user)); // Store user data in session storage
              
              
              dispatch(setCurrentUser(data.user))
@@ -339,21 +339,21 @@ const LoginForm = () => {
  };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center">
+    <div className="min-h-screen flex flex-col justify-center loginbg">
       <div className="mx-auto w-full max-w-md p-6">
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="bg-transparent rounded-lg shadow-lg p-8 border-2 border-yellow-300">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
-            <p className="text-gray-600 mt-2">Please sign in to your account</p>
-            <p className="text-gray-600 mt-2 text-xl">** This is Demo Project **</p>
+            <h1 className="text-2xl font-bold text-lime-400">Welcome back</h1>
+            <p className="text-lime-600 mt-2">Please sign in to your account</p>
+            <p className="text-lime-600 mt-2 text-xl">** This is Demo Project **</p>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-lime-600 mb-2">
                 Email Address
               </label>
               <input
@@ -363,14 +363,14 @@ const LoginForm = () => {
                 required
                 value={formData.Email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full bg-transparent px-4 py-2 text-white border border-lime-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-800 placeholder:text-lime-500"
                 placeholder="Enter your email"
               />
             </div>
 
             {/* Password Field */}
             <div>
-              <label htmlFor="Password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="Password" className="block text-sm font-medium text-lime-600 mb-2">
                 Password
               </label>
               <div className="relative">
@@ -381,13 +381,13 @@ const LoginForm = () => {
                   required
                   value={formData.Password}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="text-white w-full bg-transparent px-4 py-2 border border-lime-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-800 placeholder:text-lime-500"
                   placeholder="Enter your password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lime-500"
                 >
                   {showPassword ? (
                     <AiOutlineEyeInvisible className="h-5 w-5" />
@@ -405,14 +405,15 @@ const LoginForm = () => {
                   id="remember-me"
                   name="rememberMe"
                   type="checkbox"
-                  className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  className="h-4 w-4 text-lime-600 border-gray-300 rounded focus:ring-green-500"
+                  required
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-lime-500">
                   Remember me
                 </label>
               </div>
               <div>
-                <a href="/forgotpassword" className="text-sm font-medium text-blue-600 hover:text-blue-500">
+                <a href="/forgotpassword" className="text-sm font-medium text-lime-600 hover:text-green-500">
                   Forgot password?
                 </a>
               </div>
@@ -424,13 +425,13 @@ const LoginForm = () => {
               outline gradientDuoTone="greenToBlue"
               className='w-full'
             >
-              login
+              LOGIN
             </Button>
 
             {/* Sign Up Link */}
             <div className="text-center text-sm">
-              <span className="text-gray-600">Don't have an account? </span>
-              <a href="/signupnavigate" className="font-medium text-blue-600 hover:text-blue-500">
+              <span className="text-lime-600">Don't have an account? </span>
+              <a href="/signupnavigate" className="font-medium text-lime-600 hover:text-green-700">
                 Sign up
               </a>
             </div>

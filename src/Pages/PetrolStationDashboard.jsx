@@ -90,7 +90,7 @@ const handleSubmit = async (e) => {
 }
 
   return (
-    <div>
+    <div className='petrolstationbg w-full'>
       <TopBar />
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
         <CarouselOne />
@@ -102,7 +102,7 @@ const handleSubmit = async (e) => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* This month revenue */}
-          <Card href="#" className="max-w-sm">
+          <Card href="#" className="max-w-sm bg-white shadow-md rounded-lg overflow-hidden border-2 border-gray-200">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               TOTAL REVENUE
             </h5>
@@ -117,7 +117,7 @@ const handleSubmit = async (e) => {
           </Card>
 
           {/* This week revenue */}
-          <Card href="#" className="max-w-sm">
+          <Card href="#" className="max-w-sm bg-amber-300 shadow-md rounded-lg overflow-hidden border-2 border-gray-200">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               THIS MONTH REVENUE
             </h5>
@@ -132,7 +132,7 @@ const handleSubmit = async (e) => {
           </Card>
 
           {/* Today revenue */}
-          <Card href="#" className="max-w-sm">
+          <Card href="#" className="max-w-sm bg-amber-300 shadow-md rounded-lg overflow-hidden border-2 border-gray-200">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               TODAY REVENUE
             </h5>
@@ -149,21 +149,21 @@ const handleSubmit = async (e) => {
       </div>
       
        {/* Station Details Update */}
-      <Card className="max-w-6xl mx-auto m-5 p-5 bg-white shadow-md rounded-lg overflow-hidden border-2 border-gray-200">
-        <h2 className="lg:text-2xl bg-stone-500 font-bold m-4 p-3 flex justify-center sm:text-xl rounded-full">Station Details Update Filled</h2>
+      <Card className="max-w-6xl mx-auto m-5 p-5 bg-transparent backdrop-blur-3xl shadow-md rounded-lg overflow-hidden border-2 border-gray-200">
+        <h2 className="lg:text-2xl bg-stone-500 font-bold m-4 p-3 text-white flex justify-center sm:text-xl rounded-full">Station Details Update Filled</h2>
         <Form className="space-y-6" onSubmit={handleSubmit}>
           <div className='flex flex-col'>
-          <Label htmlFor="text" className='text-xl'>Station Name</Label> 
-          <TextInput type="text" name="StationName" value={formData.StationName} disabled onChange={handleChange}/>
+          <Label htmlFor="text" className='text-xl text-white'>Station Name</Label> 
+          <TextInput type="text" name="StationName" className='text-white ' value={formData.StationName} disabled onChange={handleChange}/>
           </div>
 
           <div className='flex flex-col'>
-          <Label htmlFor="text" className='text-xl'>PetrolPrice</Label>
+          <Label htmlFor="text" className='text-xl text-white'>PetrolPrice</Label>
           <TextInput type="number" name="PetrolPrice" value={formData.PetrolPrice} onChange={handleChange} required/>
           </div>
 
           <div className='flex flex-col'>
-          <Label htmlFor="text" className='text-xl'>DiselPrice</Label>
+          <Label htmlFor="text" className='text-xl text-white'>DiselPrice</Label>
           <TextInput type="number" name="DiselPrice" value={formData.DiselPrice} onChange={handleChange} required/>
           </div>
            
