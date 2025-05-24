@@ -39,10 +39,10 @@ const DashboardProfile = () => {
     const file = e.target.files[0];
     if(!file) return;
 
-    if(file.size > 2 * 1024 * 1024) {
-      setUploadError("File size must be less than 2MB");
-      return;
-    }
+    // if(file.size > 2 * 1024 * 1024) {
+    //   setUploadError("File size must be less than 2MB");
+    //   return;
+    // }
 
     setIsUploading(true);
     setUploadError(null);
@@ -97,7 +97,8 @@ const DashboardProfile = () => {
       const response = await fetch(endpoint, {
         method:'PUT',
         headers: {
-          'Content-Type': 'multipart/form-data',
+          // 'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(userData),

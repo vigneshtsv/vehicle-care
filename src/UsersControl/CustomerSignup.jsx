@@ -57,7 +57,7 @@ const CustomerSignup = () => {
       return setErrorMsg('Please fill out all fields');
     }
     if (formData.Password !== formData.ConfirmPassword) {
-      return setErrorMessage("Passwords do not match");
+      return setErrorMsg("Passwords do not match");
     }
 
     // Check required documents
