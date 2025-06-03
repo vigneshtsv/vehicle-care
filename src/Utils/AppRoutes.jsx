@@ -24,7 +24,7 @@ import OrderTracking from '../Components/Layout/OrderTracking.jsx';
 import MyOrders from '../Components/UserComponents/MyOrders.jsx';
 import AdminProtectedRoute from '../Components/ProdutedRoutes/AdminProtectedRoute.jsx';
 import { Outlet } from 'react-router-dom';
-
+import DeletePart from '../Components/adminCompponents/DeletePart.jsx'
 
 
 const AppRoutes = [
@@ -124,6 +124,10 @@ const AppRoutes = [
     {
         path:'/myorders',
         element:<MyOrders />
+    },
+    {
+        path:'/deletepart',
+        element:<DeletePart />
     }
 
 ]

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TextInput,Checkbox,Label,FileInput,Button, Alert, Spinner, Textarea } from "flowbite-react";
+import { Checkbox,Label,FileInput,Button, Alert, Spinner, Textarea } from "flowbite-react";
 import { Link, useNavigate } from 'react-router-dom';
 import { HiInformationCircle } from 'react-icons/hi';
 import axios from 'axios';
@@ -38,10 +38,29 @@ function PetrolStationSignup() {
 
   const handleFileChange = (e) => {
     const { name,files: fileList } = e.target;
-    setFiles({
-      ...files,
-      [name]: fileList[0]
-    });
+    // setFiles({
+    //   ...files,
+    //   [name]: fileList[0]
+    // });
+    const file = fileList[0];
+    if(file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setErrorMessage('File size exceeds 5MB limit');
+        return;
+      }
+
+      const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+        if (!allowedTypes.includes(file.type)) {
+        setErrorMessage('Invalid file type. Only JPEG, PNG, and PDF files are allowed.');
+        return;
+      }
+
+      setFiles(prev => ({
+        ...prev,
+        [name]: file
+      }));
+      setErrorMessage('');
+    }
   };
 
   const saveToken = (token) => {
@@ -82,8 +101,12 @@ function PetrolStationSignup() {
     try {
       const submitData = new FormData();
 
-      Object.entries(formData).forEach(([Key,value]) => {
-        submitData.append(Key,value)
+      Object.entries(formData).forEach(([key, value]) => {
+        if (typeof value === 'string') {
+          submitData.append(key, value.trim());
+        } else {
+          submitData.append(key, value);
+        }
       });
 
       Object.entries(files).forEach(([Key,file]) => {
@@ -132,6 +155,11 @@ function PetrolStationSignup() {
       AadharCard: null,
       PetrolStationCertification: null,
     });
+  
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+       fileInputs.forEach(input => {
+       input.value = '';
+     });
   }; 
 
   const backPage = () => {

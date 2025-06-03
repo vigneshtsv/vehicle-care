@@ -38,11 +38,33 @@ const CustomerSignup = () => {
   // Handle file input changes
   const handleFileChange = async (e) => {
     const { name, files: fileList } = e.target;
-      setFiles({
-        ...files,
-        [name]: fileList[0]
-      });
+      // setFiles({
+      //   ...files,
+      //   [name]: fileList[0]
+      // });
+      const file = fileList[0];
+      if(file) {
+        if (file.size > 5 * 1024 * 1024) {
+          setErrorMsg('File size should be less then 5MB');
+          return;
+        }
+      
+
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+      if(!allowedTypes.includes(file.type)) {
+        setErrorMsg('Only JPEG, JPG, PNG, and PDF files are allowed');
+        return;
+      }
+
+      setFiles(prev => ({
+        ...prev,
+        [name]: file
+      }));
+      
+      setErrorMsg('');
     }
+    }
+
   const saveToken =(token) => {
     localStorage.setItem('authToken',token)
   }
@@ -77,12 +99,24 @@ const CustomerSignup = () => {
       // Create form data for sending files
       const submitData = new FormData();
       
-      // Add text fields
+      //! Add text fields
+      // Object.entries(formData).forEach(([key, value]) => {
+      //   submitData.append(key, value);
+      // });
       Object.entries(formData).forEach(([key, value]) => {
-        submitData.append(key, value);
+        if (typeof value === 'string') {
+          submitData.append(key, value.trim());
+        } else {
+          submitData.append(key, value);
+        }
       });
       
-      // Add file fields
+      //! Add file fields
+      // Object.entries(files).forEach(([key, file]) => {
+      //   if (file) {
+      //     submitData.append(key, file);
+      //   }
+      // });
       Object.entries(files).forEach(([key, file]) => {
         if (file) {
           submitData.append(key, file);
@@ -107,7 +141,7 @@ const CustomerSignup = () => {
         setSuccessMsg('Registration Successfully');
         resetForm();
         toast.success('Customer Registration Successfully')
-        setTimeout(() => navigate('/'), 1500);
+        setTimeout(() => navigate('/'), 1000);
       }
     } catch (error) {
       setErrorMsg(
@@ -138,8 +172,15 @@ const CustomerSignup = () => {
     setFiles({
       ProfilePicture: null,
       AadharCard: null,
-    })
-  }
+    });
+
+     const fileInputs = document.querySelectorAll('input[type="file"]');
+       fileInputs.forEach(input => {
+       input.value = '';
+     });
+
+  };
+
   const backPage = () => {
     navigate(-1);
   }

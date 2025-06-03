@@ -60,7 +60,7 @@ const Maps = () => {
   const [petrolData,setPetrolData]= useState([{}])
   
 const dispatch = useDispatch()
-const API_KEY = 'gfhlsdhfsdh' || 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
+const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
 const BE_API_URL = 'http://localhost:5000/api'
 
 useEffect(() => {

@@ -4,6 +4,7 @@ import { HiInformationCircle, HiOutlineTrash } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogout } from "./useLogout.jsx";
 import { signOutSuccess } from "../../Redux/Slice/authSlice.jsx";
+import { ArrowBigLeft, ArrowLeft } from "lucide-react";
 
 
 const DashboardProfile = () => {
@@ -176,7 +177,8 @@ const DashboardProfile = () => {
           <span className="font-medium">Success!</span> Profile updated successfully
         </Alert>
       )}
-      
+
+      {/* Profile Form */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <input
           type="file"
@@ -284,7 +286,7 @@ const DashboardProfile = () => {
         {/* Update Button */}
         <Button
           type="submit"
-          className="bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 text-white hover:bg-gradient-to-br focus:ring-pink-300 dark:focus:ring-pink-800"
+          color="purple" outline
         >
           Click To Update
         </Button>
@@ -293,11 +295,12 @@ const DashboardProfile = () => {
       {/* Account Actions */}
       <div className="flex justify-between mt-5">
         <Button
-          onClick={() => setIsDeleteModalOpen(true)}
+          onClick={() => window.history.back()}
+          
         >
-          Click to Delete Account
+          <ArrowLeft />Back
         </Button>
-        
+
         <Button
           onClick={handleLogout}
         >
@@ -305,6 +308,17 @@ const DashboardProfile = () => {
         </Button>
       </div>
       
+      {/* back buttons */}
+        <div>
+        <Button
+          color="purple" outline
+          onClick={() => setIsDeleteModalOpen(true)}
+          className="w-full my-5"
+        >
+          Click to Delete Account
+        </Button>
+        </div>
+
       {/* Delete Confirmation Modal */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
