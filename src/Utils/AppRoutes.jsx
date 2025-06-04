@@ -25,7 +25,10 @@ import MyOrders from '../Components/UserComponents/MyOrders.jsx';
 import AdminProtectedRoute from '../Components/ProdutedRoutes/AdminProtectedRoute.jsx';
 import { Outlet } from 'react-router-dom';
 import DeletePart from '../Components/adminCompponents/DeletePart.jsx'
-
+import CustomerProtect from '../Components/ProdutedRoutes/CustomerProtect.jsx';
+import DeliveryBoyProtect from '../Components/ProdutedRoutes/DeliveryBoyProtectRoute.jsx';
+import ServiceManProducted from '../Components/ProdutedRoutes/ServiceManProducted.jsx';
+import PetrolStationProtectRoute from '../Components/ProdutedRoutes/PetrolStationProtectRoute.jsx';
 
 const AppRoutes = [
     {
@@ -67,19 +70,19 @@ const AppRoutes = [
     },
     {
         path: '/admindashboardpage',
-        element: <AdminDashboardPage />
+        element: <AdminProtectedRoute><AdminDashboardPage /></AdminProtectedRoute>
     },
     {
         path: '/admintopbarpage',
-        element: <AdminTopBarPage />
+        element: <AdminProtectedRoute><AdminTopBarPage /></AdminProtectedRoute>
     },
     {
         path: '/admindashboardpage/userlist',
-        element: <UserList />
+        element: <AdminProtectedRoute><UserList /></AdminProtectedRoute>
     },
     {
         path: '/admindashboardpage/orderlist',
-        element: <OrderList />
+        element: <AdminProtectedRoute><OrderList /></AdminProtectedRoute>
     },
     {
         path: '/dashboardprofile',
@@ -91,23 +94,23 @@ const AppRoutes = [
     },
     {
         path: '/customerdashboard',
-        element: <CustomerDashboard />
+        element: <CustomerProtect><CustomerDashboard /></CustomerProtect>
     },
     {
         path: '/deliveryboydashboard',
-        element: <DeliveryBoyDashboard />
+        element: <DeliveryBoyProtect><DeliveryBoyDashboard /></DeliveryBoyProtect>
     },
     {
         path: '/petrolstationdashboard',
-        element: <PetrolStationDashboard />
+        element: <PetrolStationProtectRoute><PetrolStationDashboard /></PetrolStationProtectRoute>
     },
     {
         path: '/servicemandashboard',
-        element: <ServiceManDashboard />
+        element: <ServiceManProducted ><ServiceManDashboard /></ServiceManProducted>
     },
     {
         path:'/mappage',
-        element:<MapPage />
+        element: <CustomerProtect><MapPage /></CustomerProtect>
     },
     {
         path:'/ordertracking',

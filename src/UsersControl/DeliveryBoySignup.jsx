@@ -523,7 +523,7 @@ function DeliveryBoySignup() {
 
       <div className='border-4 border-red-700 border-solid p-6 m-4 shadow-2xl rounded'>
       <div className='mb-4'>
-        <lable htmlFor='AadharCard' className='text-lime-300'>Upload Your Aadhar Card</lable>
+        <label htmlFor='AadharCard' className='text-lime-300'>Upload Your Aadhar Card</label>
         <input
           type="file"
           id="AadharCard"
