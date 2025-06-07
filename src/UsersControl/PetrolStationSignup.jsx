@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { Checkbox,Label,FileInput,Button, Alert, Spinner, Textarea } from "flowbite-react";
+import { Checkbox, Alert, Spinner } from "flowbite-react";
 import { Link, useNavigate } from 'react-router-dom';
 import { HiInformationCircle } from 'react-icons/hi';
 import axios from 'axios';
-import { IoMdArrowBack, IoMdArrowDropright, IoMdArrowForward } from 'react-icons/io';
-import { LogInIcon } from 'lucide-react';
+import { IoMdArrowBack, IoMdArrowForward } from 'react-icons/io';
 import { toast } from 'react-toastify';
 
 
@@ -115,7 +114,7 @@ function PetrolStationSignup() {
         }
       });
       
-      const response = await axios.post('http://localhost:5000/api/auth/register', submitData, {
+      const response = await axios.post('https://vehicle-care-api.onrender.com/api/auth/register', submitData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -147,7 +146,7 @@ function PetrolStationSignup() {
       Password: '',
       ConfirmPassword: '',
       Address: '',
-      Role: 'DeliveryBoy',
+      Role: 'PetrolStation',
     });
 
     setFiles({

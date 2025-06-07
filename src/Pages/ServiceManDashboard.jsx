@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import TopBar from "../Components/UserComponents/TopBar";
 import Footer from "../Components/UserComponents/Footer";
-import { Button, Card, Carousel } from "flowbite-react";
-import { Bell, Box, Calendar, Clock, Map, MapPin, Truck } from "lucide-react";
+import { Button, Card } from "flowbite-react";
+import { Bell, Box, Calendar, Map, MapPin, Truck } from "lucide-react";
 import axios from "axios";
 import { BiCurrentLocation } from "react-icons/bi";
 import { CarouselOne } from "../Components/Layout/CarouselOne";
@@ -23,13 +23,13 @@ const ServiceManDashboard = () => {
     Status: "",
   });
   const Navigate = useNavigate();
-  console.log(orders);
+  // console.log(orders);
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/order/deliveryboydata"
+        "https://vehicle-care-api.onrender.com/api/order/deliveryboydata"
       );
       setOrders(response.data.deliveryBoy);
     } catch (error) {
@@ -79,7 +79,7 @@ const ServiceManDashboard = () => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/order/updateorderdata/${selectedOrder._id}`,
+        `https://vehicle-care-api.onrender.com/api/order/updateorderdata/${selectedOrder._id}`,
         {
           id: selectedOrder._id,
           Status: "Processing",
@@ -114,7 +114,7 @@ const ServiceManDashboard = () => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/order/updateorderdata/${selectedOrder._id}`,
+        `https://vehicle-care-api.onrender.com/api/order/updateorderdata/${selectedOrder._id}`,
         {
           id: selectedOrder._id,
           Status: "Completed",
@@ -189,74 +189,6 @@ const ServiceManDashboard = () => {
                     order.Problem_Type.trim() !== ""))
             )
             .map((order) => (
-              // <Card className="shadow-md border-2 m-4 border-dashed border-red-500">
-              //   <div key={order.id} className="p-6">
-              //   <div className="flex justify-between items-center mb-4">
-              //     <h3 className="font-semibold text-lg">{order.Email}</h3>
-              //     <span
-              //       className={`px-3 py-1 rounded-full text-sm ${getStatusColor(
-              //         order.Status
-              //       )}`}
-              //     >
-              //       {order.Status.charAt(0).toUpperCase() + order.Status.slice(1)}
-              //     </span>
-              //   </div>
-
-              //   <div className="space-y-4">
-              //     <div className="grid grid-cols-2 gap-4">
-              //       <div className="flex items-center gap-2">
-              //         <MapPin className="h-4 w-4 text-gray-500" />
-              //         <span className="text-sm">{order.Location}</span>
-              //       </div>
-              //       <div className="flex items-center gap-2">
-              //         <Calendar className="h-4 w-4 text-gray-500" />
-              //         <span className="text-sm">
-              //           {formatDateTime(order.createdAt)}
-              //         </span>
-              //       </div>
-              //       <div className="flex items-center gap-2">
-              //         <BiCurrentLocation className="h-4 w-4 text-gray-500" />
-              //         <span className="text-sm">
-              //           {order.Distance} - KiloMeters
-              //         </span>
-              //       </div>
-              //     </div>
-
-              //     <div className="space-y-2">
-              //       <p className="text-sm">
-              //         <strong>Services:</strong> {order.Service_Type}
-              //       </p>
-              //       <p className="text-sm">
-              //         <strong>Problems:</strong> {order.Problem_Type}
-              //       </p>
-              //     </div>
-
-              //     <div className="flex gap-2 pt-2">
-              //       <button
-              //         className="flex items-center p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-              //         onClick={() => handlePickupOrder(order)}
-              //       >
-              //         <Box className="h-4 w-4"/>
-              //         Pickup
-              //       </button>
-              //       <button
-              //         className="flex items-center p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-              //         onClick={() => handleDeliveryDetails(order)}
-              //       >
-              //         <Truck className="h-4 w-4" />
-              //         Delivery Details
-              //       </button>
-              //       <button
-              //         className="flex items-center p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-              //         onClick={OrderTrackingNavigate}
-              //       >
-              //         <Map className="h-4 w-4" />
-              //         Plan Trip
-              //       </button>
-              //     </div>
-              //   </div>
-              // </div>
-              // </Card>
               <Card className="shadow-md border-2 m-4 border-dashed border-red-500 transition-all duration-300 hover:shadow-xl hover:scale-105 hover:border-red-400 hover:-translate-y-2 group">
                 <div key={order.id} className="p-6">
                   <div className="flex justify-between items-center mb-4">
@@ -374,68 +306,6 @@ const ServiceManDashboard = () => {
                     order.Problem_Type.trim() !== ""))
             )
             .map((order) => (
-              // <Card className="shadow-md border-2 m-4 border-dashed border-yellow-500">
-              //   <div key={order.id} className="p-6">
-              //   <div className="flex justify-between items-center mb-4">
-              //     <h3 className="font-semibold text-lg">{order.Email}</h3>
-              //     <span
-              //       className={`px-3 py-1 rounded-full text-sm ${getStatusColor(
-              //         order.Status
-              //       )}`}
-              //     >
-              //       {order.Status.charAt(0).toUpperCase() + order.Status.slice(1)}
-              //     </span>
-              //   </div>
-
-              //   <div className="space-y-4">
-              //     <div className="grid grid-cols-2 gap-4">
-              //       <div className="flex items-center gap-2">
-              //         <MapPin className="h-4 w-4 text-gray-500" />
-              //         <span className="text-sm">{order.Location}</span>
-              //       </div>
-              //       <div className="flex items-center gap-2">
-              //         <Calendar className="h-4 w-4 text-gray-500" />
-              //         <span className="text-sm">
-              //           {formatDateTime(order.createdAt)}
-              //         </span>
-              //       </div>
-              //       <div className="flex items-center gap-2">
-              //         <BiCurrentLocation className="h-4 w-4 text-gray-500" />
-              //         <span className="text-sm">
-              //           {order.Distance} - KiloMeters
-              //         </span>
-              //       </div>
-              //     </div>
-
-              //     <div className="space-y-2">
-              //       <p className="text-sm">
-              //         <strong>Services:</strong> {order.Service_Type}
-              //       </p>
-              //       <p className="text-sm">
-              //         <strong>Problems:</strong> {order.Problem_Type}
-              //       </p>
-              //     </div>
-
-              //     <div className="flex gap-3 pt-2">
-
-              //      <Button
-              //         outline gradientDuoTone="greenToBlue"
-              //         onClick={() => handleDeliveryDetails(order)}
-              //       >
-              //         <CiDeliveryTruck className="h-4 w-4" />
-              //         Delivery
-              //       </Button>
-              //       <Button
-              //         outline gradientDuoTone="greenToBlue"
-              //         onClick={OrderTrackingNavigate}
-              //       >
-              //         <Map className="h-4 w-4" />
-              //         Plan Trip
-              //       </Button>
-              //     </div>
-              //   </div>
-              // </div>
-              // </Card>
                 <Card className="shadow-md border-2 m-4 border-dashed border-yellow-500 transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105 hover:border-yellow-400 hover:-translate-y-2 group">
                   <div key={order.id} className="p-6">
                     <div className="flex justify-between items-center mb-4">
@@ -658,50 +528,6 @@ const ServiceManDashboard = () => {
       )}
 
       {/* Delivery Details Popup */}
-      {/* {isDeliveryPopupOpen && selectedOrder && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl w-96">
-            <h2 className="text-xl font-bold mb-4">Delivery Details</h2>
-            <p className="mb-2">Customer: {selectedOrder.Email}</p>
-            <p className="mb-2">Location: {selectedOrder.Location}</p>
-            <p className="mb-2">Station: {selectedOrder.StationName}</p>
-
-            {selectedOrder.Petrol_Quantity > 0 && (
-              <p className="mb-2">
-                Petrol: {selectedOrder.Petrol_Quantity} Liters
-              </p>
-            )}
-
-            {selectedOrder.Disel_Quantity > 0 && (
-              <p className="mb-2">
-                Diesel: {selectedOrder.Disel_Quantity} Liters
-              </p>
-            )}
-
-            <p className="mb-4">Status: {selectedOrder.Status}</p>
-
-            <div className="flex justify-between">
-              {selectedOrder.Status === "Processing" && (
-                <Button
-                  onClick={handleCompleteDelivery}
-                  outline
-                  gradientDuoTone="greenToBlue"
-                >
-                  Mark as Delivered
-                </Button>
-              )}
-
-              <Button
-                onClick={handleCloseDeliveryPopup}
-                outline
-                gradientDuoTone="pinkToOrange"
-              >
-                Close
-              </Button>
-            </div>
-          </div>
-        </div>
-      )} */}
        
        {isDeliveryPopupOpen && selectedOrder && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">

@@ -72,11 +72,11 @@ function AdminTopBarPage() {
       <Navbar.Link active={path ==='/'} as={'div'}>
         <Link to='/' className='text-lg hover:text-purple-700 hover:underline'>Home</Link>
       </Navbar.Link>
-      <Navbar.Link active={path ==='/admindashboardpage/userlist'} as={'div'}>
-        <Link to='/admindashboardpage/userlist' className='text-lg hover:text-purple-700 hover:underline'>User List</Link>
+      <Navbar.Link active={path ==='/userlist'} as={'div'}>
+        <Link to='/userlist' className='text-lg hover:text-purple-700 hover:underline'>User List</Link>
       </Navbar.Link>
-      <Navbar.Link active={path ==='/admindashboardpage/orderlist'} as={'div'}>
-        <Link to='/admindashboardpage/orderlist' className='text-lg hover:text-purple-700 hover:underline'>Order List</Link>
+      <Navbar.Link active={path ==='/orderlist'} as={'div'}>
+        <Link to='/orderlist' className='text-lg hover:text-purple-700 hover:underline'>Order List</Link>
       </Navbar.Link>
       <Navbar.Link active={path ==='/footer'} as={'div'}>
         <Link to='/footer' className='text-lg hover:text-purple-700 hover:underline'>About</Link>

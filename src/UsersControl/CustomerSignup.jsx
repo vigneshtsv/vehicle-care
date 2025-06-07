@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Checkbox, Label, Textarea, TextInput } from 'flowbite-react';
+import { Button, Checkbox, Label } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { toast } from 'react-toastify';
@@ -43,6 +43,7 @@ const CustomerSignup = () => {
       //   [name]: fileList[0]
       // });
       const file = fileList[0];
+
       if(file) {
         if (file.size > 5 * 1024 * 1024) {
           setErrorMsg('File size should be less then 5MB');
@@ -124,7 +125,7 @@ const CustomerSignup = () => {
       });
 
       // Send the request
-      const response = await axios.post('http://localhost:5000/api/auth/register', submitData, {
+      const response = await axios.post('https://vehicle-care-api.onrender.com/api/auth/register', submitData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -242,7 +243,7 @@ const CustomerSignup = () => {
         <div className="mb-2 my-3">
           {/* <label htmlFor="PhoneNumber" className='text-lime-300 '>Phone Number</label> */}
           <input
-            type="tel"
+            type="number"
             id="PhoneNumber"
             name="PhoneNumber"
             placeholder='Enter Your Phone Number'

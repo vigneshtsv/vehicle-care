@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { TextInput,Checkbox,Label,FileInput,Button, Spinner, Alert, Textarea } from "flowbite-react";
+import { Checkbox,Label, Spinner, Alert } from "flowbite-react";
 import { Link, useNavigate } from 'react-router-dom';
 import { HiInformationCircle } from 'react-icons/hi';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { IoMdArrowBack, IoMdArrowForward } from 'react-icons/io';
-import { LogInIcon } from 'lucide-react';
 
 function ServiceManSignup() {
   const [formData, setFormData] = useState({
@@ -115,12 +114,12 @@ function ServiceManSignup() {
       });
 
       
-      const response = await axios.post('http://localhost:5000/api/auth/register', submitData, {
+      const response = await axios.post('https://vehicle-care-api.onrender.com/api/auth/register', submitData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      console.log(response);
+      // console.log(response);
 
       setFormData(response.data.user)
       if(response.data.token) {
@@ -211,7 +210,7 @@ function ServiceManSignup() {
           </div>
           <div className='mb-2 my-3'>
             <input
-              type="tel"
+              type="number"
               placeholder="7373892019"
               id="PhoneNumber"
               className="w-full flex bg-transparent border border-lime-300 text-white placeholder-gray-100 rounded"
@@ -310,7 +309,6 @@ function ServiceManSignup() {
               </a>
             </Label>
           </div>
-          {/* <input id="Role"  type="text"  value="ServiceMan" onChange={handleChange} /> */}
         
           <button
             type="submit"

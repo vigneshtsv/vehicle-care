@@ -18,7 +18,7 @@ const MyOrders = () => {
     const fetchOrders = async () => {
       const userId = currentUser.Email;
       try {
-        const response = await axios.get(`http://localhost:5000/api/order/getmyorders/${userId}`, {
+        const response = await axios.get(`https://vehicle-care-api.onrender.com/api/order/getmyorders/${userId}`, {
           headers: {
             'Content-Type': 'application/json'
           }

@@ -4,7 +4,7 @@ import { HiInformationCircle, HiOutlineTrash } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogout } from "./useLogout.jsx";
 import { signOutSuccess } from "../../Redux/Slice/authSlice.jsx";
-import { ArrowBigLeft, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 
 const DashboardProfile = () => {
@@ -39,12 +39,6 @@ const DashboardProfile = () => {
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if(!file) return;
-
-    // if(file.size > 2 * 1024 * 1024) {
-    //   setUploadError("File size must be less than 2MB");
-    //   return;
-    // }
-
     setIsUploading(true);
     setUploadError(null);
     try {
@@ -93,18 +87,17 @@ const DashboardProfile = () => {
         throw new Error('Authentication token not found');
       }
 
-      const endpoint =`http://localhost:5000/api/updateprofile/${currentUser?.Id}`;
+      const endpoint =`https://vehicle-care-api.onrender.com/api/updateprofile/${currentUser?.Id}`;
       
       const response = await fetch(endpoint, {
         method:'PUT',
         headers: {
-          // 'Content-Type': 'multipart/form-data',
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(userData),
       });
-      console.log(response);
+      // console.log(response);
       
 
       if (!response.ok) {
@@ -134,7 +127,7 @@ const DashboardProfile = () => {
         throw new Error('Authentication token not found');
       }
       
-      const endpoint = `http://localhost:5000/api/admin/deleteuser/${currentUser?.Id}`;
+      const endpoint = `https://vehicle-care-api.onrender.com/api/admin/deleteuser/${currentUser?.Id}`;
 
       const response = await fetch(endpoint, {
         method: 'DELETE',

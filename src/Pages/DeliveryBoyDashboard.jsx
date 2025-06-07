@@ -24,7 +24,7 @@ const DeliveryBoyDashboard = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/order/deliveryboydata`
+        `https://vehicle-care-api.onrender.com/api/order/deliveryboydata`
       );
 
       if (response.status === 200) {
@@ -60,7 +60,7 @@ const DeliveryBoyDashboard = () => {
     const updatedData = { id: selectedOrder._id, Status: "Processing" };
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/order/updateorderdata/${selectedOrder._id}`,
+        `https://vehicle-care-api.onrender.com/api/order/updateorderdata/${selectedOrder._id}`,
         updatedData
       );
 
@@ -92,7 +92,7 @@ const DeliveryBoyDashboard = () => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/order/updateorderdata/${selectedOrder._id}`,
+        `https://vehicle-care-api.onrender.com/api/order/updateorderdata/${selectedOrder._id}`,
         { id: selectedOrder._id, Status: "Completed" }
       );
 
@@ -170,66 +170,6 @@ const DeliveryBoyDashboard = () => {
                       order.Disel_Quantity > 0))
               )
               .map((order) => (
-                // <Card
-                //   key={order._id}
-                //   className="shadow-md rounded-lg p-4 border-2 border-dashed border-red-700 "
-                // >
-                //   <div className="mb-4">
-                //     <h3 className="text-lg font-semibold mb-2">
-                //       Email Id: {order.Email}
-                //     </h3>
-                //     <h4>Petrol Station Name: {order.StationName}</h4>
-                //     <p className="text-gray-600 mb-1">{order.Location}</p>
-                //     <p className="text-sm text-gray-500">
-                //       {formatDateTime(order.createdAt)}
-                //     </p>
-                //     <div className="mt-2">
-                //       {order.Petrol_Quantity > 0 && (
-                //         <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
-                //           {order.Petrol_Quantity}-Ltr {order.Petrol_Price}
-                //         </span>
-                //       )}
-                //       <br />
-                //       {order.Disel_Quantity > 0 && (
-                //         <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
-                //           {order.Disel_Quantity}-Ltr {order.Disel_Price}
-                //         </span>
-                //       )}
-                //       <span className="ml-2 inline-block text-sm px-2 py-1 rounded bg-blue-500 text-orange-200">
-                //         {order.Status}
-                //       </span>
-                //     </div>
-                //   </div>
-
-                //   {/* pickup and plan trip buttons */}
-                //   <div className="flex space-x-3">
-                //   <button
-                //     className="p-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors"
-                //     onClick={() => handlePickupOrder(order)}
-                //     gradientMonochrome="info"
-                //   >
-                //     <Truck className="h-4 w-4 mr-2" />
-                //     Pickup Order
-                //   </button>
-
-                //   <button
-                //   className="p-2 gap-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors"
-                //   onClick={()=> handleDeliveryDetails(order)}
-                //   gradientMonochrome="lime">
-                //     <CheckCircle className="h-4 w-4 mr-2" />
-                //     Delivery Details
-                //   </button>
-
-                //   <button
-                //     className="p-2 gap-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors"
-                //     gradientMonochrome="purple"
-                //     onClick={OrderTrackingNavigate}
-                //   >
-                //     <Map className="h-4 w-4 mr-2" />
-                //     Plan Trip
-                //   </button>
-                // </div>
-                // </Card>
                 <Card
                   key={order._id}
                   className="bg-gradient-to-r from-green-200 via-cyan-100 to-purple-400 shadow-md rounded-lg p-4 border-2 border-dashed border-red-700 
@@ -356,56 +296,6 @@ const DeliveryBoyDashboard = () => {
                       order.Disel_Quantity > 0))
               )
               .map((order) => (
-                // <Card
-                //   key={order.id}
-                //   className="bg-white shadow-md rounded-lg p-4 border-2 border-dashed border-green-500"
-                // >
-                //   <div className="mb-4">
-                //     <h3 className="text-lg font-semibold mb-2">
-                //       Email Id:{order.Email}
-                //     </h3>
-                //     <h4>PetrolStation Name:{order.StationName}</h4>
-                //     <p className="text-gray-600 mb-1">{order.Location}</p>
-                //     <p className="text-sm text-gray-500">
-                //       {formatDateTime(order.createdAt)}
-                //     </p>
-                //     <div className="mt-2">
-                //         {order.Petrol_Quantity > 0 && (
-                //           <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
-                //             {order.Petrol_Quantity}-Ltr {order.Petrol_Price}
-                //           </span>
-                //         )}
-                //         <br />
-                //         {order.Disel_Quantity > 0 && (
-                //           <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
-                //             {order.Disel_Quantity}-Ltr {order.Disel_Price}
-                //           </span>
-                //         )}
-                //         <span className="ml-2 inline-block text-sm px-2 py-1 rounded bg-blue-100 text-blue-800">
-                //           {order.Status}
-                //         </span>
-                //       </div>
-                //   </div>
-
-                //   {/* Buttons pickup and plan trip */}
-                //   <div className="flex space-x-2">
-                //     <Button
-                //     onClick={()=> handleDeliveryDetails(order)}
-                //     gradientDuoTone="purpleToPink"
-                //     >
-                //       <CheckCircle className="h-4 w-4 mr-2" />
-                //       Delivery Details
-                //     </Button>
-
-                //     <Button
-                //       gradientDuoTone="tealToLime"
-                //       onClick={OrderTrackingNavigate}
-                //     >
-                //       <Map className="h-4 w-4 mr-2" />
-                //       Plan Trip
-                //     </Button>
-                //   </div>
-                // </Card>
                 <Card
                   key={order.id}
                   className="bg-gradient-to-r from-fuchsia-300 via-amber-200 to-blue-200 shadow-md rounded-lg p-4 border-2 border-dashed border-green-500 
@@ -512,48 +402,6 @@ const DeliveryBoyDashboard = () => {
                       order.Disel_Quantity > 0))
               )
               .map((order) => (
-                // <Card
-                //   key={order.id}
-                //   className="bg-white shadow-md rounded-lg p-4 border-2 border-dashed border-violet-700"
-                // >
-                //   <div className="mb-4">
-                //     <h3 className="text-lg font-semibold mb-2">
-                //       Email Id:{order.Email}
-                //     </h3>
-                //     <h4>PetrolStation Name:{order.StationName}</h4>
-                //     <p className="text-gray-600 mb-1">{order.Location}</p>
-                //     <p className="text-sm text-gray-500">
-                //       {formatDateTime(order.createdAt)}
-                //     </p>
-                //     <div className="mt-2">
-                //       {order.Petrol_Quantity > 0 && (
-                //         <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
-                //           {order.Petrol_Quantity}-Ltr {order.Petrol_Price}
-                //         </span>
-                //       )}
-                //       <br />
-                //       {order.Disel_Quantity > 0 && (
-                //         <span className="inline-block bg-blue-100 text-blue-800 text-sm gap-2 px-2 py-1 rounded">
-                //           {order.Disel_Quantity}-Ltr {order.Disel_Price}
-                //         </span>
-                //       )}
-                //       <span className="ml-2 inline-block text-sm px-2 py-1 rounded bg-green-500 text-slate-800">
-                //         {order.Status}
-                //       </span>
-                //     </div>
-                //   </div>
-
-                //   {/* Buttons pickup and plan trip */}
-                //   <div className="flex">
-                //     <Button
-                //       onClick={() => handleDeliveryDetails(order)}
-                //       gradientDuoTone="redToYellow"
-                //     >
-                //       <CheckCircle className="h-4 w-4 mr-2" />
-                //       Delivery Details
-                //     </Button>
-                //   </div>
-                // </Card>
                 <Card
                   key={order.id}
                   className="bg-gradient-to-r from-cyan-200 via-green-300 to-white shadow-md rounded-lg p-4 border-2 border-dashed border-violet-700 
@@ -671,50 +519,6 @@ const DeliveryBoyDashboard = () => {
       )}
 
         {/* Popup for Order Delivery Details */}
-        {/* {isDeliveryPopupOpen && selectedOrder && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-xl w-96">
-              <h2 className="text-xl font-bold mb-4">Delivery Details</h2>
-              <p className="mb-2">Customer: {selectedOrder.Email}</p>
-              <p className="mb-2">Location: {selectedOrder.Location}</p>
-              <p className="mb-2">Station: {selectedOrder.StationName}</p>
-
-              {selectedOrder.Petrol_Quantity > 0 && (
-                <p className="mb-2">
-                  Petrol: {selectedOrder.Petrol_Quantity} Liters
-                </p>
-              )}
-
-              {selectedOrder.Disel_Quantity > 0 && (
-                <p className="mb-2">
-                  Diesel: {selectedOrder.Disel_Quantity} Liters
-                </p>
-              )}
-
-              <p className="mb-4">Status: {selectedOrder.Status}</p>
-
-              <div className="flex justify-between">
-                {selectedOrder.Status === "Processing" && (
-                  <Button
-                    onClick={handleCompleteDelivery}
-                    outline
-                    gradientDuoTone="greenToBlue"
-                  >
-                    Mark as Delivered
-                  </Button>
-                )}
-
-                <Button
-                  onClick={handleCloseDeliveryPopup}
-                  outline
-                  gradientDuoTone="pinkToOrange"
-                >
-                  Close
-                </Button>
-              </div>
-            </div>
-          </div>
-        )} */}
         {isDeliveryPopupOpen && selectedOrder && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-100">

@@ -1,6 +1,3 @@
-//!chat GPT routing code for 
-
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const TermsAndConditions = () => {

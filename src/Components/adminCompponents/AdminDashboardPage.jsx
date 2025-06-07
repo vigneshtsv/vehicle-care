@@ -1,149 +1,434 @@
-import React, { useState } from 'react'
-import AdminTopBarPage from './AdminTopBarPage.jsx'
-import  Footer from '../UserComponents/Footer.jsx'
-
-
-const recentOrders = [
-  { id: 1, customer: 'vignesh', product: 'Product A', amount: 120, status: 'Completed' },
-  { id: 2, customer: 'kamesh', product: 'Product B', amount: 200, status: 'Pending' },
-  { id: 3, customer: 'hari harasuthan', product: 'Product C', amount: 150, status: 'Processing' },
-  { id: 4, customer: 'naganathan', product: 'Product D', amount: 180, status: 'Completed' },
-]
-
+import React, { useState, useEffect } from "react";
+import AdminTopBarPage from "./AdminTopBarPage";
+import Footer from "../UserComponents/Footer";
 
 
 function AdminDashboardPage() {
-  const[users, setUsers] = useState([]);
-    
-        
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+
+  // Fetch data from API
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          "https://vehicle-care-api.onrender.com/api/order/deliveryboydata"
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setOrders(data.deliveryBoy || []);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching orders:", err);
+        setError(err.message);
+        setOrders([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  // Calculate dashboard statistics
+  const stats = {
+    totalOrders: orders.length,
+    totalRevenue: orders.reduce(
+      (sum, order) => sum + (parseFloat(order.Price) || 0),
+      0
+    ),
+    completedOrders: orders.filter((order) => order.Status === "Completed")
+      .length,
+    pendingOrders: orders.filter(
+      (order) => order.Status === "Waiting" || order.Status === "Processing"
+    ).length,
+    petrolOrders: orders.filter((order) => order.Petrol_Quantity === "Petrol_Quantity")
+      .length,
+    dieselOrders: orders.filter((order) => order.Disel_Quantity === "diesel")
+      .length,
+  };
+
+  // Filter orders based on search and status
+  const filteredOrders = orders.filter((order) => {
+    const matchesSearch =
+      order.Email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.Quantity?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order["Service Type"]?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesStatus =
+      statusFilter === "All" || order.Status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Completed":
+        return "bg-green-100 text-green-800";
+      case "Processing":
+        return "bg-blue-100 text-blue-800";
+      case "Waiting":
+        return "bg-yellow-100 text-yellow-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+        <AdminTopBarPage />
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
+            <p className="text-white text-xl">Loading dashboard data...</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
-    
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
       <AdminTopBarPage />
-      <main className="p-6 min-h-screen admindashboardbg relative">
+
+      <main className="p-6 min-h-screen">
+        {/* Header Section */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-          <p className="text-white">Welcome back, Admin</p>
+          <h1 className="text-4xl font-bold text-white mb-2">
+            Service Dashboard
+          </h1>
+          <p className="text-blue-200 text-lg">Welcome back, Admin</p>
+          {error && (
+            <div className="mt-4 p-4 bg-red-500 bg-opacity-20 border border-red-400 rounded-lg">
+              <p className="text-red-200">
+                ⚠️ API Error: {error}. Showing sample data.
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="bg-gradient-to-r from-yellow-500 via-blue-500 to-yellow-500 relative border border-blue-700  rounded-lg shadow-2xl p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-xl shadow-2xl p-6 transform hover:scale-105 transition-transform duration-200">
             <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-full">
-                <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              <div className="p-3 bg-white bg-opacity-20 rounded-full">
+                <svg
+                  className="h-8 w-8 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 11V7a4 4 0 00-8 0v4M8 11v6a4 4 0 008 0v-6M8 11h8"
+                  />
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-white">Total Users</p>
-                <h3 className="text-2xl font-bold text-white">{recentOrders.length}</h3>
+                <p className="text-sm font-medium text-white opacity-80">
+                  Total Orders
+                </p>
+                <h3 className="text-3xl font-bold text-white">
+                  {stats.totalOrders}
+                </h3>
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-yellow-500 via-blue-500 to-yellow-500 relative border border-blue-700  rounded-lg shadow-2xl p-6">
+          <div className="bg-gradient-to-r from-green-400 via-teal-500 to-blue-500 rounded-xl shadow-2xl p-6 transform hover:scale-105 transition-transform duration-200">
             <div className="flex items-center">
-              <div className="p-2 bg-green-100 rounded-full">
-                <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <div className="p-3 bg-white bg-opacity-20 rounded-full">
+                <svg
+                  className="h-8 w-8 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-white">Total Revenue</p>
-                <h3 className="text-2xl font-bold text-white">$45,678</h3>
+                <p className="text-sm font-medium text-white opacity-80">
+                  Total Revenue
+                </p>
+                <h3 className="text-3xl font-bold text-white">
+                  ₹{stats.totalRevenue.toFixed(2)}
+                </h3>
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-yellow-500 via-blue-500 to-yellow-500 relative border border-blue-700  rounded-lg shadow-2xl p-6">
+          <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-xl shadow-2xl p-6 transform hover:scale-105 transition-transform duration-200">
             <div className="flex items-center">
-              <div className="p-2 bg-purple-100 rounded-full">
-                <svg className="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              <div className="p-3 bg-white bg-opacity-20 rounded-full">
+                <svg
+                  className="h-8 w-8 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-white">Total Orders</p>
-                <h3 className="text-2xl font-bold text-white">567</h3>
+                <p className="text-sm font-medium text-white opacity-80">
+                  Completed
+                </p>
+                <h3 className="text-3xl font-bold text-white">
+                  {stats.completedOrders}
+                </h3>
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-yellow-500 via-blue-500 to-yellow-500 relative border border-blue-700  rounded-lg shadow-2xl p-6">
+          <div className="bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 rounded-xl shadow-2xl p-6 transform hover:scale-105 transition-transform duration-200">
             <div className="flex items-center">
-              <div className="p-2 bg-yellow-100 rounded-full">
-                <svg className="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              <div className="p-3 bg-white bg-opacity-20 rounded-full">
+                <svg
+                  className="h-8 w-8 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-white">Growth</p>
-                <h3 className="text-2xl font-bold text-white">+23%</h3>
+                <p className="text-sm font-medium text-white opacity-80">
+                  Pending
+                </p>
+                <h3 className="text-3xl font-bold text-white">
+                  {stats.pendingOrders}
+                </h3>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Order Table */}
-        <div className="bg-gradient-to-r from-teal-500 via-purple-500 to-yellow-500 relative rounded-lg shadow-lg p-6">
-          <h5 className="text-xl font-bold mb-4">Recent Orders</h5>
-          <div className="relative overflow-x-auto">
-            <div className="mb-4">
+        {/* Fuel Type Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="bg-gradient-to-r from-amber-400 to-orange-500 rounded-xl shadow-xl p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="text-white text-lg font-semibold">
+                  Petrol Orders
+                </h4>
+                <p className="text-3xl font-bold text-white">
+                  {stats.petrolOrders}
+                </p>
+              </div>
+              <div className="text-6xl">⛽</div>
+            </div>
+          </div>
+          <div className="bg-gradient-to-r from-gray-600 to-gray-800 rounded-xl shadow-xl p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="text-white text-lg font-semibold">
+                  Diesel Orders
+                </h4>
+                <p className="text-3xl font-bold text-white">
+                  {stats.dieselOrders}
+                </p>
+              </div>
+              <div className="text-6xl">🚛</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Orders Table */}
+        <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl shadow-2xl p-6 border border-white border-opacity-20">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+            <h2 className="text-2xl font-bold text-white mb-4 sm:mb-0">
+              Service Orders
+            </h2>
+
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+              {/* Search Input */}
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <svg
+                    className="h-5 w-5 text-gray-300"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
                   </svg>
                 </div>
                 <input
                   type="text"
                   placeholder="Search orders..."
-                  className="block w-full p-2 pl-10 text-sm text-white border border-gray-300 rounded-3xl bg-transparent placeholder:text-white focus:ring-blue-500 focus:border-blue-500 shadow-xl"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 pr-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
                 />
               </div>
+
+              {/* Status Filter */}
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                <option value="All" className="text-gray-800">
+                  All Status
+                </option>
+                <option value="Waiting" className="text-gray-800">
+                  Waiting
+                </option>
+                <option value="Processing" className="text-gray-800">
+                  Processing
+                </option>
+                <option value="Completed" className="text-gray-800">
+                  Completed
+                </option>
+              </select>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left text-gray-500">
-                <thead className="text-xs text-gray-700 uppercase bg-slate-300 border border-white">
-                  <tr>
-                    <th scope="col" className="px-6 py-3">Customer</th>
-                    <th scope="col" className="px-6 py-3">Product</th>
-                    <th scope="col" className="px-6 py-3">Amount</th>
-                    <th scope="col" className="px-6 py-3">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentOrders.map((order) => (
-                    <tr key={order.id} className="bg-transparent border border-white shadow-lg hover:bg-gray-300 hover:text-gray-900 text-white">
-                      <td className="px-6 py-4">{order.customer}</td>
-                      <td className="px-6 py-4">{order.product}</td>
-                      <td className="px-6 py-4">${order.amount}</td>
-                      <td className="px-6 py-4">
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-white border-opacity-20">
+                  <th className="text-left py-3 px-4 text-white font-semibold">
+                    ID
+                  </th>
+                  <th className="text-left py-3 px-4 text-white font-semibold">
+                    Customer Email
+                  </th>
+                  <th className="text-left py-3 px-4 text-white font-semibold">
+                    Fuel Type
+                  </th>
+                  <th className="text-left py-3 px-4 text-white font-semibold">
+                    Price
+                  </th>
+                  <th className="text-left py-3 px-4 text-white font-semibold">
+                    Bike Service
+                  </th>
+                  <th className="text-left py-3 px-4 text-white font-semibold">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredOrders.length > 0 ? (
+                  filteredOrders.map((order, index) => (
+                    <tr
+                      key={order.id || index}
+                      className="border-b border-white border-opacity-10 hover:bg-white hover:bg-opacity-5 transition-colors duration-200"
+                    >
+                      <td className="py-4 px-4 text-white">
+                        {order.id || index + 1}
+                      </td>
+                      <td className="py-4 px-4 text-white">{order.Email}</td>
+                      <td className="py-4 px-4">
                         <span
-                          className={`px-2.5 py-0.5 text-xs font-medium rounded-full ${
-                            order.status === 'Completed'
-                              ? 'bg-green-100 text-green-800'
-                              : order.status === 'Pending'
-                              ? 'bg-yellow-100 text-yellow-800'
-                              : 'bg-blue-100 text-blue-800'
+                          className={`px-3 py-1 rounded-full text-sm font-medium ${
+                            order.Petrol_Quantity
+                              ? "bg-orange-100 text-orange-800"
+                              : order.Disel_Quantity
+                              ? "bg-yellow-100 text-yellow-800"
+                              : ""
                           }`}
                         >
-                          {order.status}
+                          {order.Petrol_Quantity
+                            ? `${order.Petrol_Quantity} L (petrol)`
+                            : order.Disel_Quantity
+                            ? `${order.Disel_Quantity} L (Disel)`
+                            : "-"}
+                        </span>
+                      </td>
+
+                      <td className="py-4 px-4">
+                        <span
+                          className={`px-3 py-1 rounded-full text-sm font-medium ${
+                            order.Petrol_Price
+                              ? "bg-orange-100 text-orange-800"
+                              : order.Disel_Price
+                              ? "bg-yellow-100 text-yellow-800"
+                              : ""
+                          }`}
+                        >
+                          {order.Petrol_Quantity
+                            ? `₹${parseFloat(order.Petrol_Price).toFixed(2)}`
+                            : order.Disel_Price
+                            ? `₹${parseFloat(order.Disel_Price).toFixed(2)}`
+                            : "-"}
+                        </span>
+                      </td>
+
+                      <td className="py-4 px-4">
+                        <span
+                          className={`rounded-full p-2 ${
+                            order.Problem_Type ? "bg-red-100 text-red-800" : ""
+                          }`}
+                        >
+                          {order.Problem_Type || "-"}
+                        </span>
+                      </td> 
+
+                      <td className="py-4 px-4">
+                        <span
+                          className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+                            order.Status
+                          )}`}
+                        >
+                          {order.Status}
                         </span>
                       </td>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="6"
+                      className="py-8 px-4 text-center text-white opacity-60"
+                    >
+                      No orders found matching your criteria
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       </main>
 
       <Footer />
     </div>
-  )
+  );
 }
 
-export default AdminDashboardPage
+export default AdminDashboardPage;

@@ -17,7 +17,7 @@ export default function OrderList() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:5000/api/order/deliveryboydata`, {
+      const response = await axios.get(`https://vehicle-care-api.onrender.com/api/order/deliveryboydata`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }

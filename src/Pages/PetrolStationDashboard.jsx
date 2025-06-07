@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import TopBar from '../Components/UserComponents/TopBar'
 import Footer from '../Components/UserComponents/Footer'
 import { Button, Card, Label } from "flowbite-react";
 import { CarouselOne } from '../Components/Layout/CarouselOne';
-import { Form } from 'react-router-dom';
 import { TextInput } from 'flowbite-react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-// import { setCurrentUser } from '../Redux/Slice/authSlice';
 import { toast } from 'react-toastify';
 
 
 function PetrolStationDashboard() {
   const { currentUser } = useSelector((state)=>state.user)
   const [petrolData, setPetrolData] = useState([]);
-  // const [ currentStation,setCurretStation ] = useState([]);
   const [formData, setFormData] = useState({
     StationName : `${currentUser?.StationName}`,
     Distance : '2.5',   
@@ -23,18 +20,17 @@ function PetrolStationDashboard() {
   });
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
- //dispatch(setCurrentUser(localStorage.getItem("user")));  //28-3-25
  console.log(currentUser);
 
   const fetch = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/api/petrolstation/getpetroldata');
+      const response = await axios.get('https://vehicle-care-api.onrender.com/api/petrolstation/getpetroldata');
       const fetchData = response.data.data;
       const updateData = fetchData.map(petrol => ({...petrol, PetrolPrice: petrol.PetrolPrice, DiselPrice: petrol.DiselPrice}));
       setPetrolData(updateData);
       setLoading(false);
-      console.log(updateData);
+      // console.log(updateData);
     } catch (err) {
       console.error("Error fetching petrol station data:", err.message);
       setLoading(false);
@@ -50,10 +46,7 @@ function PetrolStationDashboard() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-// console.log(currentUser.StationName);
-// console.log(petrolData.StationName);
-//console.log(petrolData[0]?.StationName);
-console.log(petrolData);
+// console.log(petrolData);
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -62,19 +55,18 @@ const handleSubmit = async (e) => {
     setLoading(true);
     const matchData = petrolData.find(station => station.StationName === currentUser.StationName);
     if (matchData) {
-      console.log("Station names match. Update allowed.");
-      console.log(petrolData);
+      // console.log(petrolData);
       
       const StationID = currentUser.StationName; // Assuming you have the ID of the petrol station
       // Pass formData to the API endpoint for updating
-      const response = await axios.put(`http://localhost:5000/api/petrolstation/updatepetroldata/${StationID}`,
+      const response = await axios.put(`https://vehicle-care-api.onrender.com/api/petrolstation/updatepetroldata/${StationID}`,
       formData
       );
       console.log(response.data.message || "Update successful");
       setFormData(response.data);
       toast.success(`${currentUser.StationName} Your Data Price Updated`)
     } else {
-      const response = await axios.post(`http://localhost:5000/api/petrolstation/registerdata`,
+      const response = await axios.post(`https://vehicle-care-api.onrender.com/api/petrolstation/registerdata`,
         formData
       );
       console.log(response.data.message || "Registration successfully"); 
@@ -86,7 +78,7 @@ const handleSubmit = async (e) => {
     toast.error('Error in registration/update')
   }
   
-  console.log(formData.StationName);
+  // console.log(formData.StationName);
 }
 
   return (
@@ -151,7 +143,7 @@ const handleSubmit = async (e) => {
        {/* Station Details Update */}
       <Card className="max-w-6xl mx-auto m-5 p-5 bg-transparent backdrop-blur-3xl shadow-md rounded-lg overflow-hidden border-2 border-gray-200">
         <h2 className="lg:text-2xl bg-stone-500 font-bold m-4 p-3 text-white flex justify-center sm:text-xl rounded-full">Station Details Update Filled</h2>
-        <Form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div className='flex flex-col'>
           <Label htmlFor="text" className='text-xl text-white'>Station Name</Label> 
           <TextInput type="text" name="StationName" className='text-white ' value={formData.StationName} disabled onChange={handleChange}/>
@@ -160,7 +152,7 @@ const handleSubmit = async (e) => {
           <div className='flex flex-col'>
           <Label htmlFor="text" className='text-xl text-white'>PetrolPrice</Label>
           <TextInput type="number" name="PetrolPrice" value={formData.PetrolPrice} onChange={handleChange} required/>
-          </div>
+          </div>  
 
           <div className='flex flex-col'>
           <Label htmlFor="text" className='text-xl text-white'>DiselPrice</Label>
@@ -170,7 +162,7 @@ const handleSubmit = async (e) => {
           <Button type='submit' gradientDuoTone="purpleToPink" outline pill>
             Submit
           </Button>
-        </Form>
+        </form>
       </Card>
         <CarouselOne />
       <Footer />

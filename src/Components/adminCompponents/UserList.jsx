@@ -1,5 +1,3 @@
-// //!another one claude.ai
-
 // import React, { useState, useEffect } from 'react';
 // import { Button,Card,Label,TextInput,Select,Modal,Alert,Table,Spinner } from 'flowbite-react';
 // import {HiOutlineExclamationCircle,HiTrash,HiPencil,HiPlus} from 'react-icons/hi';
@@ -7,6 +5,7 @@
 // import { useDispatch } from 'react-redux';
 // import axios from 'axios';
 // import Footer from '../UserComponents/Footer';
+// import { toast } from 'react-toastify';
 
 
 // const ROLES = ['Admin', 'Customer', 'PetrolStation', 'DeliveryBoy', 'ServiceMan'];
@@ -113,6 +112,7 @@
 //       }
       
 //       await fetchUsers();
+//       toast.success(`User ${isEditing ? 'updated' : 'created'} successfully!`);
 //       resetForm();
 //       setIsFormModalOpen(false);
 //     } catch (err) {
@@ -139,6 +139,7 @@
 //       }
       
 //       await fetchUsers();
+//       toast.success('User deleted successfully!');
 //       setIsDeleteModalOpen(false);
 //       setUserToDelete(null);
 //     } catch (err) {
@@ -191,22 +192,22 @@
 //   return (
 //     <div className='bg-red-400 w-full min-h-screen'>
 //       <AdminTopBarPage />
-//       <Card className="flex flex-col bg-slate-600 bg-gradient-to-tr from-gray-500 via-yellow-500 to-gray-500 mb-5 shadow-xl p-4 sm:p-6 rounded-xl">
-//       <div className='max-w-7xl mx-auto p-4 sm:px-6 lg:px-8'>
+//       <Card className="flex flex-col overflow-x-auto userlistbg mb-5 shadow-xl m-4 sm:p-6 rounded-xl">
+//       <div className='flex flex-col sm:flex-row justify-between gap-10 p-4 sm:px-6 lg:px-8'>
 //           <div class="border-2 border-red-500 p-4 rounded-lg text-lg font-semibold">
-//            <h1 className="text-4xl font-bold text-gray-900 text-center">USER MANAGEMENT</h1>
+//            <h1 className="text-lg sm:text-4xl font-bold text-gray-900 text-center">USER MANAGEMENT</h1>
 //           </div>
-//          <Button 
-//          outline gradientDuoTone="cyanToBlue"
+//          <button 
+//          className='flex justify-end p-2 border-2 border-red-500 rounded-lg text-lg font-semibold hover:bg-red-600'
 //          onClick={() => {
 //            resetForm();
 //            setIsFormModalOpen(true);
 //          }}>
 //            <HiPlus className="mr-2 h-4 w-4" />
 //            Add User
-//          </Button>
+//          </button>
 //       </div>
-
+      
 //       {error && (
 //         <Alert color="failure" className="mb-4">
 //           <HiOutlineExclamationCircle className="mr-2 h-4 w-4" />
@@ -230,64 +231,62 @@
 //         </Select>
 //       </div>
       
-
-//       {isLoading ? (
-//         <div className="text-center py-4">
-//           <Spinner size="lg" />
-//         </div>
-//       ) : (
-//         <Table hoverable>
-//           <Table.Head>
-//             <Table.HeadCell>Name</Table.HeadCell>
-//             <Table.HeadCell>Email</Table.HeadCell>
-//             <Table.HeadCell>Role</Table.HeadCell>
-//             <Table.HeadCell>
-//               <span className="sr-only">Actions</span>
-//             </Table.HeadCell>
-//           </Table.Head>
-//           <Table.Body className="divide-y">
-//             {filteredUsers.length === 0 ? (
-//               <Table.Row>
-//                 <Table.Cell colSpan={4} className="text-center py-4">
-//                   No users found
-//                 </Table.Cell>
-//               </Table.Row>
-//             ) : (
-//               filteredUsers.map(user => (
-//                 <Table.Row key={user.id} className="bg-white">
-//                   <Table.Cell className="font-medium text-gray-900">
-//                     {user.FirstName} {user.LastName}
-//                   </Table.Cell>
-//                   <Table.Cell>{user.Email}</Table.Cell>
-//                   <Table.Cell className="capitalize">{user.Role}</Table.Cell>
-//                   <Table.Cell>
-//                     <div className="flex justify-end gap-2">
-//                       <Button
-//                         outline gradientDuoTone="greenToBlue"
-//                         size="sm"
-//                         onClick={() => handleEditUser(user)}
-//                       >
-//                         <HiPencil className="h-4 w-4" />
-//                       </Button>
-//                       <Button
-//                         outline gradientDuoTone="pinkToOrange"
-//                         size="sm"
-//                         onClick={() => {
-//                           setUserToDelete(user);
-//                           setIsDeleteModalOpen(true);
-//                         }}
-//                       >
-//                         <HiTrash className="h-4 w-4" />
-//                       </Button>
-//                     </div>
+//       <div className="overflow-x-auto">
+//         {isLoading ? (
+//           <div className="text-center py-4">
+//             <Spinner size="lg" />
+//           </div>
+//         ) : (
+//           <Table hoverable >
+//             <Table.Head>
+//               <Table.HeadCell>Name</Table.HeadCell>
+//               <Table.HeadCell>Email</Table.HeadCell>
+//               <Table.HeadCell>Role</Table.HeadCell>
+//               <Table.HeadCell>
+//                 <span className="sr-only">Actions</span>
+//               </Table.HeadCell>
+//             </Table.Head>
+//             <Table.Body className="divide-y">
+//               {filteredUsers.length === 0 ? (
+//                 <Table.Row>
+//                   <Table.Cell colSpan={4} className="text-center py-4">
+//                     No users found
 //                   </Table.Cell>
 //                 </Table.Row>
-//               ))
-//             )}
-//           </Table.Body>
-//         </Table>
-//       )}
-
+//               ) : (
+//                 filteredUsers.map(user => (
+//                   <Table.Row key={user.id} className="bg-transparent">
+//                     <Table.Cell className="font-medium text-gray-700 border-2">
+//                       {user.FirstName} {user.LastName}
+//                     </Table.Cell>
+//                     <Table.Cell className="font-medium text-gray-700 border-2">{user.Email}</Table.Cell>
+//                     <Table.Cell className="font-medium text-gray-700 border-2">{user.Role}</Table.Cell>
+//                     <Table.Cell className="border-2">
+//                       <div className="flex justify-end gap-2">
+//                         <button
+//                           className='flex justify-end p-2 border-2 border-black rounded-lg text-lg font-semibold hover:bg-red-600 text-black'
+//                           onClick={() => handleEditUser(user)}
+//                         >
+//                           <HiPencil className="text-gray-700 h-4 w-4" />
+//                         </button>
+//                         <button
+//                           className='flex justify-end p-2 border-2 border-black rounded-lg text-lg font-semibold hover:bg-red-600'
+//                           onClick={() => {
+//                             setUserToDelete(user);
+//                             setIsDeleteModalOpen(true);
+//                           }}
+//                         >
+//                           <HiTrash className="text-gray-700 h-4 w-4" />
+//                         </button>
+//                       </div>
+//                     </Table.Cell>
+//                   </Table.Row>
+//                 ))
+//               )}
+//             </Table.Body>
+//           </Table>
+//         )}
+//       </div>
 //       {/* User Form Modal */}
 //       <Modal
 //         show={isFormModalOpen}
@@ -477,9 +476,6 @@
 
 // export default UserList;
 
-
-//!another one claude.ai
-
 import React, { useState, useEffect } from 'react';
 import { Button,Card,Label,TextInput,Select,Modal,Alert,Table,Spinner } from 'flowbite-react';
 import {HiOutlineExclamationCircle,HiTrash,HiPencil,HiPlus} from 'react-icons/hi';
@@ -487,6 +483,7 @@ import AdminTopBarPage from './AdminTopBarPage';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import Footer from '../UserComponents/Footer';
+import { toast } from 'react-toastify';
 
 
 const ROLES = ['Admin', 'Customer', 'PetrolStation', 'DeliveryBoy', 'ServiceMan'];
@@ -513,12 +510,9 @@ const UserList = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
   
-  //console.log(currentUser.Email);
-  
-  console.log(currentUser);
   
   // API base URL - should be in environment variable
-  const API_BASE_URL = 'http://localhost:5000/api';
+  const API_BASE_URL = 'https://vehicle-care-api.onrender.com/api';
   const ROLES = ['Admin', 'Customer', 'PetrolStation', 'DeliveryBoy', 'ServiceMan'];
    
    
@@ -540,9 +534,9 @@ const UserList = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`${API_BASE_URL}/admin/getalluserdata`);
-      console.log(response);
+      // console.log(response);
       const fetchdata = response.data.users
-      console.log(fetchdata);
+      // console.log(fetchdata);
       
       setUsers(fetchdata);
       setFilteredUsers(fetchdata)
@@ -594,9 +588,11 @@ const UserList = () => {
       
       await fetchUsers();
       resetForm();
+      toast.success(`User ${isEditing ? 'updated' : 'created'} successfully!`);
       setIsFormModalOpen(false);
     } catch (err) {
       setError(`Failed to ${isEditing ? 'update' : 'create'} user: ${err.message}`);
+      toast.error(`Failed to ${isEditing ? 'update' : 'create'} user: ${err.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -621,9 +617,11 @@ const UserList = () => {
       await fetchUsers();
       setIsDeleteModalOpen(false);
       setUserToDelete(null);
+      toast.success('User deleted successfully!');
     } catch (err) {
       setError('Failed to delete user. Please try again.');
       console.error('Error deleting user:', err);
+      toast.error('Failed to delete user. Please try again.');
     } finally {
       setIsLoading(false);
     }

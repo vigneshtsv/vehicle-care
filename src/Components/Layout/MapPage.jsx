@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Fuel, X, Droplet, Bike, MapPin, Wrench, Option, ChevronDown, AlertCircle } from 'lucide-react';
-import { Button, Label, Select, Textarea, TextInput } from 'flowbite-react';
+import { Fuel, X, Droplet, Bike, MapPin, Wrench, ChevronDown, AlertCircle } from 'lucide-react';
+import { Button, Textarea, TextInput } from 'flowbite-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInSuccess } from '../../Redux/Slice/authSlice';
 import TopBar from '../UserComponents/TopBar';
 import Footer from '../UserComponents/Footer';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { CarouselSecond } from './CarouselSecond';
 
 const MOCK_SERVICES = [
   {
@@ -61,7 +62,7 @@ const Maps = () => {
   
 const dispatch = useDispatch()
 const API_KEY = 'AIzaSyBnXL2sG0JrqGst0lr1djzdl7gUFDFpQ_c';
-const BE_API_URL = 'http://localhost:5000/api'
+const BE_API_URL = 'https://vehicle-care-api.onrender.com/api'
 
 useEffect(() => {
   fetchPetrolData();
@@ -258,7 +259,7 @@ const fetchPetrolData = async () => {
   const handleOrderPetrol = (station) => {
     setSelectedStation(station);
     setIsOpenPetrol(true);
-    console.log('handleOrderPetrol fuel from:', station.StationName);
+    // console.log('handleOrderPetrol fuel from:', station.StationName);
     
   };
 
@@ -634,6 +635,7 @@ const fetchPetrolData = async () => {
         </div>
       )}
     </div>
+    <CarouselSecond />
     <Footer />
     </>
   );

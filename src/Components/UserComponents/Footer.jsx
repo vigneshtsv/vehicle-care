@@ -2,6 +2,7 @@ import React from 'react';
 import { Mail,Facebook,Instagram,MessageCircle,Home,Phone } from "lucide-react";
 import { useLogout } from '../Layout/useLogout';
 import { useDispatch } from 'react-redux';
+import { signOutSuccess } from '../../Redux/Slice/authSlice';
 
 
 const SocialIcon = ({ href, icon: Icon }) => (
