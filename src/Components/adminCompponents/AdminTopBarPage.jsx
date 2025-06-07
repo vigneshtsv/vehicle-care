@@ -69,8 +69,8 @@ function AdminTopBarPage() {
     </div> */}
     <NavbarToggle />
     <NavbarCollapse>
-      <Navbar.Link active={path ==='/'} as={'div'}>
-        <Link to='/' className='text-lg hover:text-purple-700 hover:underline'>Home</Link>
+      <Navbar.Link active={path ==='/admindashboardpage'} as={'div'}>
+        <Link to='/admindashboardpage ' className='text-lg hover:text-purple-700 hover:underline'>Home</Link>
       </Navbar.Link>
       <Navbar.Link active={path ==='/userlist'} as={'div'}>
         <Link to='/userlist' className='text-lg hover:text-purple-700 hover:underline'>User List</Link>
