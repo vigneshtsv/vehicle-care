@@ -671,7 +671,7 @@ const UserList = () => {
       <AdminTopBarPage />
       <Card className="flex flex-col overflow-x-auto userlistbg mb-5 shadow-xl m-4 sm:p-6 rounded-xl">
       <div className='flex flex-col sm:flex-row justify-between gap-10 p-4 sm:px-6 lg:px-8'>
-          <div class="border-2 border-red-500 p-4 rounded-lg text-lg font-semibold">
+          <div className="border-2 border-red-500 p-4 rounded-lg text-lg font-semibold">
            <h1 className="text-lg sm:text-4xl font-bold text-gray-900 text-center">USER MANAGEMENT</h1>
           </div>
          <button 
@@ -732,7 +732,7 @@ const UserList = () => {
                 </Table.Row>
               ) : (
                 filteredUsers.map(user => (
-                  <Table.Row key={user.id} className="bg-transparent">
+                  <Table.Row key={user.id}  user={user}className="bg-transparent">
                     <Table.Cell className="font-medium text-gray-700 border-2">
                       {user.FirstName} {user.LastName}
                     </Table.Cell>
