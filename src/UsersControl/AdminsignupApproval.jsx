@@ -1,12 +1,15 @@
-import { ArrowBigLeft } from 'lucide-react'
 import React from 'react'
+import { ArrowBigLeft } from 'lucide-react'
+import { useNavigate } from 'react-router-dom';
 
-function AdminsignupApprovel() {
+function AdminsignupApproval() {
+    const navigate = useNavigate()
+
     const handleback = () => {
-        window.history.back();
+        navigate(-1); 
     }
     const goToDashboard = () => {
-        window.location.href = '/customerdashboard';
+        navigate('/customerdashboard');
     }
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -60,7 +63,7 @@ function AdminsignupApprovel() {
   )
 }
 
-export default AdminsignupApprovel
+export default AdminsignupApproval;
 
 
 

@@ -16,7 +16,7 @@ function AdminSignup() {
     ConfirmPassword: "",
     Address: "",
     EmployeeId: "",
-    Role: 'Admin',
+    Role: 'Customer',
   });
 
   const [files, setFiles] = useState({
@@ -131,7 +131,7 @@ function AdminSignup() {
         setSuccessMsg('Admin Registration Successful');
         resetForm();
         toast.success('Admin Registration Successful');
-        setTimeout(() => navigate('/adminsingupapprovel'), 1000);
+        setTimeout(() => navigate('/adminsignupapproval'), 1000);
       }
     } catch (error) {
       const errorMsg = error.response?.data?.message || error.message || 'Registration failed';

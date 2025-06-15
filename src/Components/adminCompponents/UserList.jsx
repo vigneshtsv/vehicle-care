@@ -494,7 +494,8 @@ const initialFormData = {
   Email: '',
   PhoneNumber: '',
   Role: ROLES[0],
-  Password: ''
+  Password: '',
+  ConfirmPassword: ''
 };
 
 const UserList = () => {
@@ -516,7 +517,6 @@ const UserList = () => {
   const ROLES = ['Admin', 'Customer', 'PetrolStation', 'DeliveryBoy', 'ServiceMan'];
    
    
- 
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -548,6 +548,19 @@ const UserList = () => {
       setIsLoading(false);
     }
   };
+
+  const validateForm = () => {
+    if(!currentUser.Email || !currentUser.FirstName || (!isEditing && !currentUser.Password)){
+      setError('Please fill in all required fields');
+      return false;
+    }
+
+    if(!isEditing && currentUser.Password !==currentUser.ConfirmPassword) {
+      setError('Passwords do not match');
+      return false;
+    }
+    return true;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -628,23 +641,23 @@ const UserList = () => {
   };
   console.log(filteredUsers);
   
-  const validateForm = () => {
-    if (!currentUser.Email || !currentUser.FirstName || (!isEditing && !currentUser.Password)) {
-      setError('Please fill in all required fields');
-      return false;
-    }
+  // const validateForm = () => {
+  //   if (!currentUser.Email || !currentUser.FirstName || (!isEditing && !currentUser.Password)) {
+  //     setError('Please fill in all required fields');
+  //     return false;
+  //   }
     
-    if (!isValidEmail(currentUser.Email)) {
-      setError('Please enter a valid email address');
-      return false;
-    }
+  //   if (!isValidEmail(currentUser.Email)) {
+  //     setError('Please enter a valid email address');
+  //     return false;
+  //   }
     
-    return true;
-  };
+  //   return true;
+  // };
 
-  const isValidEmail = (Email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(Email);
-  };
+  // const isValidEmail = (Email) => {
+  //   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(Email);
+  // };
 
   const resetForm = () => {
     setCurrentUser(initialFormData);
@@ -732,7 +745,7 @@ const UserList = () => {
                 </Table.Row>
               ) : (
                 filteredUsers.map(user => (
-                  <Table.Row key={user.id}  user={user}className="bg-transparent">
+                  <Table.Row key={user._id || user.id}  user={user}className="bg-transparent">
                     <Table.Cell className="font-medium text-gray-700 border-2">
                       {user.FirstName} {user.LastName}
                     </Table.Cell>
@@ -841,7 +854,8 @@ const UserList = () => {
             </div>
 
             {!isEditing && (
-              <div>
+             <div className="grid grid-cols-2 gap-4">
+               <div>
                 <div className="mb-2 block">
                   <Label htmlFor="password" value="Password" />
                 </div>
@@ -856,6 +870,22 @@ const UserList = () => {
                   required={!isEditing}   
                 />
               </div>
+               <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="ConfirmPassword" value="ConfirmPassword" />
+                </div>
+                <TextInput
+                  id="ConfirmPassword"
+                  type="password"
+                  value={currentUser.ConfirmPassword}
+                  onChange={(e) => setCurrentUser({ 
+                    ...currentUser, 
+                    ConfirmPassword: e.target.value 
+                  })}
+                  required={!isEditing}   
+                />
+              </div>
+             </div>
             )}
 
             <div>

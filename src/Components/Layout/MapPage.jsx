@@ -709,7 +709,7 @@ const Maps = () => {
   const mapRef = useRef(null);
   const googleMapsScriptRef = useRef(null);
 
-const API_KEY = 'AIzaSyDdEuDtQl2t0eW97330v0AYIt3bHjEu2vQ';
+const API_KEY = 'jhgk'||'AIzaSyDdEuDtQl2t0eW97330v0AYIt3bHjEu2vQ';
 const BE_API_URL = 'https://vehicle-care-api.onrender.com/api'
 
 useEffect(() => {
@@ -796,7 +796,7 @@ const fetchPetrolData = async () => {
         googleMapsScriptRef.current = null;
       }
     };
-  }, []);
+  }, [API_KEY]);
 
   useEffect(() => {
     if (isGoogleMapsLoaded && mapRef.current && !map) {
@@ -808,7 +808,7 @@ const fetchPetrolData = async () => {
     if (map && isGoogleMapsLoaded) {
       updateMarkers();
     }
-  }, [map, petrolData, isGoogleMapsLoaded]);
+  }, [map, petrolData, isGoogleMapsLoaded,activeTab]);
 
   const initializeMap = () => {
     if (!window.google || !window.google.maps || !mapRef.current) {
@@ -840,6 +840,9 @@ const fetchPetrolData = async () => {
           position: userLocation,
           map: mapInstance,
           title: 'Your Location',
+          icon: {
+           url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+          }
         })
       }
       setMap(mapInstance);

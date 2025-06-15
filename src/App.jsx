@@ -23,9 +23,9 @@ import OrderList from './Components/adminCompponents/OrderList'
 import ForgotPassword from './Components/UserComponents/ForgotPassword'
 import PetrolStationDashboard from './Pages/PetrolStationDashboard'
 import ServiceManDashboard from './Pages/ServiceManDashboard'
-import AdminsignupApprovel from './UsersControl/AdminsignupApprovel'
 import MapPage from './Components/Layout/MapPage.jsx'
 import RoleBasedProtect from './Components/ProdutedRoutes/RoleBasedProtect'
+import AdminsignupApproval from './UsersControl/AdminsignupApproval.jsx'
 
 export default function App() {
   return (
@@ -46,7 +46,8 @@ export default function App() {
         <Route path='/dashboardprofile' element={<DashboardProfile />} />
         <Route path='/forgotpassword' element={<ForgotPassword />} />
         <Route path='/carouselOne' element={<CarouselOne />} />
-        <Route path='/adminsignupapprovel' element={<AdminsignupApprovel />} />
+        {/* <Route path='/adminsignupapproval' element={<AdminSignupApproval />} /> */}
+        <Route path='/adminsignupapproval' element={<AdminsignupApproval />} />
       </Routes>
 
       
