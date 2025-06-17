@@ -227,7 +227,6 @@ const DeliveryBoyDashboard = () => {
                  active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-300
                  flex items-center"
                       onClick={() => handlePickupOrder(order)}
-                      gradientMonochrome="info"
                     >
                       <Truck className="h-4 w-4 mr-2 transition-transform duration-200 group-hover:rotate-12" />
                       Pickup Order
@@ -240,7 +239,6 @@ const DeliveryBoyDashboard = () => {
                  active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-300
                  flex items-center"
                       onClick={() => handleDeliveryDetails(order)}
-                      gradientMonochrome="lime"
                     >
                       <CheckCircle className="h-4 w-4 mr-2 transition-transform duration-200 hover:rotate-180" />
                       Delivery Details
@@ -252,7 +250,6 @@ const DeliveryBoyDashboard = () => {
                  hover:bg-purple-600 hover:scale-110 hover:shadow-lg hover:-translate-y-1
                  active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-300
                  flex items-center"
-                      gradientMonochrome="purple"
                       onClick={OrderTrackingNavigate}
                     >
                       <Map className="h-4 w-4 mr-2 transition-transform duration-200 hover:scale-125" />

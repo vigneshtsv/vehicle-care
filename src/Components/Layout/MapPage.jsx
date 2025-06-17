@@ -1151,7 +1151,7 @@ const fetchPetrolData = async () => {
             </h2>
             {petrolData.map((station) => (
               <div
-                key={station.Id}
+                key={station.id}
                 className="border p-4 mb-4 rounded-lg shadow-sm hover:bg-yellow-200 transition"
               >
                 <div className="flex items-center mb-2">

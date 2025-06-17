@@ -1,9 +1,9 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import SignupNavigate from './UsersControl/SignupNavigate'
-import CustomerSignup from './UsersControl/CustomerSignup'
-import DashboardProfile from './Components/Layout/DashboardProfile'
-import CustomerDashboard from './Pages/CustomerDashboard'
+import SignupNavigate from './UsersControl/SignupNavigate.jsx'
+import CustomerSignup from './UsersControl/CustomerSignup.jsx'
+import DashboardProfile from './Components/Layout/DashboardProfile.jsx'
+import CustomerDashboard from './Pages/CustomerDashboard.jsx'
 import DeliveryBoyDashboard from './Pages/DeliveryBoyDashboard'
 import OrderTracking from './Components/Layout/OrderTracking'
 import { CarouselOne } from './Components/Layout/CarouselOne'
@@ -48,10 +48,8 @@ export default function App() {
         <Route path='/carouselOne' element={<CarouselOne />} />
         {/* <Route path='/adminsignupapproval' element={<AdminSignupApproval />} /> */}
         <Route path='/adminsignupapproval' element={<AdminsignupApproval />} />
-      </Routes>
-
       
-      <Routes>
+
         {/* admin Router */}
         <Route path='/admintopbarpage' element={<RoleBasedProtect allowedRoles={['Admin']} />}>
           <Route index element={<AdminTopBarPage />} />
@@ -66,7 +64,7 @@ export default function App() {
           <Route index element={<AdminDashboardPage />} />
         </Route> 
 
-       {/* Customer Routers */}
+       {/* Customer Routers */}         
         <Route path="/customerdashboard" element={<RoleBasedProtect allowedRoles={['Customer', 'Admin']} />}>
            <Route index element={<CustomerDashboard />} />
         </Route>

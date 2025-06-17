@@ -114,7 +114,7 @@ function AdminTopBarPage() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style jsx='true'>{`
         @keyframes scroll {
           0% { transform: translateX(100%); }
           100% { transform: translateX(-100%); }

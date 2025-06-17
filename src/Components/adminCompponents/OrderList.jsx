@@ -79,7 +79,8 @@ export default function OrderList() {
                 <tr
                   key={order.id}
                   className="bg-white border-b hover:bg-gray-50"
-                >
+                > 
+
                   <td className="px-6 bg-slate-100 py-4">{index + 1}</td>
                   <td className="px-6 bg-pink-100 py-4">{order.Email}</td>
                   <td className="px-6 bg-slate-100 py-4">{order.Petrol_Quantity != null && order.Petrol_Quantity >= 0 ?`${order.Petrol_Quantity} Ltr`:'-'}</td>
