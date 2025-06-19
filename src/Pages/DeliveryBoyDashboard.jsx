@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CarouselOne } from "../Components/Layout/CarouselOne";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import AdminTopBarPage from "../Components/adminCompponents/AdminTopBarPage";
 
 const DeliveryBoyDashboard = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -14,6 +16,7 @@ const DeliveryBoyDashboard = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({
     id: "",
     Status: "",
@@ -132,7 +135,7 @@ const DeliveryBoyDashboard = () => {
 
   return (
     <>
-      <TopBar />
+      {currentUser.Role === 'DeliveryBoy'? <TopBar /> : <AdminTopBarPage />}
       {/* Image Carousel Section */}
       <div>
         <CarouselOne />

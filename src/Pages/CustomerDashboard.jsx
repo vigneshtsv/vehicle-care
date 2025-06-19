@@ -4,10 +4,13 @@ import TopBar from '../Components/UserComponents/TopBar';
 import Footer from '../Components/UserComponents/Footer';
 import { useNavigate } from 'react-router-dom';
 import { CarouselOne } from '../Components/Layout/CarouselOne';
+import AdminTopBarPage from '../Components/adminCompponents/AdminTopBarPage';
+import { useSelector } from 'react-redux';
 
 
 const CustomerDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   const handleClickMe = () => {
@@ -21,7 +24,7 @@ const CustomerDashboard = () => {
   return (
     <div className='customerdashboardbg'>
       {/* First Carousel Division */}
-      <TopBar />
+      {currentUser.Role === 'Customer'? <TopBar /> : <AdminTopBarPage />}
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
        <CarouselOne />
      </div>

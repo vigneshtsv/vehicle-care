@@ -30,7 +30,6 @@ import AdminsignupApproval from './UsersControl/AdminsignupApproval.jsx'
 export default function App() {
   return (
     <BrowserRouter>
-
     {/* public Router */}
       <Routes>
         <Route path='/' element={<LoginForm />} />

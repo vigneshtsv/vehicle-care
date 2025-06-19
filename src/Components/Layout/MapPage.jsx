@@ -654,6 +654,7 @@ import Footer from '../UserComponents/Footer';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { CarouselSecond } from './CarouselSecond';
+import AdminTopBarPage from '../adminCompponents/AdminTopBarPage';
 
 const MOCK_SERVICES = [
   {
@@ -709,7 +710,7 @@ const Maps = () => {
   const mapRef = useRef(null);
   const googleMapsScriptRef = useRef(null);
 
-const API_KEY = 'jhgk'||'AIzaSyDdEuDtQl2t0eW97330v0AYIt3bHjEu2vQ';
+const API_KEY = 'AIzaSyDdEuDtQl2t0eW97330v0AYIt3bHjEu2vQ';
 const BE_API_URL = 'https://vehicle-care-api.onrender.com/api'
 
 useEffect(() => {
@@ -1107,7 +1108,7 @@ const fetchPetrolData = async () => {
   };
 
   return (<>
-  <TopBar/>
+  {currentUser.Role === 'Customer'? <TopBar /> : <AdminTopBarPage />}
     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-tr from-orange-500 via-yellow-500 to-purple-500 relative">
       {/* Map Section */}
       {/* <div className="w-full md:w-2/3 h-96 md:h-screen">

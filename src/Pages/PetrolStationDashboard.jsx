@@ -7,6 +7,7 @@ import { TextInput } from 'flowbite-react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import AdminTopBarPage from '../Components/adminCompponents/AdminTopBarPage';
 
 
 function PetrolStationDashboard() {
@@ -83,7 +84,7 @@ const handleSubmit = async (e) => {
 
   return (
     <div className='petrolstationbg w-full'>
-      <TopBar />
+      {currentUser.Role === 'PetrolStation'? <TopBar /> : <AdminTopBarPage />}
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
         <CarouselOne />
       </div>

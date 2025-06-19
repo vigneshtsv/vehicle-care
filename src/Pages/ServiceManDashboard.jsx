@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { GiStorkDelivery } from "react-icons/gi";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import AdminTopBarPage from "../Components/adminCompponents/AdminTopBarPage";
 
 const ServiceManDashboard = () => {
   const [notifications, setNotifications] = useState([]);
@@ -18,6 +20,7 @@ const ServiceManDashboard = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isDeliveryPopupOpen, setIsDeliveryPopupOpen] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({
     id: "",
     Status: "",
@@ -150,7 +153,7 @@ const ServiceManDashboard = () => {
 
   return (
     <div className="servicemanbg">
-      <TopBar />
+      {currentUser.Role === 'ServiceMan'? <TopBar /> : <AdminTopBarPage />}
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
         <CarouselOne />
       </div>
