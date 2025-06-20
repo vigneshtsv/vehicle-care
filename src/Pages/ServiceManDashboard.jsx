@@ -162,7 +162,7 @@ const ServiceManDashboard = () => {
       <div>
         <div className="p-6">
           <div className="flex justify-between items-center mb-6 p-4 bg-red-400">
-            <h1 className="text-2xl font-bold">Waiting Orders Notifications</h1>
+            <h1 className="bg-gradient-to-t from-orange-500 via-blue-500 to-teal-500 text-transparent bg-clip-text text-3xl font-bold">Waiting Orders Notifications</h1>
             <div className="relative bg-yellow-200 p-1 rounded-full">
               <Bell className="h-6 w-6 text-gray-600" />
               <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
@@ -277,7 +277,7 @@ const ServiceManDashboard = () => {
       <div>
         <div className="p-6">
           <div className="flex justify-between items-center mb-6 p-4 bg-amber-300">
-            <h1 className="text-2xl font-bold">
+            <h1 className="bg-gradient-to-b from-teal-500 via-purple-500 to-red-500 text-transparent bg-clip-text text-3xl font-bold">
               Processing Orders Notifications
             </h1>
             <div className="relative bg-blue-700 p-1 rounded-full">
@@ -391,7 +391,7 @@ const ServiceManDashboard = () => {
       <div>
         <div className="p-6">
           <div className="flex justify-between items-center mb-6 p-4 bg-green-400">
-            <h1 className="text-2xl font-bold">
+            <h1 className="bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 text-transparent bg-clip-text text-3xl font-bold">
               Completed Orders Notifications
             </h1>
             <div className="relative bg-red-500 p-1 rounded-full">

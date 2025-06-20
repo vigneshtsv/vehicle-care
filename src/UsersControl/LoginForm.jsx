@@ -85,7 +85,7 @@ const LoginForm = () => {
   return (
     <div className="min-h-screen flex flex-col justify-center loginbg">
       <div className="mx-auto w-full max-w-md p-6">
-        <div className="bg-transparent rounded-lg shadow-lg p-8 border-2 border-yellow-300">
+        <div className="bg-gray-500 bg-clip-padding backdrop-filter  backdrop-blur bg-opacity-10 backdrop-saturate-100 backdrop-contrast-100 rounded-lg shadow-lg p-8 border-2 border-yellow-300">
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-lime-400">Welcome back</h1>

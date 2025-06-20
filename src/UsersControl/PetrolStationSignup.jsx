@@ -170,7 +170,7 @@ function PetrolStationSignup() {
   }
 
   return <div className='signupbg p-10'>
-    <div className='max-w-md mx-auto mt-8 p-6 bg-transparent rounded-xl shadow-md border border-spacing-5'>
+    <div className='max-w-md mx-auto mt-8 p-6 bg-gray-500 bg-clip-padding backdrop-filter  backdrop-blur bg-opacity-10 backdrop-saturate-100 backdrop-contrast-100 rounded-xl shadow-md border border-spacing-5'>
       <h1 className='text-2xl font-bold mb-6 text-center text-lime-400'>
         PetrolStation Signup
       </h1>

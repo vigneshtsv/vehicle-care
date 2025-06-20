@@ -1,4 +1,4 @@
-// import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect, useRef } from 'react';
 // import { Fuel, X, Droplet, Bike, MapPin, Wrench, ChevronDown, AlertCircle } from 'lucide-react';
 // import { Button, Textarea, TextInput } from 'flowbite-react';
 // import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,7 @@
 // import axios from 'axios';
 // import { toast } from 'react-toastify';
 // import { CarouselSecond } from './CarouselSecond';
+// import AdminTopBarPage from '../adminCompponents/AdminTopBarPage';
 
 // const MOCK_SERVICES = [
 //   {
@@ -58,7 +59,10 @@
 //     Disel_Quantity: ''
 //   });
 //   const [petrolData,setPetrolData]= useState([{}])
-  
+//   const [isGoogleMapsLoaded, setIsGoogleMapsLoaded] = useState(false);
+//   const mapRef = useRef(null);
+//   const googleMapsScriptRef = useRef(null);
+
 // const API_KEY = 'AIzaSyDdEuDtQl2t0eW97330v0AYIt3bHjEu2vQ';
 // const BE_API_URL = 'https://vehicle-care-api.onrender.com/api'
 
@@ -113,149 +117,219 @@
 //   useEffect(() => {
 //     const loadGoogleMapsScript = () => {
 //       if(window.google && window.google.maps) {
-//         initializeMap();
+//         setIsGoogleMapsLoaded(true);
 //         return;
 //       }
+//       if (googleMapsScriptRef.current) {
+//         return;
+//       }
+
 //       const script = document.createElement('script');
 //       script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
 //       script.defer = true;
 //       script.async = true;
-//       script.onload = initializeMap;
+
+//       script.onload = () => {
+//         setIsGoogleMapsLoaded(true);
+//       };
+
+//       script.onerror = (error) => {
+//         console.error('Error loading Google Maps script:', error);
+//       };
+
+//       googleMapsScriptRef.current = script;
 //       document.head.appendChild(script);
 //     };
 
 //     loadGoogleMapsScript();
 
 //     return () => {
-//       // Cleanup markers
-//       markers.forEach(marker => marker.setMap(null));
+//       // Cleanup function
+//       if (googleMapsScriptRef.current && googleMapsScriptRef.current.parentnode) {
+//         googleMapsScriptRef.current.parentNode.removeChild(googleMapsScriptRef.current);
+//         googleMapsScriptRef.current = null;
+//       }
 //     };
-//   }, []);
+//   }, [API_KEY]);
 
 //   useEffect(() => {
-//     if (map) {
-//       // Clear existing markers
-//       markers.forEach(marker => marker.setMap(null));
-      
-//       // Add markers for stations and services
-//       const newMarkers = [
-//         ...petrolData.map(station => {
-//           const marker = new google.maps.Marker({
-//             position: { lat: station.latitude, lng: station.longitude },
-//             map: map,
-//             icon: {
-//               url: '/api/placeholder/32/32',
-//               scaledSize: new google.maps.Size(32, 32)
-//             },
-//             title: station.Name
-//           });
-
-//           marker.addListener('click', () => {
-//             if (infoWindow) {
-//               infoWindow.close();
-//             }
-//             const newInfoWindow = new google.maps.InfoWindow({
-//               content: `
-//                 <div class="p-2">
-//                   <h3 class="font-semibold">${station.StationName}</h3>
-//                   <p>Distance: ${station.Distance} km</p>
-//                   <p>Petrol: ₹${station.PetrolPrice}</p>
-//                   <p>Diesel: ₹${station.DiselPrice}</p>
-//                 </div>
-//               `
-//             });
-//             newInfoWindow.open(map, marker);
-//             setInfoWindow(newInfoWindow);
-//             setSelectedStation(station);
-//           });
-
-//           return marker;
-//         }),
-//         ...MOCK_SERVICES.map(service => {
-//           const marker = new google.maps.Marker({
-//             position: { lat: service.latitude, lng: service.longitude },
-//             map: map,
-//             icon: {
-//               url: '/api/placeholder/32/32',
-//               scaledSize: new google.maps.Size(32, 32)
-//             },
-//             title: service.Name
-//           });
-
-//           marker.addListener('click', () => {
-//             if (infoWindow) {
-//               infoWindow.close();
-//             }
-//             const newInfoWindow = new google.maps.InfoWindow({
-//               content: `
-//                 <div class="p-2">
-//                   <h3 class="font-semibold">${service.StationName}</h3>
-//                   <p>Distance: ${service.Distance} km</p>
-//                   <p>Services: ${service.Services.join(', ')}</p>
-//                 </div>
-//               `
-//             });
-//             newInfoWindow.open(map, marker);
-//             setInfoWindow(newInfoWindow);
-//             setSelectedStation(service);
-//           });
-
-//           return marker;
-//         })
-//       ];
-
-//       setMarkers(newMarkers);
+//     if (isGoogleMapsLoaded && mapRef.current && !map) {
+//       // initializeMap();
 //     }
-//   }, [map]);
+//   }, [isGoogleMapsLoaded, map]);
 
-//   const initializeMap = () => {
-//     if (window.google) {
-//       const mapInstance = new google.maps.Map(document.getElementById('map'), {
-//         center: userLocation,
-//         zoom: 13,
-//         styles: [
-//           {
-//             featureType: 'poi',
-//             elementType: 'labels',
-//             stylers: [{ visibility: 'off' }]
-//           }
-//         ]
-//       });
+//   // useEffect(() => {
+//   //   if (map && isGoogleMapsLoaded) {
+//   //     updateMarkers();
+//   //   }
+//   // }, [map, petrolData, isGoogleMapsLoaded,activeTab]);
 
-//       // Add user location marker
-//       new google.maps.Marker({
-//         position: userLocation,
-//         map: mapInstance,
-//         icon: {
-//           url: '/api/placeholder/32/32',
-//           scaledSize: new google.maps.Size(32, 32)
-//         },
-//         title: 'Your Location'
-//       });
+//   // const initializeMap = () => {
+//   //   if (!window.google || !window.google.maps || !mapRef.current) {
+//   //     return;
+//   //   }
+//   //   try {
+//   //     const mapInstance = new google.maps.Map(mapRef.current, {
+//   //       center: userLocation,
+//   //       zoom: 13,
+//   //       mapId: 'DEMO_MAP_ID',
+//   //       styles: [
+//   //         {
+//   //           featureType: 'poi',
+//   //           elementType: 'labels',
+//   //           stylers: [{ visibility: 'off' }]
+//   //         }
+//   //       ]
+//   //     })
 
-//       setMap(mapInstance);
-//     }
-//   };
+//   //     // Add user location marker
+//   //     if (google.maps.marker && google.maps.marker.AdvancedMarkerElement) {
+//   //       const userMarker= new google.maps.marker.AdvancedMarkerElement({
+//   //         map: mapInstance,
+//   //         position: userLocation,
+//   //         title: 'Your Location',
+//   //       });
+//   //     }else {
+//   //       new google.maps.Marker({
+//   //         position: userLocation,
+//   //         map: mapInstance,
+//   //         title: 'Your Location',
+//   //         icon: {
+//   //          url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+//   //         }
+//   //       })
+//   //     }
+//   //     setMap(mapInstance);
+//   //   }catch (error) {
+//   //     console.error("Error initializing map:", error);
+//   //   }
+//   // }
 
-//   useEffect(() => {
-//     if ("geolocation" in navigator) {
-//       navigator.geolocation.getCurrentPosition(
-//         (position) => {
-//           const newLocation = {
-//             lat: position.coords.latitude,
-//             lng: position.coords.longitude
-//           };
-//           setUserLocation(newLocation);
-//           if (map) {
-//             map.setCenter(newLocation);
-//           }
-//         },
-//         (error) => {
-//           console.error("Error getting location:", error);
-//         }
-//       );
-//     }
-//   }, [map]);
+//   // const updateMarkers = () => {
+//   //   if (!map || !window.google) return;
+//   //   // Clear existing markers
+//   //   markers.forEach(marker => {
+//   //     if (marker.setMap) {
+//   //       marker.setMap(null);
+//   //     }
+//   //   });
+
+//   //   const newMarkers =  [];
+
+//   //   petrolData.forEach(station => {
+//   //     if (typeof station.latitude !== 'number' || typeof station.longitude !== 'number') {
+//   //       console.warn(`Invalid coordinates for station ${station}`);
+//   //       return;
+//   //     }
+
+//   //     try {
+//   //       let marker;
+//   //       if (google.maps.marker && google.maps.marker.AdvancedMarkerElement) {
+//   //         marker = new google.maps.marker.AdvancedMarkerElement({
+//   //           map: map,
+//   //           position: { lat: station.latitude, lng: station.longitude },
+//   //           title: station.StationName
+//   //         })
+//   //       } else {
+//   //         marker = new google.maps.Marker({
+//   //           position: { lat: station.latitude, lng: station.longitude },
+//   //           map: map,
+//   //           title: station.StationName
+//   //         })
+//   //       }
+
+//   //       //Add click event listener
+//   //       marker.addListener('click', () => {
+//   //         if (infoWindow) {
+//   //           infoWindow.close();
+//   //         }
+//   //         const newInfoWindow = new google.maps.InfoWindow({
+//   //           content:`
+//   //            <div className="p-2">
+//   //              <h3 className="font-semibold">${station.StationName}</h3>
+//   //              <p>Distance : ${station.Distance} KM</p>
+//   //              <p>Petrol: Rs ${station.Petrol_Price}</p>
+//   //              <p>Diesel: Rs ${station.Disel_Price}</p>
+//   //            </div>`
+//   //         });
+//   //         newInfoWindow.open(map, marker);
+//   //         setInfoWindow(newInfoWindow);
+//   //         setSelectedStation(station);
+//   //       });
+
+//   //       newMarkers.push(marker);
+//   //     } catch (error) {
+//   //       console.error(`Error creating marker for station ${station.StationName}:`, error);
+//   //     }
+//   //   });
+
+//   //   MOCK_SERVICES.forEach(service => {
+//   //     if (typeof service.latitude !== 'number' || typeof service.longitude !== 'number') {
+//   //       console.warn('Invalid coordinates for service', service);
+//   //       return;
+//   //     }
+
+//   //     try {
+//   //       let marker;
+
+//   //       if (google.maps.marker && google.maps.marker.AdvancedMarkerElement) {
+//   //         marker = new google.maps.marker.AdvancedMarkerElement({
+//   //           map: map,
+//   //           position: { lat: service.latitude, lng: service.longitude },
+//   //           title: service.Name
+//   //         });
+//   //       } else {
+//   //         marker = new google.maps.Marker({
+//   //           position: { lat: service.latitude, lng: service.longitude },
+//   //           map: map,
+//   //           title: service.Name
+//   //         });
+//   //       }
+
+//   //       marker.addListener('click', () => {
+//   //         if (infoWindow) {
+//   //           infoWindow.close();
+//   //         }
+//   //         const newInfoWindow = new google.maps.InfoWindow({
+//   //           content: `
+//   //           <div class="p-2">
+//   //           <h3 className = "font-semibold">${service.Name}</h3>
+//   //           <p>Distance: ${service.Distance} KM</p>
+//   //           <p>Service: ${service.Services.join(', ')}</p>
+//   //           </div>`
+//   //         });
+//   //         newInfoWindow.open(map, marker);
+//   //         setInfoWindow(newInfoWindow);
+//   //         setSelectedStation(service);
+//   //       });
+//   //       newMarkers.push(marker);
+//   //     } catch (error) {
+//   //       console.error(`Error creating marker for service ${service.Name}:`, error);
+//   //     }
+//   //   });
+//   //   setMarkers(newMarkers);
+//   // };
+
+  
+//   // useEffect(() => {
+//   //   if ("geolocation" in navigator) {
+//   //     navigator.geolocation.getCurrentPosition(
+//   //       (position) => {
+//   //         const newLocation = {
+//   //           lat: position.coords.latitude,
+//   //           lng: position.coords.longitude
+//   //         };
+//   //         setUserLocation(newLocation);
+//   //         if (map) {
+//   //           map.setCenter(newLocation);
+//   //         }
+//   //       },
+//   //       (error) => {
+//   //         console.error("Error getting location:", error);
+//   //       }
+//   //     );
+//   //   }
+//   // }, [map]);
 
 //   const handleOrderPetrol = (station) => {
 //     setSelectedStation(station);
@@ -387,12 +461,25 @@
 //   };
 
 //   return (<>
-//   <TopBar/>
+//   {currentUser.Role === 'Customer'? <TopBar /> : <AdminTopBarPage />}
 //     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-tr from-orange-500 via-yellow-500 to-purple-500 relative">
 //       {/* Map Section */}
-//       <div className="w-full md:w-2/3 h-96 md:h-screen">
+//       {/* <div className="w-full md:w-2/3 h-96 md:h-screen">
 //         <div id="map" className="w-full h-full" />
-//       </div>
+//       </div> */}
+//         <div className='w-full md:w-2/3 h-96 md:h-screen'>
+//         <div ref={mapRef} className='w-full h-full' />
+//           {!isGoogleMapsLoaded && (
+//             <div className='absolute inset-0 flex items-center justify-center bg-gray-200'>
+//               <div className='text-center'>
+//                 <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900'></div>
+//                 <p className='mt-4'>Loading Map....</p>
+//               </div>
+//             </div>
+//           )}
+//         </div>
+
+        
 //       {/* Services List */}
 //       <div className="w-full md:w-1/3">
 //       <div className="bg-yellow-300 flex mb-4 shadow-xl">
@@ -418,7 +505,7 @@
 //             </h2>
 //             {petrolData.map((station) => (
 //               <div
-//                 key={station.Id}
+//                 key={station.id}
 //                 className="border p-4 mb-4 rounded-lg shadow-sm hover:bg-yellow-200 transition"
 //               >
 //                 <div className="flex items-center mb-2">
@@ -644,7 +731,6 @@
 
 // export default Maps;
 
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Fuel, X, Droplet, Bike, MapPin, Wrench, ChevronDown, AlertCircle } from 'lucide-react';
 import { Button, Textarea, TextInput } from 'flowbite-react';
@@ -797,11 +883,11 @@ const fetchPetrolData = async () => {
         googleMapsScriptRef.current = null;
       }
     };
-  }, [API_KEY]);
+  }, []);
 
   useEffect(() => {
     if (isGoogleMapsLoaded && mapRef.current && !map) {
-      initializeMap();
+       initializeMap();
     }
   }, [isGoogleMapsLoaded, map]);
 
@@ -819,7 +905,7 @@ const fetchPetrolData = async () => {
       const mapInstance = new google.maps.Map(mapRef.current, {
         center: userLocation,
         zoom: 13,
-        mapId: 'DEMO_MAP_ID',
+        // mapId: 'DEMO_MAP_ID',
         styles: [
           {
             featureType: 'poi',
@@ -829,28 +915,20 @@ const fetchPetrolData = async () => {
         ]
       })
 
-      // Add user location marker
-      if (google.maps.marker && google.maps.marker.AdvancedMarkerElement) {
-        const userMarker= new google.maps.marker.AdvancedMarkerElement({
-          map: mapInstance,
-          position: userLocation,
-          title: 'Your Location',
-        });
-      }else {
-        new google.maps.Marker({
-          position: userLocation,
-          map: mapInstance,
-          title: 'Your Location',
-          icon: {
-           url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-          }
-        })
-      }
+      new window.google.maps.Marker({
+        position: userLocation,
+        map: mapInstance,
+        title:'Your Location',
+        icon: {
+          url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+        }
+      });
       setMap(mapInstance);
-    }catch (error) {
+    } catch (error) {
       console.error("Error initializing map:", error);
+      toast.error('Failed to initialize map');
     }
-  }
+  };
 
   const updateMarkers = () => {
     if (!map || !window.google) return;
@@ -863,27 +941,22 @@ const fetchPetrolData = async () => {
 
     const newMarkers =  [];
 
-    petrolData.forEach(station => {
+    if (activeTab === 'petrol') {
+      petrolData.forEach(station => {
       if (typeof station.latitude !== 'number' || typeof station.longitude !== 'number') {
         console.warn(`Invalid coordinates for station ${station}`);
         return;
       }
 
       try {
-        let marker;
-        if (google.maps.marker && google.maps.marker.AdvancedMarkerElement) {
-          marker = new google.maps.marker.AdvancedMarkerElement({
-            map: map,
-            position: { lat: station.latitude, lng: station.longitude },
-            title: station.StationName
-          })
-        } else {
-          marker = new google.maps.Marker({
-            position: { lat: station.latitude, lng: station.longitude },
-            map: map,
-            title: station.StationName
-          })
-        }
+        const marker = new window.google.maps.Marker({
+          position: { lat: station.latitude, lng: station.longitude },
+          map: map,
+          title: station.StationName,
+          icon: {
+            url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
+          }
+        });
 
         //Add click event listener
         marker.addListener('click', () => {
@@ -892,12 +965,12 @@ const fetchPetrolData = async () => {
           }
           const newInfoWindow = new google.maps.InfoWindow({
             content:`
-             <div className="p-2">
-               <h3 className="font-semibold">${station.StationName}</h3>
-               <p>Distance : ${station.Distance} KM</p>
-               <p>Petrol: Rs ${station.Petrol_Price}</p>
-               <p>Diesel: Rs ${station.Disel_Price}</p>
-             </div>`
+             <div style="padding: 8px;">
+                  <h3 style="font-weight: bold; margin: 0 0 8px 0;">${station.StationName}</h3>
+                  <p style="margin: 4px 0;">Distance: ${station.Distance} KM</p>
+                  <p style="margin: 4px 0;">Petrol: ₹${station.PetrolPrice}/L</p>
+                  <p style="margin: 4px 0;">Diesel: ₹${station.DiselPrice}/L</p>
+                </div>`
           });
           newInfoWindow.open(map, marker);
           setInfoWindow(newInfoWindow);
@@ -909,29 +982,24 @@ const fetchPetrolData = async () => {
         console.error(`Error creating marker for station ${station.StationName}:`, error);
       }
     });
+  }
 
-    MOCK_SERVICES.forEach(service => {
+    if (activeTab === 'service') {
+      MOCK_SERVICES.forEach(service => {
       if (typeof service.latitude !== 'number' || typeof service.longitude !== 'number') {
         console.warn('Invalid coordinates for service', service);
         return;
       }
 
       try {
-        let marker;
-
-        if (google.maps.marker && google.maps.marker.AdvancedMarkerElement) {
-          marker = new google.maps.marker.AdvancedMarkerElement({
-            map: map,
-            position: { lat: service.latitude, lng: service.longitude },
-            title: service.Name
-          });
-        } else {
-          marker = new google.maps.Marker({
-            position: { lat: service.latitude, lng: service.longitude },
-            map: map,
-            title: service.Name
-          });
-        }
+        const marker = new window.google.maps.Marker({
+          position: { lat: service.latitude, lng: service.longitude },
+          map: map,
+          title: service.Name,
+          icon: {
+            url: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
+          }
+        });
 
         marker.addListener('click', () => {
           if (infoWindow) {
@@ -939,11 +1007,12 @@ const fetchPetrolData = async () => {
           }
           const newInfoWindow = new google.maps.InfoWindow({
             content: `
-            <div class="p-2">
-            <h3 className = "font-semibold">${service.Name}</h3>
-            <p>Distance: ${service.Distance} KM</p>
-            <p>Service: ${service.Services.join(', ')}</p>
-            </div>`
+            <div style="padding: 8px;">
+                  <h3 style="font-weight: bold; margin: 0 0 8px 0;">${service.Name}</h3>
+                  <p style="margin: 4px 0;">Distance: ${service.Distance} KM</p>
+                  <p style="margin: 4px 0;">Services: ${service.Services.join(', ')}</p>
+                  <p style="margin: 4px 0;">Specialization: ${service.Specialization}</p>
+                </div>`
           });
           newInfoWindow.open(map, marker);
           setInfoWindow(newInfoWindow);
@@ -954,6 +1023,7 @@ const fetchPetrolData = async () => {
         console.error(`Error creating marker for service ${service.Name}:`, error);
       }
     });
+  }
     setMarkers(newMarkers);
   };
 

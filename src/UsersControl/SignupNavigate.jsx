@@ -13,7 +13,7 @@ export default function SignupNavigate() {
 
   return (
     <div className="min-h-screen bg-cover bg-center flex items-center justify-center navigationbg px-4">
-      <div className="w-full max-w-md md:max-w-2xl bg-transparent bg-opacity-90 p-6 md:p-10 rounded-2xl border-2 border-red-500 shadow-xl">
+      <div className="w-full max-w-md md:max-w-2xl bg-gray-500 bg-clip-padding backdrop-filter  backdrop-blur bg-opacity-10 backdrop-saturate-100 backdrop-contrast-100 p-6 md:p-10 rounded-2xl border-2 border-red-500 shadow-xl">
         <h1 className="text-center text-2xl md:text-3xl text-red-900 font-extrabold bg-green-500 mb-8 p-2 border-2 border-red-500 rounded-xl shadow-lg">
           Role Based Signup & Add Your Details
         </h1>

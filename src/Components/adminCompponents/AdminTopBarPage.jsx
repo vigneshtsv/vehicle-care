@@ -333,7 +333,7 @@ function AdminTopBarPage() {
                 }`}
               >
                <div className='flex justify-between'><User /> <b>Customer Dashboard</b></div>
-               <p className="text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-200">Manage your services and orders</p>
+               {/* <p className="text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-200">Manage your services and orders</p> */}
               </button>
               <button
                 onClick={() => {handleDeliveryBoyDashboard()}}
@@ -344,7 +344,7 @@ function AdminTopBarPage() {
                 }`}
               >
                <div className='flex justify-between'><Truck /> <b>Delivery Boy Dashboard</b></div>
-               <p>Manage your deliveries and logistics</p>
+               {/* <p>Manage your deliveries and logistics</p> */}
               </button>
               <button
                 onClick={() => {handleServiceManDashboard()}}
@@ -355,7 +355,7 @@ function AdminTopBarPage() {
                 }`}
               >
                 <div className='flex justify-between'><Wrench /> <b>Service Man Dashboard</b></div>
-                <p>Manage your service requests and repairs</p>
+                {/* <p>Manage your service requests and repairs</p> */}
               </button>
               <button
                 onClick={() => {handlePetrolStationDashboard()}}
@@ -366,7 +366,7 @@ function AdminTopBarPage() {
                 }`}
               >
                 <div className='flex justify-between'><Fuel /> <b>Petrol Station Dashboard</b></div>
-                <p>Manage your petrol station operations</p>
+                {/* <p>Manage your petrol station operations</p> */}
               </button>
               <button
                 onClick={() => {handleAdminDashboard()}}
@@ -377,7 +377,7 @@ function AdminTopBarPage() {
                 }`}
               >
                 <div className='flex justify-between'><AiOutlineSecurityScan /> <b>Admin Dashboard</b></div>
-                <p>Manage all operations and users</p>
+                {/* <p>Manage all operations and users</p> */}
               </button>
             </div>
           </div>

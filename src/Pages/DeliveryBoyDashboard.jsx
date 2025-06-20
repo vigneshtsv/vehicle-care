@@ -144,7 +144,7 @@ const DeliveryBoyDashboard = () => {
         {/*Waiting Orders and Actions Sections */}
         <div className="p-6">
           <div className="flex justify-between items-center mb-6 bg-amber-500 p-3">
-            <h1 className="text-3xl font-bold">Waiting Orders</h1>
+            <h1 className="bg-gradient-to-t from-red-500 via-indigo-500 to-teal-500 text-transparent bg-clip-text text-3xl font-bold">Waiting Orders</h1>
             <div className="relative">
               <Bell className="h-6 w-6 text-gray-600" />
               <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
@@ -267,7 +267,7 @@ const DeliveryBoyDashboard = () => {
         {/*Prcessing Orders and Actions Sections */}
         <div className="p-6">
           <div className="flex justify-between items-center mb-6 p-3 bg-lime-400">
-            <h1 className="text-3xl font-bold">Processing Orders</h1>
+            <h1 className="bg-gradient-to-b from-green-500 via-yellow-500 to-blue-500 text-transparent bg-clip-text text-3xl font-bold">Processing Orders</h1>
             <div className="relative">
               <Bell className="h-6 w-6 text-gray-600" />
               <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
@@ -373,7 +373,7 @@ const DeliveryBoyDashboard = () => {
         {/*Completed Orders and Actions Sections */}
         <div className="p-6">
           <div className="flex justify-between items-center mb-6 p-3 bg-violet-600">
-            <h1 className="text-3xl font-bold">Completed Orders</h1>
+            <h1 className="bg-gradient-to-l from-purple-500 via-orange-500 to-yellow-500 text-transparent bg-clip-text text-3xl font-bold">Completed Orders</h1>
             <div className="relative">
               <Bell className="h-6 w-6 text-gray-600" />
               <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">

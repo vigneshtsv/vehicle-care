@@ -191,7 +191,7 @@ const CustomerSignup = () => {
   }
 
   return <div className='signupbg p-10'>
-    <div className="max-w-md mx-auto p-6  rounded-lg shadow-2xl border border-spacing-5 border-lime-500">
+    <div className="bg-gray-500 bg-clip-padding backdrop-filter  backdrop-blur bg-opacity-10 backdrop-saturate-100 backdrop-contrast-100 max-w-md mx-auto p-6  rounded-lg shadow-2xl border border-spacing-5 border-lime-500">
       <h2 className="text-2xl font-bold mb-6 text-lime-300  text-center">
         Customer Registration
       </h2>
