@@ -796,7 +796,8 @@ const Maps = () => {
   const mapRef = useRef(null);
   const googleMapsScriptRef = useRef(null);
 
-const API_KEY = 'AIzaSyDdEuDtQl2t0eW97330v0AYIt3bHjEu2vQ';
+// const API_KEY = 'AIzaSyDdEuDtQl2t0eW97330v0AYIt3bHjEu2vQ';
+const API_KEY = 'AIzaSyCABtclMx2fgJ5rerLkTrdZR_ddWqK0Uj4'
 const BE_API_URL = 'https://vehicle-care-api.onrender.com/api'
 
 useEffect(() => {

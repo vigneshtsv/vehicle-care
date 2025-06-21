@@ -6,7 +6,7 @@
 .loginbg{ 
     background-size: 100% 100%;
     background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
-    background-image: url('../assets/Background\ GIF.gif');
+    background-image: url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExejZkZXVvY28za2Q3Y2xrOHYwMWl4cHBqcmtpOHJ4bmIwb2k0cDZ2ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WPwD0gdWFsNRy8LA2P/giphy.gif');
 }
 .navigationbg{
     background-size: 100% 100%;
