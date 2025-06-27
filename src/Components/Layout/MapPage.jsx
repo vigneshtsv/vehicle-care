@@ -731,6 +731,8 @@
 
 // export default Maps;
 
+//!import from google map
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Fuel, X, Droplet, Bike, MapPin, Wrench, ChevronDown, AlertCircle } from 'lucide-react';
 import { Button, Textarea, TextInput } from 'flowbite-react';
@@ -797,12 +799,13 @@ const Maps = () => {
   const googleMapsScriptRef = useRef(null);
 
 // const API_KEY = 'AIzaSyDdEuDtQl2t0eW97330v0AYIt3bHjEu2vQ';
-const API_KEY = 'AIzaSyCABtclMx2fgJ5rerLkTrdZR_ddWqK0Uj4'
+const API_KEY = 'AIzaSyCABtclMx2fgJ5rerLkTrdZR_ddWqK0Uj4';
 const BE_API_URL = 'https://vehicle-care-api.onrender.com/api'
 
 useEffect(() => {
   fetchPetrolData();
 },[]);
+console.log(API_KEY);
 
 const fetchPetrolData = async () => {
   try {
@@ -906,7 +909,7 @@ const fetchPetrolData = async () => {
       const mapInstance = new google.maps.Map(mapRef.current, {
         center: userLocation,
         zoom: 13,
-        // mapId: 'DEMO_MAP_ID',
+        mapId: 'a1b2c3d4e5f6g7h8',
         styles: [
           {
             featureType: 'poi',
@@ -1029,25 +1032,25 @@ const fetchPetrolData = async () => {
   };
 
   
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const newLocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          setUserLocation(newLocation);
-          if (map) {
-            map.setCenter(newLocation);
-          }
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-        }
-      );
-    }
-  }, [map]);
+  // useEffect(() => {
+  //   if ("geolocation" in navigator) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const newLocation = {
+  //           lat: position.coords.latitude,
+  //           lng: position.coords.longitude
+  //         };
+  //         setUserLocation(newLocation);
+  //         if (map) {
+  //           map.setCenter(newLocation);
+  //         }
+  //       },
+  //       (error) => {
+  //         console.error("Error getting location:", error);
+  //       }
+  //     );
+  //   }
+  // }, [map]);
 
   const handleOrderPetrol = (station) => {
     setSelectedStation(station);
@@ -1448,3 +1451,4 @@ const fetchPetrolData = async () => {
 };
 
 export default Maps;
+

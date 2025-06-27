@@ -83,8 +83,10 @@ const Footer = () => {
               About Us
             </h3>
             <p className="text-gray-600 leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at ipsum 
-              sit amet odio feugiat iaculis vel in risus.  
+                  Designed and developed a full-stack e-commerce web application that
+              enables users to order petrol delivery to their location in case of
+              emergencies (e.g., bike running out of fuel) and also request on-spot bike
+              repair services.  
             </p>
           </div>
 
@@ -94,10 +96,10 @@ const Footer = () => {
               Quick Links
             </h3>
             <ul className="space-y-2">
-              <QuickLinkItem href="/">Home</QuickLinkItem>
+              <QuickLinkItem href="#">Home</QuickLinkItem>
               <QuickLinkItem><button onClick={handleLogout}>Logout</button></QuickLinkItem>
-              <QuickLinkItem href="/track">Track Your Order</QuickLinkItem>
-              <QuickLinkItem href="/cart">Cart</QuickLinkItem>
+              <QuickLinkItem href="/myorders">My Order List</QuickLinkItem>
+              <QuickLinkItem href="#">Cart</QuickLinkItem>
             </ul>
           </div>
 

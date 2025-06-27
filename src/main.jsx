@@ -7,8 +7,6 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { RouterProvider } from "react-router-dom";
-
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import TopBar from './TopBar';
 import Footer from './Footer';
+import AdminTopBarPage from '../adminCompponents/AdminTopBarPage';
 
 
 const MyOrders = () => {
@@ -64,7 +65,7 @@ const MyOrders = () => {
 
   return (
     <>
-    <TopBar />
+    {currentUser.Role === 'Customer'? <TopBar /> : <AdminTopBarPage />}
     <div className="container mx-auto bg-green-400 px-4 py-8">
       <Card>
         <h2 className="text-4xl flex justify-center font-bold mb-6">My Orders</h2>
