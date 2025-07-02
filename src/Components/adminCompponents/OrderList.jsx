@@ -58,7 +58,7 @@ export default function OrderList() {
       <AdminTopBarPage />
       <Card className="orderlistbg mb-5 shadow-xl">
       <div className="border-2 border-red-500 p-4 rounded-2xl text-lg font-semibold my-5 bg-gray-300 shadow-lg">
-        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-red-600 text-center ">ORDER MANAGEGMENT</h1>
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-red-600 text-center ">ORDER MANAGEMENT</h1>
       </div>
         <div className="flex justify-between overflow-x-auto items-center mb-4">
           <table className="w-full text-sm text-left">
@@ -75,9 +75,9 @@ export default function OrderList() {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order, index) => (
+              {orders.map((order,index) => (
                 <tr
-                  key={order.id}
+                  key={order.id || index}
                   className="bg-white border-b hover:bg-gray-50"
                 > 
 

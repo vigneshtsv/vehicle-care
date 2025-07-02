@@ -45,7 +45,6 @@ export default function App() {
         <Route path='/dashboardprofile' element={<DashboardProfile />} />
         <Route path='/forgotpassword' element={<ForgotPassword />} />
         <Route path='/carouselOne' element={<CarouselOne />} />
-        {/* <Route path='/adminsignupapproval' element={<AdminSignupApproval />} /> */}
         <Route path='/adminsignupapproval' element={<AdminsignupApproval />} />
       
 

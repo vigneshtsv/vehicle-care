@@ -736,7 +736,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Fuel, X, Droplet, Bike, MapPin, Wrench, ChevronDown, AlertCircle } from 'lucide-react';
 import { Button, Textarea, TextInput } from 'flowbite-react';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import TopBar from '../UserComponents/TopBar';
 import Footer from '../UserComponents/Footer';
 import axios from 'axios';
@@ -862,7 +862,7 @@ const fetchPetrolData = async () => {
       }
 
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=initMap`;
       script.defer = true;
       script.async = true;
 
