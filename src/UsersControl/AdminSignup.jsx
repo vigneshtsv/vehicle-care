@@ -287,7 +287,7 @@ function AdminSignup() {
             <textarea
               id="Address"
               name="Address"
-              value={formData.Address}
+              // value={formData.Address}
               placeholder='Enter Your Address'
               className="w-full flex bg-transparent text-white border-blue-300 placeholder-gray-100 rounded"
               onChange={handleChange}

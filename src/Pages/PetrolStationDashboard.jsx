@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import AdminTopBarPage from '../Components/adminCompponents/AdminTopBarPage';
+import { CarouselSecond } from '../Components/Layout/CarouselSecond';
 
 
 function PetrolStationDashboard() {
@@ -165,7 +166,7 @@ const handleSubmit = async (e) => {
           </Button>
         </form>
       </Card>
-        <CarouselOne />
+        <CarouselSecond />
       <Footer />
     </div>
   );

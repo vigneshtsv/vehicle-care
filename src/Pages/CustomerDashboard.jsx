@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { CarouselOne } from '../Components/Layout/CarouselOne';
 import AdminTopBarPage from '../Components/adminCompponents/AdminTopBarPage';
 import { useSelector } from 'react-redux';
+import { CarouselSecond } from '../Components/Layout/CarouselSecond';
 
 
 const CustomerDashboard = () => {
@@ -125,7 +126,7 @@ const CustomerDashboard = () => {
           </div>
         </div>
       )}
-      <CarouselOne />
+      <CarouselSecond />
       <Footer />
     </div>
   );

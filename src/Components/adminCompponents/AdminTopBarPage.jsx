@@ -271,12 +271,12 @@ function AdminTopBarPage() {
               Order List
             </Link>
           </Navbar.Link>
-          <Navbar.Link active={path === "/footer"} as={"div"}>
+          <Navbar.Link active={path === "/dashboardprofile"} as={"div"}>
             <Link
-              to="/footer"
+              to="/dashboardprofile"
               className="text-lg hover:text-purple-700 hover:underline"
             >
-              About
+              Profile
             </Link>
           </Navbar.Link>
           <Navbar.Link>

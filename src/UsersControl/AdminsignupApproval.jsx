@@ -8,8 +8,8 @@ function AdminsignupApproval() {
     const handleback = () => {
         navigate(-1); 
     }
-    const goToDashboard = () => {
-        navigate('/customerdashboard');
+    const goToLogin = () => {
+        navigate('/');
     }
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -52,10 +52,10 @@ function AdminsignupApproval() {
       </button>
 
       <button
-        onClick={goToDashboard}
+        onClick={goToLogin}
         className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition duration-300 w-full sm:w-auto"
       >
-        Customer Dashboard
+        Customer Login
       </button>
     </div>
       </div>

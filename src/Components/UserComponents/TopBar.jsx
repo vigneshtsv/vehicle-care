@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logoGIF from "../../assets/logoGIF.gif";
 import { Avatar, Dropdown, DropdownItem, TextInput } from "flowbite-react";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -17,6 +17,7 @@ function TopBar() {
   const path = useLocation().pathname;
   const { currentUser } = useSelector((state) => state.user);
   console.log(currentUser);
+  const navigate = useNavigate()
   //console.log(currentUser.Email)
 
   const handleSearch = () => {
@@ -36,6 +37,20 @@ function TopBar() {
   const handleLogout = () => {
     logout();
     dispatch(signOutSuccess());
+  };
+  const handleHomeButton = () => {
+    if (currentUser.Role === "Customer") {
+      navigate('/customerdashboard');
+    }
+    else if (currentUser.Role === "DeliveryBoy") {
+      navigate('/deliveryboydashboard');
+    }
+    else if (currentUser.Role === "ServiceMan") {
+      navigate('/servicemandashboard');
+    }
+    else if (currentUser.Role === "PetrolStation") {
+      navigate('/petrolstationdashboard');
+    }
   };
   return (
     <>
@@ -83,10 +98,11 @@ function TopBar() {
         <ul className="hidden lg:flex gap-6 items-center">
           <li
             className={`font-bold py-2 ${
-              path === "#" ? "text-blue-600" : "text-gray-700"
+              path === "/customerdashboard" || path === "/deliveryboydashboard" || path === "/servicemandashboard" || path === "/petrolstationdashboard" ? "text-blue-600" : "text-gray-700"
             } hover:text-sky-500`}
           >
-            <Link to="#">HOME</Link>
+            {/* <Link to="#">HOME</Link> */}
+            <button className="text-lg" onClick={handleHomeButton}>HOME</button>
           </li>
           <li
             className={`font-bold py-2 ${

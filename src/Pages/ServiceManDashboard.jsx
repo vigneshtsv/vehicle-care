@@ -12,6 +12,7 @@ import { GiStorkDelivery } from "react-icons/gi";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import AdminTopBarPage from "../Components/adminCompponents/AdminTopBarPage";
+import { CarouselSecond } from "../Components/Layout/CarouselSecond";
 
 const ServiceManDashboard = () => {
   const [notifications, setNotifications] = useState([]);
@@ -143,13 +144,13 @@ const ServiceManDashboard = () => {
     }
   };
 
-  const handleClosePopup = () => {
-    setIsPopupOpen(false);
-  };
+  // const handleClosePopup = () => {
+  //   setIsPopupOpen(false);
+  // };
 
-  const handleCloseDeliveryPopup = () => {
-    setIsDeliveryPopupOpen(false);
-  };
+  // const handleCloseDeliveryPopup = () => {
+  //   setIsDeliveryPopupOpen(false);
+  // };
 
   return (
     <div className="servicemanbg">
@@ -158,9 +159,9 @@ const ServiceManDashboard = () => {
         <CarouselOne />
       </div>
 
-      {/* Waiting Order Notification */}
+     <div className="p-6">
+        {/* Waiting Order Notification */}
       <div>
-        <div className="p-6">
           <div className="flex justify-between items-center mb-6 p-4 bg-red-400">
             <h1 className="bg-gradient-to-t from-orange-500 via-blue-500 to-teal-500 text-transparent bg-clip-text text-3xl font-bold">Waiting Orders Notifications</h1>
             <div className="relative bg-yellow-200 p-1 rounded-full">
@@ -179,7 +180,6 @@ const ServiceManDashboard = () => {
               </span>
             </div>
           </div>
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {orders
@@ -192,8 +192,8 @@ const ServiceManDashboard = () => {
                     order.Problem_Type.trim() !== ""))
             )
             .map((order) => (
-              <Card className="shadow-md border-2 m-4 border-dashed border-red-500 transition-all duration-300 hover:shadow-xl hover:scale-105 hover:border-red-400 hover:-translate-y-2 group">
-                <div key={order.id} className="p-6">
+              <Card className="shadow-md border-2 m-4 border-dashed border-red-500 transition-all duration-300 hover:shadow-xl hover:scale-105 hover:border-red-400 hover:-translate-y-2 group" key={`order-${order._id}-${order.Status}`}>
+                <div className="p-6">
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="font-semibold text-lg transition-colors duration-300 group-hover:text-red-600">
                       {order.Email}
@@ -309,7 +309,7 @@ const ServiceManDashboard = () => {
                     order.Problem_Type.trim() !== ""))
             )
             .map((order) => (
-                <Card className="shadow-md border-2 m-4 border-dashed border-yellow-500 transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105 hover:border-yellow-400 hover:-translate-y-2 group">
+                <Card className="shadow-md border-2 m-4 border-dashed border-yellow-500 transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105 hover:border-yellow-400 hover:-translate-y-2 group" key={`order-${order._id}-${order.Status}`}>
                   <div key={order.id} className="p-6">
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="font-semibold text-lg transition-colors duration-300 group-hover:text-blue-600">
@@ -423,7 +423,7 @@ const ServiceManDashboard = () => {
                     order.Problem_Type.trim() !== ""))
             )
             .map((order) => (
-              <Card className="shadow-md border-2 m-4 border-dashed border-yellow-500 transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105 hover:border-yellow-400 hover:-translate-y-2 group">
+              <Card className="shadow-md border-2 m-4 border-dashed border-yellow-500 transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105 hover:border-yellow-400 hover:-translate-y-2 group" key={`order-${order._id}-${order.Status}`}>
                 <div key={order.id} className="p-6">
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="font-semibold text-lg transition-colors duration-300 group-hover:text-blue-600">{order.Email}</h3>
@@ -486,6 +486,7 @@ const ServiceManDashboard = () => {
             ))}
         </div>
       </div>
+     </div>
 
       {/* Pickup Order Popup */}
       {isPopupOpen && selectedOrder && (
@@ -608,7 +609,7 @@ const ServiceManDashboard = () => {
 
       {/* Carousel Part */}
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-        <CarouselOne />
+        <CarouselSecond />
         <Footer />
       </div>
     </div>

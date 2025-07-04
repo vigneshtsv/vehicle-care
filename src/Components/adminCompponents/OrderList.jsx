@@ -91,7 +91,7 @@ export default function OrderList() {
                   <td className="px-6 bg-pink-100 py-4">
                   {order.Disel_Price != null && order.Disel_Price >= 0 ? `₹ ${order.Disel_Price.toFixed(2)}` : '-'}
                   </td>
-                  <td className="px-6 bg-slate-100 py-4">{order.Service_Type === ''? '-' : `${order.Problem_Type}`}</td>
+                  <td className="px-6 bg-slate-100 py-4">{order.Service_Type == null? '-' : `${order.Problem_Type =='others'? order.Service_Type : order.Problem_Type}`}</td>
                   <td className="px-6 bg-pink-100 py-4">
                     <div className="flex items-center gap-2">
                       {getStatusIcon(order.Status)}

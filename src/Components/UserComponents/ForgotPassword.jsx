@@ -1,5 +1,8 @@
 import { Button, Modal } from "flowbite-react";
+import { ArrowLeft, BackpackIcon, MoveLeft, MoveLeftIcon } from "lucide-react";
 import React, { useState } from "react";
+import { BiLeftArrow } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -7,16 +10,22 @@ const ForgotPassword = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [updatePopup, setUpdatePopup] = useState(false);
-
+  const navigate = useNavigate();
   const handleSubmit = async () => {
     setUpdatePopup(true);
   };
   const handleClosePopup = () => {
     setUpdatePopup(false);
   };
+  const handlebackpage = () => {
+    navigate('/');
+  };
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <button onClick={handlebackpage}
+          className="flex items-center border border-red-600 p-2 rounded-xl gap-2 text-gray-600 hover:text-gray-800 mb-6 transition-colors"
+        ><ArrowLeft />Back</button>
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
           Forgot Password
         </h2>

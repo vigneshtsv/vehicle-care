@@ -9,6 +9,7 @@ import { CarouselOne } from "../Components/Layout/CarouselOne";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import AdminTopBarPage from "../Components/adminCompponents/AdminTopBarPage";
+import { CarouselSecond } from "../Components/Layout/CarouselSecond";
 
 const DeliveryBoyDashboard = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -134,13 +135,13 @@ const DeliveryBoyDashboard = () => {
   };
 
   return (
-    <>
+    <div className="deliveryboybg">
       {currentUser.Role === 'DeliveryBoy'? <TopBar /> : <AdminTopBarPage />}
       {/* Image Carousel Section */}
       <div>
         <CarouselOne />
       </div>
-      <div className="container mx-auto p-4 deliveryboybg">
+      <div className="container mx-auto p-4">
         {/*Waiting Orders and Actions Sections */}
         <div className="p-6">
           <div className="flex justify-between items-center mb-6 bg-amber-500 p-3">
@@ -174,7 +175,7 @@ const DeliveryBoyDashboard = () => {
               )
               .map((order) => (
                 <Card
-                  key={order._id}
+                  key={`order-${order._id}-${order.Status}`}
                   className="bg-gradient-to-r from-green-200 via-cyan-100 to-purple-400 shadow-md rounded-lg p-4 border-2 border-dashed border-red-700 
              transform transition-all duration-300 ease-in-out
              hover:scale-105 hover:shadow-2xl hover:border-red-500
@@ -297,7 +298,7 @@ const DeliveryBoyDashboard = () => {
               )
               .map((order) => (
                 <Card
-                  key={order.id}
+                  key={`order-${order._id}-${order.Status}`}
                   className="bg-gradient-to-r from-fuchsia-300 via-amber-200 to-blue-200 shadow-md rounded-lg p-4 border-2 border-dashed border-green-500 
              transform transition-all duration-300 ease-in-out
              hover:scale-105 hover:shadow-xl hover:border-green-400 hover:bg-gray-50
@@ -403,7 +404,7 @@ const DeliveryBoyDashboard = () => {
               )
               .map((order) => (
                 <Card
-                  key={order.id}
+                  key={`order-${order._id}-${order.Status}`}
                   className="bg-gradient-to-r from-cyan-200 via-green-300 to-white shadow-md rounded-lg p-4 border-2 border-dashed border-violet-700 
              transform transition-all duration-300 ease-in-out
              hover:scale-105 hover:shadow-xl hover:shadow-violet-200 
@@ -594,9 +595,9 @@ const DeliveryBoyDashboard = () => {
         </div>
       )}
       </div>
-      <CarouselOne />
+      <CarouselSecond />
       <Footer />
-    </>
+    </div>
   );
 };
 export default DeliveryBoyDashboard;

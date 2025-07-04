@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLogout } from "./useLogout.jsx";
 import { signOutSuccess } from "../../Redux/Slice/authSlice.jsx";
 import { ArrowLeft } from "lucide-react";
+import AdminTopBarPage from "../adminCompponents/AdminTopBarPage.jsx";
+import TopBar from "../UserComponents/TopBar.jsx";
 
 
 const DashboardProfile = () => {
@@ -155,6 +157,8 @@ const DashboardProfile = () => {
   }
 
   return (
+    <>
+    {currentUser.Role === 'Admin'? <AdminTopBarPage /> : <TopBar />}
     <div className="dashboardprofilebg p-5 min-h-screen flex items-center justify-center">
       <div className="max-w-lg mx-auto p-4 w-full bg-white shadow-lg rounded-lg">
       <h1 className="my-7 text-center font-semibold text-4xl">Profile</h1>
@@ -341,6 +345,7 @@ const DashboardProfile = () => {
       )}
     </div>
     </div>
+    </>
   );
 };
 

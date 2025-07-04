@@ -88,16 +88,16 @@ const LoginForm = () => {
         <div className="bg-gray-500 bg-clip-padding backdrop-filter  backdrop-blur bg-opacity-10 backdrop-saturate-100 backdrop-contrast-100 rounded-lg shadow-lg p-8 border-2 border-yellow-300">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-lime-400">Welcome back</h1>
-            <p className="text-lime-600 mt-2">Please sign in to your account</p>
-            <p className="text-lime-600 mt-2 text-xl">** This is Demo Project **</p>
+            <h1 className="text-2xl font-bold text-white">Welcome back</h1>
+            <p className="text-white mt-2">Please sign in to your account</p>
+            <p className="text-white mt-2 text-xl">** This is Demo Project **</p>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-lime-600 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
                 Email Address
               </label>
               <input
@@ -107,14 +107,14 @@ const LoginForm = () => {
                 required
                 value={formData.Email}
                 onChange={handleChange}
-                className="w-full bg-transparent px-4 py-2 text-white border border-lime-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-800 placeholder:text-lime-500"
+                className="w-full bg-transparent px-4 py-2 text-white border border-lime-100 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-800 placeholder:text-white"
                 placeholder="Enter your email"
               />
             </div>
 
             {/* Password Field */}
             <div>
-              <label htmlFor="Password" className="block text-sm font-medium text-lime-600 mb-2">
+              <label htmlFor="Password" className="block text-sm font-medium text-white mb-2">
                 Password
               </label>
               <div className="relative">
@@ -125,13 +125,13 @@ const LoginForm = () => {
                   required
                   value={formData.Password}
                   onChange={handleChange}
-                  className="text-white w-full bg-transparent px-4 py-2 border border-lime-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-800 placeholder:text-lime-500"
+                  className="text-white w-full bg-transparent px-4 py-2 border border-lime-100 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-800 placeholder:text-white"
                   placeholder="Enter your password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lime-500"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white"
                 >
                   {showPassword ? (
                     <AiOutlineEyeInvisible className="h-5 w-5" />
@@ -152,12 +152,12 @@ const LoginForm = () => {
                   className="h-4 w-4 text-lime-600 border-gray-300 rounded focus:ring-green-500"
                   required
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-lime-500">
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-white">
                   Remember me
                 </label>
               </div>
               <div>
-                <a href="/forgotpassword" className="text-sm font-medium text-lime-600 hover:text-green-500">
+                <a href="/forgotpassword" className="text-sm font-medium text-blue-500 hover:text-green-500">
                   Forgot password?
                 </a>
               </div>
@@ -174,8 +174,8 @@ const LoginForm = () => {
 
             {/* Sign Up Link */}
             <div className="text-center text-sm">
-              <span className="text-lime-600">Don't have an account? </span>
-              <a href="/signupnavigate" className="font-medium text-lime-600 hover:text-green-700">
+              <span className="text-white">Don't have an account? </span>
+              <a href="/signupnavigate" className="font-medium text-blue-500 hover:text-green-700">
                 Sign up
               </a>
             </div>
