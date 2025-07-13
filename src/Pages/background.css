@@ -1,7 +1,7 @@
 .signupbg {
     background-size: 100% 100%;
     background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
-    background-image: url("../assets/Stars\ Night\ GIF.gif");
+    background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3Jtdjhmejhjc3Vzcmd4djZ4NWFyZ2N2bGN1YW4zbmw3Y3oxNW5pdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Q34Q46x7bUUKJfbn0s/giphy.gif');
 }
 .loginbg{ 
     background-size: 100% 100%;
