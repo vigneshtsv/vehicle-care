@@ -21,17 +21,17 @@ const ForgotPassword = () => {
     navigate('/');
   };
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="forgotbg flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="bg-transparent backdrop-blur-sm border border-white p-8 rounded-lg shadow-md w-full max-w-md">
         <button onClick={handlebackpage}
-          className="flex items-center border border-red-600 p-2 rounded-xl gap-2 text-gray-600 hover:text-gray-800 mb-6 transition-colors"
+          className="flex items-center border border-red-600 p-2 rounded-xl gap-2 text-yellow-100 hover:text-yellow-400 mb-6 transition-colors"
         ><ArrowLeft />Back</button>
-        <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
+        <h2 className="text-2xl font-bold mb-6 text-yellow-100 text-center">
           Forgot Password
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium text-yellow-100">
               Email Address
             </label>
             <input
@@ -62,7 +62,7 @@ const ForgotPassword = () => {
             </Button>
           </div>
         </form>
-        <p className="text-sm text-gray-500 mt-4 text-center">
+        <p className="text-sm text-lime-400 mt-4 text-center">
           Remembered your password?{" "}
           <a
             href="/"

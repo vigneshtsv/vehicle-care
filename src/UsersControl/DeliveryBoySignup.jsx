@@ -168,6 +168,10 @@ function DeliveryBoySignup() {
     navigate(-1);
   }
 
+  const handleCondition = () => {
+    navigate('/termsconditions');
+  };
+  
   const loginPage = () => {
     navigate('/');
   }
@@ -312,15 +316,19 @@ function DeliveryBoySignup() {
       </div>
       </div>
 
-      <div className="flex items-center gap-2">
-        <Checkbox id="accept" defaultChecked required/>
-        <label htmlFor="accept" className="flex text-lime-200">
-          I agree with the&nbsp;
-          <a href="/termsconditions" className="text-blue-300 hover:underline hover:text-blue-500">
-            terms and conditions
-          </a>
-        </label>
-      </div>
+         <div className="flex items-center gap-2">
+            <Checkbox id="accept" defaultChecked required />
+            <label htmlFor="accept" className="flex text-white">
+              I agree with the&nbsp;
+              <button
+                type="button"
+                onClick={handleCondition}
+                className="text-blue-300 hover:underline hover:text-blue-500 bg-transparent border-none cursor-pointer p-0 font-inherit"
+              >
+                terms and conditions
+              </button>
+            </label>
+          </div>
 
       <div>
         <button

@@ -165,6 +165,10 @@ function PetrolStationSignup() {
     navigate(-1);
   }
 
+  const handleCondition = () => {
+    navigate('/termsconditions');
+  };
+
   const loginPage = () => {
     navigate('/');
   }
@@ -303,17 +307,18 @@ function PetrolStationSignup() {
         </div>
         
         <div className="flex items-center gap-2">
-          <Checkbox id="accept" defaultChecked required />
-          <label htmlFor="accept" className="flex text-lime-300">
-            I agree with the&nbsp;
-            <a
-              href="/termsconditions"
-              className="text-cyan-600 hover:underline dark:text-cyan-500"
-            >
-              terms and conditions
-            </a>
-          </label>
-        </div>
+            <Checkbox id="accept" defaultChecked required />
+            <label htmlFor="accept" className="flex text-white">
+              I agree with the&nbsp;
+              <button
+                type="button"
+                onClick={handleCondition}
+                className="text-blue-300 hover:underline hover:text-blue-500 bg-transparent border-none cursor-pointer p-0 font-inherit"
+              >
+                terms and conditions
+              </button>
+            </label>
+          </div>
 
         <button
           type="submit"

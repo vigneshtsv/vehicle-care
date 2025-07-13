@@ -167,6 +167,10 @@ function ServiceManSignup() {
     navigate(-1);
   }
 
+  const handleCondition = () => {
+    navigate('/termsconditions');
+  };
+
   const loginPage = () => {
     navigate('/');
   }
@@ -299,15 +303,16 @@ function ServiceManSignup() {
 
           <div className="flex items-center gap-2">
             <Checkbox id="accept" defaultChecked required />
-            <Label htmlFor="accept" className="flex">
+            <label htmlFor="accept" className="flex text-white">
               I agree with the&nbsp;
-              <a
-                href="/termsconditions"
-                className="text-cyan-600 hover:underline dark:text-cyan-500"
+              <button
+                type="button"
+                onClick={handleCondition}
+                className="text-blue-300 hover:underline hover:text-blue-500 bg-transparent border-none cursor-pointer p-0 font-inherit"
               >
                 terms and conditions
-              </a>
-            </Label>
+              </button>
+            </label>
           </div>
         
           <button

@@ -142,6 +142,10 @@ function AdminSignup() {
     }
   };
 
+  const handleCondition = () => {
+    navigate('/termsconditions');
+  };
+
   const resetForm = () => {
     setFormData({
       FirstName: '',
@@ -175,16 +179,20 @@ function AdminSignup() {
   };
 
   return (
-    <div className='signupbg p-10'>
-      <div className='bg-gray-500 bg-clip-padding backdrop-filter  backdrop-blur bg-opacity-10 backdrop-saturate-100 backdrop-contrast-100 max-w-md mx-auto mt-8 p-6 rounded-lg shadow-2xl border border-spacing-5 border-blue-500'>
-        <h1 className='text-2xl font-bold mb-6 text-blue-300 text-center'>
+    <div className="signupbg p-10">
+      <div className="bg-gray-500 bg-clip-padding backdrop-filter  backdrop-blur bg-opacity-10 backdrop-saturate-100 backdrop-contrast-100 max-w-md mx-auto mt-8 p-6 rounded-lg shadow-2xl border border-spacing-5 border-blue-500">
+        <h1 className="text-2xl font-bold mb-6 text-blue-300 text-center">
           Admin Signup
         </h1>
 
-        <form className='space-y-4' onSubmit={handleSubmit} encType='multipart/form-data'>
+        <form
+          className="space-y-4"
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+        >
           {/* Name Fields */}
-          <div className='grid'>
-            <div className='flex flex-col md:flex-row gap-4'>
+          <div className="grid">
+            <div className="flex flex-col md:flex-row gap-4">
               <div>
                 <input
                   type="text"
@@ -192,7 +200,7 @@ function AdminSignup() {
                   name="FirstName"
                   value={formData.FirstName}
                   className="flex bg-transparent border border-blue-300 px-1 text-white placeholder-gray-100 rounded"
-                  placeholder='First Name'
+                  placeholder="First Name"
                   onChange={handleChange}
                   required
                 />
@@ -204,7 +212,7 @@ function AdminSignup() {
                   name="LastName"
                   value={formData.LastName}
                   className="flex bg-transparent border border-blue-300 px-1 text-white placeholder-gray-100 rounded"
-                  placeholder='Last Name'
+                  placeholder="Last Name"
                   onChange={handleChange}
                   required
                 />
@@ -213,13 +221,13 @@ function AdminSignup() {
           </div>
 
           {/* Email */}
-          <div className='mb-2'>
+          <div className="mb-2">
             <input
               type="email"
               id="Email"
               name="Email"
               value={formData.Email}
-              placeholder='Enter Your Email'
+              placeholder="Enter Your Email"
               className="w-full flex bg-transparent border border-blue-300 text-white placeholder-gray-100 rounded"
               onChange={handleChange}
               required
@@ -233,7 +241,7 @@ function AdminSignup() {
               id="PhoneNumber"
               name="PhoneNumber"
               value={formData.PhoneNumber}
-              placeholder='Enter Your Phone Number'
+              placeholder="Enter Your Phone Number"
               className="w-full flex bg-transparent border border-blue-300 text-white placeholder-gray-100 rounded"
               onChange={handleChange}
               required
@@ -247,7 +255,7 @@ function AdminSignup() {
               id="EmployeeId"
               name="EmployeeId"
               value={formData.EmployeeId}
-              placeholder='Enter Employee ID'
+              placeholder="Enter Employee ID"
               className="w-full flex bg-transparent border border-blue-300 text-white placeholder-gray-100 rounded"
               onChange={handleChange}
               required
@@ -262,7 +270,7 @@ function AdminSignup() {
                 id="Password"
                 name="Password"
                 value={formData.Password}
-                placeholder='Create New Password'
+                placeholder="Create New Password"
                 className="w-full flex bg-transparent border border-blue-300 text-white placeholder-gray-100 rounded"
                 onChange={handleChange}
                 required
@@ -274,7 +282,7 @@ function AdminSignup() {
                 id="ConfirmPassword"
                 name="ConfirmPassword"
                 value={formData.ConfirmPassword}
-                placeholder='Confirm New Password'
+                placeholder="Confirm New Password"
                 className="w-full flex bg-transparent border border-blue-300 text-white placeholder-gray-100 rounded"
                 onChange={handleChange}
                 required
@@ -288,7 +296,7 @@ function AdminSignup() {
               id="Address"
               name="Address"
               // value={formData.Address}
-              placeholder='Enter Your Address'
+              placeholder="Enter Your Address"
               className="w-full flex bg-transparent text-white border-blue-300 placeholder-gray-100 rounded"
               onChange={handleChange}
               rows="3"
@@ -296,13 +304,15 @@ function AdminSignup() {
           </div>
 
           {/* Document Upload Section */}
-          <h3 className='text-xl text-yellow-200 flex justify-center mt-6 mb-4'>
+          <h3 className="text-xl text-yellow-200 flex justify-center mt-6 mb-4">
             Upload Documents
           </h3>
 
-          <div className='border-4 border-blue-700 border-solid p-6 m-4 shadow-2xl rounded'>
-            <div className='mb-4'>
-              <label htmlFor='ProfilePicture' className='text-blue-300'>Upload Your Profile Picture</label>
+          <div className="border-4 border-blue-700 border-solid p-6 m-4 shadow-2xl rounded">
+            <div className="mb-4">
+              <label htmlFor="ProfilePicture" className="text-blue-300">
+                Upload Your Profile Picture
+              </label>
               <input
                 type="file"
                 id="ProfilePicture"
@@ -313,8 +323,10 @@ function AdminSignup() {
               />
             </div>
 
-            <div className='mb-4'>
-              <label htmlFor=' AadharCard' className='text-blue-300'>Upload  AadharCard</label>
+            <div className="mb-4">
+              <label htmlFor=" AadharCard" className="text-blue-300">
+                Upload AadharCard
+              </label>
               <input
                 type="file"
                 id="AadharCard"
@@ -329,11 +341,15 @@ function AdminSignup() {
           {/* Terms and Conditions */}
           <div className="flex items-center gap-2">
             <Checkbox id="accept" defaultChecked required />
-            <label htmlFor="accept" className="flex text-blue-200">
+            <label htmlFor="accept" className="flex text-white">
               I agree with the&nbsp;
-              <a href="/termsconditions" className="text-blue-300 hover:underline hover:text-blue-500">
+              <button
+                type="button"
+                onClick={handleCondition}
+                className="text-blue-300 hover:underline hover:text-blue-500 bg-transparent border-none cursor-pointer p-0 font-inherit"
+              >
                 terms and conditions
-              </a>
+              </button>
             </label>
           </div>
 
@@ -350,18 +366,29 @@ function AdminSignup() {
         </form>
 
         {/* Login Link */}
-        <div className='flex gap-2 text-sm mt-6 text-blue-300'>
+        <div className="flex gap-2 text-sm mt-6 text-blue-300">
           <span>Already Have An Account?</span>
-          <Link to='/' className='text-green-300 hover:text-red-300 hover:underline'>Login</Link>
+          <Link
+            to="/"
+            className="text-green-300 hover:text-red-300 hover:underline"
+          >
+            Login
+          </Link>
         </div>
 
         {/* Navigation Buttons */}
         <div className="flex justify-between m-4 space-x-4">
-          <button onClick={backPage} className='flex items-center text-white hover:text-red-400 rounded-lg p-2'>
+          <button
+            onClick={backPage}
+            className="flex items-center text-white hover:text-red-400 rounded-lg p-2"
+          >
             <IoMdArrowBack className="m-2" />
             Back
           </button>
-          <button onClick={loginPage} className='flex items-center text-white hover:text-red-400 rounded-lg p-2'>
+          <button
+            onClick={loginPage}
+            className="flex items-center text-white hover:text-red-400 rounded-lg p-2"
+          >
             Login
             <IoMdArrowForward className="m-1" />
           </button>
@@ -369,13 +396,15 @@ function AdminSignup() {
 
         {/* Alert Messages */}
         {errorMessage && (
-          <Alert color='failure' icon={HiInformationCircle}>
-            <span className='font-medium me-2'>OOPS!</span> &nbsp; {errorMessage}
+          <Alert color="failure" icon={HiInformationCircle}>
+            <span className="font-medium me-2">OOPS!</span> &nbsp;{" "}
+            {errorMessage}
           </Alert>
         )}
         {successMsg && (
-          <Alert color='success' icon={HiInformationCircle}>
-            <span className='font-medium me-2'>Success</span> &nbsp; {successMsg}
+          <Alert color="success" icon={HiInformationCircle}>
+            <span className="font-medium me-2">Success</span> &nbsp;{" "}
+            {successMsg}
           </Alert>
         )}
       </div>

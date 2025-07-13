@@ -85,6 +85,10 @@ const LoginForm = () => {
     navigate('/signupnavigate');
   };
 
+  const handleForgotPassword = () => {
+    navigate('/forgotpassword');
+  };
+
   return (
     <div className="min-h-screen flex flex-col justify-center loginbg">
       <div className="mx-auto w-full max-w-md p-6">
@@ -170,13 +174,14 @@ const LoginForm = () => {
                   Remember me
                 </label>
               </div>
+
               <div>
-                <a
-                  href="/forgotpassword"
-                  className="text-sm font-medium text-blue-500 hover:text-green-500"
+                <button
+                  onClick={handleForgotPassword}
+                  className="text-sm font-medium text-blue-500 hover:text-green-500 bg-transparent border-none cursor-pointer underline"
                 >
                   Forgot password?
-                </a>
+                </button>
               </div>
             </div>
 
@@ -189,17 +194,17 @@ const LoginForm = () => {
             >
               LOGIN
             </Button>
-           </form>
-            {/* Sign Up Link */}
-            <div className="text-center text-sm">
-              <span className="text-white">Don't have an account? </span>
-              <button
-                onClick={handleSignup}
-                className="font-medium text-blue-500 hover:text-green-700 bg-transparent border-none cursor-pointer underline"
-              >
-                Sign up 
-              </button>
-            </div>
+          </form>
+          {/* Sign Up Link */}
+          <div className="text-center text-sm m-4">
+            <span className="text-white">Don't have an account? </span>
+            <button
+              onClick={handleSignup}
+              className="font-medium text-blue-500 hover:text-green-700 bg-transparent border-none cursor-pointer underline"
+            >
+              Sign up
+            </button>
+          </div>
         </div>
       </div>
     </div>
