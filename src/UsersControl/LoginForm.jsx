@@ -81,6 +81,9 @@ const LoginForm = () => {
            dispatch(signInFailure(error.message));
          }    
  };
+  const handleSignup = () => {
+    navigate('/signupnavigate');
+  };
 
   return (
     <div className="min-h-screen flex flex-col justify-center loginbg">
@@ -90,14 +93,19 @@ const LoginForm = () => {
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-white">Welcome back</h1>
             <p className="text-white mt-2">Please sign in to your account</p>
-            <p className="text-white mt-2 text-xl">** This is Demo Project **</p>
+            <p className="text-white mt-2 text-xl">
+              ** This is Demo Project **
+            </p>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-white mb-2"
+              >
                 Email Address
               </label>
               <input
@@ -114,7 +122,10 @@ const LoginForm = () => {
 
             {/* Password Field */}
             <div>
-              <label htmlFor="Password" className="block text-sm font-medium text-white mb-2">
+              <label
+                htmlFor="Password"
+                className="block text-sm font-medium text-white mb-2"
+              >
                 Password
               </label>
               <div className="relative">
@@ -152,12 +163,18 @@ const LoginForm = () => {
                   className="h-4 w-4 text-lime-600 border-gray-300 rounded focus:ring-green-500"
                   required
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-white">
+                <label
+                  htmlFor="remember-me"
+                  className="ml-2 block text-sm text-white"
+                >
                   Remember me
                 </label>
               </div>
               <div>
-                <a href="/forgotpassword" className="text-sm font-medium text-blue-500 hover:text-green-500">
+                <a
+                  href="/forgotpassword"
+                  className="text-sm font-medium text-blue-500 hover:text-green-500"
+                >
                   Forgot password?
                 </a>
               </div>
@@ -166,20 +183,23 @@ const LoginForm = () => {
             {/* Submit Button */}
             <Button
               type="submit"
-              outline gradientDuoTone="greenToBlue"
-              className='w-full'
+              outline
+              gradientDuoTone="greenToBlue"
+              className="w-full"
             >
               LOGIN
             </Button>
-
+           </form>
             {/* Sign Up Link */}
             <div className="text-center text-sm">
               <span className="text-white">Don't have an account? </span>
-              <a href="/signupnavigate" className="font-medium text-blue-500 hover:text-green-700">
-                Sign up
-              </a>
+              <button
+                onClick={handleSignup}
+                className="font-medium text-blue-500 hover:text-green-700 bg-transparent border-none cursor-pointer underline"
+              >
+                Sign up 
+              </button>
             </div>
-          </form>
         </div>
       </div>
     </div>
