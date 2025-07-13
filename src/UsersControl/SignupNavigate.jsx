@@ -1,15 +1,29 @@
 import { ArrowLeft, LogIn, Shield } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function SignupNavigate() {
+  const navigate = useNavigate();
   const handleBack = () => {
-    window.history.back(); 
+    window.history.back();
   };
   const handleAdminSignup = () => {
-    window.location.href = "/adminsignup";
-  }
+    navigate("/adminsignup");
+  };
   const handleLogin = () => {
-    window.location.href = "/"; 
-  }
+    navigate("/");
+  };
+  const handleCustomerSignup = () => {
+    navigate("/customersignup");
+  };
+  const handleDeliveryBoySignup = () => {
+    navigate("/deliveryboysignup");
+  };
+  const handlePetrolStationSignup = () => {
+    navigate("/petrolstationsignup");
+  };
+  const handleServiceManSignup = () => {
+    navigate("/servicemansignup");
+  };
 
   return (
     <div className="min-h-screen bg-cover bg-center flex items-center justify-center navigationbg px-4">
@@ -20,16 +34,24 @@ export default function SignupNavigate() {
 
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <li className="bg-yellow-400 p-4 rounded-xl text-center text-xl hover:bg-yellow-600 transition">
-            <a href="/customersignup">Customer Signup</a>
+            <button onClick={handleCustomerSignup} className="w-full">
+              Customer Signup
+            </button>
           </li>
           <li className="bg-yellow-400 p-4 rounded-xl text-center text-xl hover:bg-yellow-600 transition">
-            <a href="/deliveryboysignup">Delivery Boy Signup</a>
+            <button onClick={handleDeliveryBoySignup} className="w-full">
+              Delivery Boy Signup
+            </button>
           </li>
           <li className="bg-yellow-400 p-4 rounded-xl text-center text-xl hover:bg-yellow-600 transition">
-            <a href="/petrolstationsignup">Petrol Station Signup</a>
+            <button onClick={handlePetrolStationSignup} className="w-full">
+              Petrol Station Signup
+            </button>
           </li>
           <li className="bg-yellow-400 p-4 rounded-xl text-center text-xl hover:bg-yellow-600 transition">
-            <a href="/servicemansignup">Service Man Signup</a>
+            <button onClick={handleServiceManSignup} className="w-full">
+              Service Man Signup
+            </button>
           </li>
         </ul>
         <div className="flex flex-col sm:flex-row justify-center items-center gap-6 my-12">
