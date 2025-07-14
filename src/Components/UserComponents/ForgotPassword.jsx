@@ -11,13 +11,18 @@ const ForgotPassword = () => {
   const [updatePopup, setUpdatePopup] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setUpdatePopup(true);
-
+    setTimeout(() => {
+      navigate('/'); // Navigate after 5 seconds
+    }, 9000);
   };
+
   const handleClosePopup = () => {
     setUpdatePopup(false);
   };
+
   const handlebackpage = () => {
     navigate("/");
   };
@@ -63,6 +68,7 @@ const ForgotPassword = () => {
           {errorMessage && (
             <p className="text-red-500 text-sm">{errorMessage}</p>
           )}
+
           <div>
             <button
               type="submit"
@@ -76,7 +82,6 @@ const ForgotPassword = () => {
               {loading ? "Sending..." : "Send Reset Link"}
             </button>
           </div>
-
         </form>
 
 
@@ -103,7 +108,7 @@ const ForgotPassword = () => {
                   </div>
                 </div>
                 <div className="flex justify-end">
-                  <Button onClick={() => setUpdatePopup(false)}>Close</Button>
+                  <Button onClick={handleClosePopup}>Close</Button>
                 </div>
               </div>
             </Modal.Body>
