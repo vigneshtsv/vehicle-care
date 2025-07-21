@@ -175,14 +175,19 @@ function ServiceManSignup() {
     navigate('/');
   }
 
-  return <div className='signupbg p-10'>
-      <div className='bg-gray-500 bg-clip-padding backdrop-filter  backdrop-blur bg-opacity-10 backdrop-saturate-100 backdrop-contrast-100 max-w-md mx-auto mt-8 p-6 bg-transparent rounded-xl shadow-2xl border border-spacing-5 border-lime-500'>
-        <h1 className='text-2xl font-bold mb-6 text-lime-300 text-center'>
+  return (
+    <div className="signupbg p-10">
+      <div className="bg-gray-500 bg-clip-padding backdrop-filter  backdrop-blur bg-opacity-10 backdrop-saturate-100 backdrop-contrast-100 max-w-md mx-auto mt-8 p-6 bg-transparent rounded-xl shadow-2xl border border-spacing-5 border-lime-500">
+        <h1 className="text-2xl font-bold mb-6 text-lime-300 text-center">
           ServiceMan Signup
         </h1>
 
-        <form className="space-y-4" onSubmit={handleSubmit} encType='multipart/form-data'>
-          <div className='grid'>
+        <form
+          className="space-y-4"
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+        >
+          <div className="grid">
             <div className="flex flex-col md:flex-row gap-4">
               <input
                 type="text"
@@ -202,7 +207,7 @@ function ServiceManSignup() {
               />
             </div>
           </div>
-          <div className='mb-2 my-3'>
+          <div className="mb-2 my-3">
             <input
               type="email"
               placeholder="vignesh@gmail.com"
@@ -212,7 +217,7 @@ function ServiceManSignup() {
               required
             />
           </div>
-          <div className='mb-2 my-3'>
+          <div className="mb-2 my-3">
             <input
               type="number"
               placeholder="7373892019"
@@ -223,27 +228,26 @@ function ServiceManSignup() {
             />
           </div>
 
-
           <div className="flex flex-col md:flex-row my-3 gap-4">
-            <div className='mb-2'>
-            <input
-              type="password"
-              placeholder="Create New Password"
-              id="Password"
-              className="w-full flex bg-transparent border border-lime-300 text-white placeholder-gray-100 rounded"
-              onChange={handleChange}
-              required
-            />
+            <div className="mb-2">
+              <input
+                type="password"
+                placeholder="Create New Password"
+                id="Password"
+                className="w-full flex bg-transparent border border-lime-300 text-white placeholder-gray-100 rounded"
+                onChange={handleChange}
+                required
+              />
             </div>
-            <div className='mb-2'>
-            <input
-              type="password"
-              placeholder="Confirm Your Password"
-              id="ConfirmPassword"
-              className="w-full flex bg-transparent border border-lime-300 text-white placeholder-gray-100 rounded"
-              onChange={handleChange}
-              required
-            />
+            <div className="mb-2">
+              <input
+                type="password"
+                placeholder="Confirm Your Password"
+                id="ConfirmPassword"
+                className="w-full flex bg-transparent border border-lime-300 text-white placeholder-gray-100 rounded"
+                onChange={handleChange}
+                required
+              />
             </div>
           </div>
 
@@ -257,16 +261,18 @@ function ServiceManSignup() {
               required
             />
           </div>
-           
-           {/* File Upload fields */}
 
-          <h3 className='text-xl flex text-yellow-200 justify-center font-semibold mt-2 mb-2'>
-             Upload Documents
+          {/* File Upload fields */}
+
+          <h3 className="text-xl flex text-yellow-200 justify-center font-semibold mt-2 mb-2">
+            Upload Documents
           </h3>
 
-          <div className='border border-red-700 p-2 m-2 shadow-2xl rounded'>
+          <div className="border border-red-700 p-2 m-2 shadow-2xl rounded">
             <div className="mb-4">
-              <label htmlFor="AadharCard" className='text-lime-300'>AadharCard</label>
+              <label htmlFor="AadharCard" className="text-lime-300">
+                AadharCard
+              </label>
               <input
                 type="file"
                 id="AadharCard"
@@ -278,7 +284,9 @@ function ServiceManSignup() {
             </div>
 
             <div className="mb-4">
-              <label htmlFor="MechanicCertificate" className='text-lime-300'>MechanicCertificate</label>
+              <label htmlFor="MechanicCertificate" className="text-lime-300">
+                MechanicCertificate
+              </label>
               <input
                 type="file"
                 id="MechanicCertificate"
@@ -289,7 +297,9 @@ function ServiceManSignup() {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="ProfilePicture" className='text-lime-300'>ProfilePicture</label>
+              <label htmlFor="ProfilePicture" className="text-lime-300">
+                ProfilePicture
+              </label>
               <input
                 type="file"
                 id="ProfilePicture"
@@ -314,7 +324,7 @@ function ServiceManSignup() {
               </button>
             </label>
           </div>
-        
+
           <button
             type="submit"
             className="w-full bg-transparent text-white font-bold py-2 px-4 rounded hover:bg-purple-700 border border-lime-300 hover:border-transparent focus:outline-none focus:shadow-outline"
@@ -334,31 +344,42 @@ function ServiceManSignup() {
             )}
           </button>
         </form>
-        <div className="flex gap-2 text-sm mt-6">
+        <div className="flex gap-2 text-lime-300 text-sm mt-6">
           <span>Already Have An Account?</span>
-          <Link to="/" className="text-blue-600">
+          <Link
+            to="/"
+            className="text-blue-600 hover:underline hover:text-indigo-50"
+          >
             Sign in
           </Link>
         </div>
-     
-         {/* Buttons */}
-         <div className="flex justify-between m-4 space-x-4">
-               <button onClick={backPage} className='flex items-center text-white hover:text-red-400 rounded-lg p-2'>
-                   <IoMdArrowBack className="m-2" />
-                   Back
-               </button>
-               <button onClick={loginPage} className='flex items-center text-white hover:text-red-400 rounded-lg p-2'>
-                   Login <IoMdArrowForward className="mr-2" />
-               </button>
-         </div>
+
+        {/* Buttons */}
+        <div className="flex justify-between m-4 space-x-4">
+          <button
+            onClick={backPage}
+            className="flex items-center text-white hover:text-red-400 rounded-lg p-2"
+          >
+            <IoMdArrowBack className="m-2" />
+            Back
+          </button>
+          <button
+            onClick={loginPage}
+            className="flex items-center text-white hover:text-red-400 rounded-lg p-2"
+          >
+            Login <IoMdArrowForward className="mr-2" />
+          </button>
+        </div>
 
         {errorMessage && (
           <Alert color="failure" icon={HiInformationCircle}>
-            <span className="font-medium me-2">OOPS!</span> &nbsp; {errorMessage}
+            <span className="font-medium me-2">OOPS!</span> &nbsp;{" "}
+            {errorMessage}
           </Alert>
         )}
-        </div>
-  </div>
+      </div>
+    </div>
+  );
   
 }
 
