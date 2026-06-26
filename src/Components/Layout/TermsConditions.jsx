@@ -4,7 +4,7 @@ const TermsAndConditions = () => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    alert("You have accepted the Terms and Conditions.");
+    alert("Please read and accept the terms and conditions before proceeding.");
     navigate(-1);
   };
 
